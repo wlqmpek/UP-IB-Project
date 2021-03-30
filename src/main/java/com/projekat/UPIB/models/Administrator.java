@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +13,9 @@ import javax.persistence.Enumerated;
 //END OF LOMBOK
 public class Administrator extends Korisnik {
 
-    @Column(name = "klinika", nullable = true, unique = false)
+//    @Column(name = "klinika", nullable = true, unique = false)
+    @ManyToOne
+    @JoinColumn(name = "id_klinike", referencedColumnName = "id_klinike", nullable = false)
     private Klinika klinika;
 
     @Enumerated(EnumType.STRING)
