@@ -22,6 +22,6 @@ public class Pacijent extends Korisnik {
     @JoinColumn(name = "id_zdravstvenog_kartona", referencedColumnName = "id_zdravstvenog_kartona")
     private ZdravstveniKarton zdravstveniKarton;
 
-    @Column(name = "jbzo", unique = true, nullable = false)
+    @Column(name = "status_korisnika", unique = true, nullable = false)
     private StatusKorisnika statusKorisnika;
 }
