@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 //END OF LOMBOK
+
 public abstract class MedicinskoOsoblje extends Korisnik {
 
     private Klinika klinika;

@@ -11,6 +11,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Data
 //END OF LOMBOK
+@Entity
+@Table(name = "administrator")
 public class Administrator extends Korisnik {
 
 //    @Column(name = "klinika", nullable = true, unique = false)

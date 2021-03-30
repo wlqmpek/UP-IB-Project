@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,5 +25,6 @@ public class ZdravstveniKarton {
     private Pacijent pacijent;
 
 
-//    private HashSet<Pregled> pregledi;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "zdravstveniKarton")
+    private Set<Pregled> pregledi = new HashSet<>();
 }
