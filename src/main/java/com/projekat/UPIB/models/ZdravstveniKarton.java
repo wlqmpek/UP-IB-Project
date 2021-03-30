@@ -20,7 +20,7 @@ public class ZdravstveniKarton {
     @Column(name = "id_zdravstvenog_kartona", nullable = false, unique = true)
     private Long idZdravstvenogKartona;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "zdravstveniKarton")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "zdravstveniKarton")
     private Pacijent pacijent;
 
 
