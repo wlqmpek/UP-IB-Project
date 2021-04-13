@@ -1,6 +1,8 @@
 package com.projekat.UPIB.controllers;
 
+import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
+import com.projekat.UPIB.models.ZdravstveniKarton;
 import com.projekat.UPIB.services.IPacijentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/Pacijenti")
 public class PacijentController {
 
@@ -37,6 +40,9 @@ public class PacijentController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Pacijent> savePacijent(@RequestBody Pacijent pacijent){
 
+        pacijent.setZdravstveniKarton(new ZdravstveniKarton());
+        pacijent.setStatusKorisnika(StatusKorisnika.PRIHVACEN);
+  /*      pacijent.getZdravstveniKarton().setPacijent(pacijent);*/
         pacijentService.save(pacijent);
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }

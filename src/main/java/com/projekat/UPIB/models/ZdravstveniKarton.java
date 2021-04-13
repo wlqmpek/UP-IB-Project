@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,9 +21,9 @@ public class ZdravstveniKarton {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_zdravstvenog_kartona", nullable = false, unique = true)
     private Long idZdravstvenogKartona;
-
+/*
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "zdravstveniKarton")
-    private Pacijent pacijent;
+    private Pacijent pacijent;*/
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "zdravstveniKarton")

@@ -16,7 +16,7 @@ public class PacijentService implements IPacijentService {
 
     @Override
     public Pacijent findOne(Long id) {
-        return pacijentRepozitorijum.getOne(id);
+        return pacijentRepozitorijum.findById(id).get();
     }
 
     @Override
