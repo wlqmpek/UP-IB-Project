@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +34,7 @@ public class Klinika {
     @Column(name = "opis", nullable = false, unique = false)
     private String opis;
 
-    @Column(name = "slobodni_termini", nullable = false, unique = false)
+    @Column(name = "slobodni_termini", nullable = true, unique = false)
     private LocalDateTime slobodniTermini;
 
 //    private Double ocena;
