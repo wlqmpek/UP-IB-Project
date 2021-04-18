@@ -1,5 +1,6 @@
 package com.projekat.UPIB.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,12 +19,12 @@ import java.util.Set;
 public class ZdravstveniKarton {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_zdravstvenog_kartona", nullable = false, unique = true)
     private Long idZdravstvenogKartona;
-/*
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "zdravstveniKarton")
-    private Pacijent pacijent;*/
+    private Pacijent pacijent;
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "zdravstveniKarton")

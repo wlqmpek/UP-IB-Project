@@ -51,7 +51,7 @@ const Registration = ({onAdd}) => {
                     <label>JBZO: </label>
                     <input type='text' value={jbzo} onChange={e => setJbzo(e.target.value)} placeholder='JBZO' className='form-control'></input>
                 </div>
-                <button type='submit' className='btn btn-primary' onClick={onSubmit}>Submit</button>
+                <button type='submit' className='btn btn-primary' onClick={onSubmit}>Registruj se</button>
             </form>
         </div>
     )

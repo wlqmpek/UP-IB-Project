@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "pregled")
 public class Pregled {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_pregleda", nullable = false, unique = true)
     private Long idPregleda;
 
