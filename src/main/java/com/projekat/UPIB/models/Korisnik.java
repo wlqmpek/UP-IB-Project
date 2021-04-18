@@ -17,7 +17,7 @@ import javax.persistence.*;
 public abstract class Korisnik {
     @Id
     //identity inkrementuje za 1
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_korisnika", unique = true, nullable = false)
     private long idKorisnika;
 

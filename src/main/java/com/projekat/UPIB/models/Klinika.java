@@ -18,7 +18,7 @@ import java.util.Set;
 public class Klinika {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_klinike", unique = true, nullable = false)
     private Long idKlinike;
 

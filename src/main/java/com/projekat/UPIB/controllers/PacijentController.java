@@ -42,7 +42,7 @@ public class PacijentController {
 
         pacijent.setZdravstveniKarton(new ZdravstveniKarton());
         pacijent.setStatusKorisnika(StatusKorisnika.PRIHVACEN);
-  /*      pacijent.getZdravstveniKarton().setPacijent(pacijent);*/
+        pacijent.getZdravstveniKarton().setPacijent(pacijent);
         pacijentService.save(pacijent);
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }
