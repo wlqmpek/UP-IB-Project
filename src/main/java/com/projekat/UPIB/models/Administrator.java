@@ -1,5 +1,6 @@
 package com.projekat.UPIB.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projekat.UPIB.enums.VrstaAdministratora;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +16,10 @@ import javax.persistence.*;
 @Table(name = "administrator")
 public class Administrator extends Korisnik {
 
-//    @Column(name = "klinika", nullable = true, unique = false)
+//	@Column(name = "klinika", nullable = true, unique = false)
     @ManyToOne
     @JoinColumn(name = "id_klinike", referencedColumnName = "id_klinike", nullable = true)
+    @JsonIgnore
     private Klinika klinika;
 
     @Enumerated(EnumType.STRING)

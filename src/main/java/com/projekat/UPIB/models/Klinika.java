@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +21,7 @@ import java.util.Set;
 public class Klinika {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_klinike", unique = true, nullable = false)
     private Long idKlinike;
 
@@ -31,7 +34,7 @@ public class Klinika {
     @Column(name = "opis", nullable = false, unique = false)
     private String opis;
 
-    @Column(name = "slobodni_termini", nullable = false, unique = false)
+    @Column(name = "slobodni_termini", nullable = true, unique = false)
     private LocalDateTime slobodniTermini;
 
 //    private Double ocena;
