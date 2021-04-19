@@ -41,7 +41,7 @@ public class PacijentController {
     public ResponseEntity<Pacijent> savePacijent(@RequestBody Pacijent pacijent){
 
         pacijent.setZdravstveniKarton(new ZdravstveniKarton());
-        pacijent.setStatusKorisnika(StatusKorisnika.PRIHVACEN);
+        pacijent.setStatusKorisnika(StatusKorisnika.NA_CEKANJU);
         pacijent.getZdravstveniKarton().setPacijent(pacijent);
         pacijentService.save(pacijent);
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
