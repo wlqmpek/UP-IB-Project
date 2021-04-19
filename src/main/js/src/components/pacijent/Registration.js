@@ -1,6 +1,7 @@
 import { useState } from "react"
+import PostPacijent from "../../services/pacijent/PostPacijent";
 
-const Registration = ({onAdd}) => {
+const Registration = ({PostPacijent}) => {
 
     const [imeKorisnika, setIme] = useState('')
     const [prezimeKorisnika, setPrezime] = useState('')
@@ -18,7 +19,7 @@ const Registration = ({onAdd}) => {
             alert('Sva polja su obavezna.')
             return
         }
-        onAdd({imeKorisnika, prezimeKorisnika, emailKorisnika, lozinkaKorisnika, jbzo})
+        PostPacijent({imeKorisnika, prezimeKorisnika, emailKorisnika, lozinkaKorisnika, jbzo})
 
         setIme('')
         setPrezime('')
