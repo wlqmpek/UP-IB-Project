@@ -11,7 +11,6 @@ const Registration = () => {
 
     function PostPacijent(imeKorisnika, prezimeKorisnika, emailKorisnika, lozinkaKorisnika, jbzo) {
 
-<<<<<<< HEAD
         const pacijent = {
             imeKorisnika: imeKorisnika,
             prezimeKorisnika: prezimeKorisnika,
@@ -19,7 +18,6 @@ const Registration = () => {
             lozinkaKorisnika: lozinkaKorisnika,
             jbzo: jbzo
         }
-        console.log(imeKorisnika)
         const onAdd = async (pacijent) => {
         const res = await fetch('http://localhost:8080/KlinickiCentar/Pacijenti',
         {
@@ -35,12 +33,10 @@ const Registration = () => {
           setPacijenti(data)
         }
         onAdd(pacijent)
-        return pacijenti
+        
     }
     
 
-=======
->>>>>>> e51ab79c627de558ca8ad68ddb516a4e85d73dde
     const onSubmit = (e) =>{
         e.preventDefault();
 
