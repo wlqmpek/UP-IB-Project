@@ -4,8 +4,8 @@ class FooterComponent extends React.Component {
     render() {
         return (
             <div>
-                <footer className="footer">
-                    <span className="text-muted">All Rights Reserved 2021 @TeamMIM</span>
+                <footer className="footer fixed-bottom">
+                    <span className="fixed-bottom">All Rights Reserved 2021. @TeamMIM</span>
                 </footer>
             </div>
         )

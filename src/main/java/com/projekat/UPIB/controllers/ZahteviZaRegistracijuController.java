@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/Zahtevi")
 public class ZahteviZaRegistracijuController {
 
