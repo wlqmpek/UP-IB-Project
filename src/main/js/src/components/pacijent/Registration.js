@@ -11,6 +11,7 @@ const Registration = () => {
 
     function PostPacijent(imeKorisnika, prezimeKorisnika, emailKorisnika, lozinkaKorisnika, jbzo) {
 
+<<<<<<< HEAD
         const pacijent = {
             imeKorisnika: imeKorisnika,
             prezimeKorisnika: prezimeKorisnika,
@@ -38,6 +39,8 @@ const Registration = () => {
     }
     
 
+=======
+>>>>>>> e51ab79c627de558ca8ad68ddb516a4e85d73dde
     const onSubmit = (e) =>{
         e.preventDefault();
 

@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react"
 import Request from "./Request"
 // import GetPacijentRequset from "../../services/pacijent/GetPacijentRequests"
+=======
+import { useState } from "react";
+>>>>>>> e51ab79c627de558ca8ad68ddb516a4e85d73dde
 
 const RegistrationRequsets = () => {
 
