@@ -24,6 +24,7 @@ public class Pacijent extends Korisnik {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_zdravstvenog_kartona", referencedColumnName = "id_zdravstvenog_kartona")
+    @JsonIgnore
     private ZdravstveniKarton zdravstveniKarton;
 
     @Column(name = "status_korisnika", nullable = false)

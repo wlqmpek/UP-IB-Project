@@ -10,8 +10,6 @@ const Registration = ({PostPacijent}) => {
     const [jbzo, setJbzo] = useState('')
 
 
-
-
     const onSubmit = (e) =>{
         e.preventDefault();
 
