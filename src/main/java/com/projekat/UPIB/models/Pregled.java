@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -52,5 +55,10 @@ public class Pregled {
     @ManyToOne
     @JoinColumn(name = "id_zdravstvenog_kartona", referencedColumnName = "id_zdravstvenog_kartona", nullable = false)
     private ZdravstveniKarton zdravstveniKarton;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_klinike", referencedColumnName = "id_klinike", nullable = true)
+    @JsonIgnore
+    private Klinika klinika;
 
 }
