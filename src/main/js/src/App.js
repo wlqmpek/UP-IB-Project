@@ -8,7 +8,10 @@ import './App.css'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PacijentRegistration from './components/pacijent/Registration'
 import RegistrationRequsets from './components/pacijent/RegistrationRequsets'
-import CreateClinicsService from './services/ClinicsService'
+import CreateClinicComponent from './components/klinika/Create';
+import ListClinicsComponent from './components/klinika/ListClinics';
+import UpdateClinicComponent from './components/klinika/Update';
+import ViewClinicComponent from './components/klinika/ViewClinic';
 import HeaderComponent from './components/Header';
 import FrontPage from './components/FrontPage'
 import FooterComponent from './components/Footer';
@@ -29,7 +32,10 @@ function App() {
                       <Route path='/Requests' component={RegistrationRequsets}></Route>
                     </Switch>
                     <Switch>
-                        <Route path="/CreateClinic" component={CreateClinicsService} ></Route>
+                        <Route exact path="/klinike" component={ListClinicsComponent} ></Route>
+                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent} ></Route>
+                        <Route exact path="/klinike/pregled/:id" component={ViewClinicComponent} ></Route>
+                        <Route exact path="/klinike/izmeni/:id" component={UpdateClinicComponent} ></Route>
                     </Switch>
                     <Switch>
                         <Route path="/PrikazSvihPacijenata" component={GetPacijenti} ></Route>
