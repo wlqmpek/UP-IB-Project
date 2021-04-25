@@ -10,6 +10,8 @@ public interface IPacijentService {
 
     List<Pacijent> findAll();
 
+    Pacijent findPacijentByEmailKorisnika(String emailKorisnika);
+
     Pacijent save(Pacijent pacijent);
 
     void remove(Long id);
