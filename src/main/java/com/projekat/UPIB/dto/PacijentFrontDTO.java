@@ -8,23 +8,21 @@ public class PacijentFrontDTO {
     private String ime;
     private String prezime;
     private String email;
-    private String lozinka;
     private String JBZO;
     private ZdravstveniKartonDTO zdravstveniKarton;
     private StatusKorisnika statusKorisnika;
 
-    public PacijentRegisterDTO() {
+    public PacijentFrontDTO() {
         super();
     }
 
-    public PacijentRegisterDTO(long id, String ime, String prezime, String email, String lozinka, String jBZO,
+    public PacijentFrontDTO(long id, String ime, String prezime, String email, String jBZO,
                                ZdravstveniKartonDTO zdravstveniKarton, StatusKorisnika statusKorisnika) {
         super();
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;
-        this.lozinka = lozinka;
         this.JBZO = jBZO;
         this.zdravstveniKarton = zdravstveniKarton;
         this.statusKorisnika = statusKorisnika;
@@ -63,15 +61,7 @@ public class PacijentFrontDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getLozinka() {
-        return lozinka;
-    }
-
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
-    }
-
+    
     public String getJBZO() {
         return JBZO;
     }
