@@ -22,9 +22,10 @@ const RegistrationRequsets = () => {
       }
 
     return (
-        <div className='table-responsive'>
-            <table className='table'>
-                <thead className='thead-dark'>
+        <div className='table-responsive' style={{marginTop: "100px"}}>
+            <h2 className="text-center">Zahtevi za registraciju</h2>
+            <table className='table table-striped table bordered'>
+                <thead >
                     <tr>
                         <th scope='row'>Ime</th>
                         <th scope='row'>Prezime</th>
