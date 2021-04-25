@@ -1,31 +1,28 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { useState } from 'react';
-import CreateClinic from '../components/klinika/Create'
+import axios from 'axios';
 
-function CreateClinicsService() {
+const CLINICS_API_BASE_URL = "http://localhost:8080/KlinickiCentar/Klinike";
 
-    const [klinike, setKlinike] = useState([])
-
-    const onAdd = async (klinika) => {
-        const res = await fetch('http://localhost:8080/KlinickiCentar/Klinike',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(klinika)
-            })
-
-        const data = await res.json()
-
-        setKlinike(data)
+class ClinicsService {
+    getClinics() {
+        return axios.get(CLINICS_API_BASE_URL);
     }
 
-    return (
-        <div className="container">
-            <CreateClinic onAdd={onAdd} />
-        </div>
-    );
+    getClinicById(clinicId) {
+        return axios.get(CLINICS_API_BASE_URL + "/" + clinicId);
+    }
+
+    createClinic(clinic) {
+        return axios.post(CLINICS_API_BASE_URL,clinic);
+    }
+
+    updateClinic(clinic, clinicId) {
+        return axios.put(CLINICS_API_BASE_URL + "/" + clinicId, clinic);
+    }
+
+    deleteClinic(clinicId) {
+        return axios.delete(CLINICS_API_BASE_URL + "/" + clinicId);
+    }
 }
 
-export default CreateClinicsService;
+export default new ClinicsService();

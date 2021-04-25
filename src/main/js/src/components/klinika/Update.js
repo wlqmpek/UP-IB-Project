@@ -1,12 +1,13 @@
 import React,{ Component } from "react"
 import ClinicsService from "../../services/ClinicsService";
 
-class CreateClinicComponent extends Component {
+class UpdateClinicComponent extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
+            id: this.props.match.params.id,
             naziv: '',
             opis: '',
             adresa:''
@@ -14,11 +15,22 @@ class CreateClinicComponent extends Component {
         this.changeAdresaHandler = this.changeAdresaHandler.bind(this);
         this.changeOpisHandler = this.changeOpisHandler.bind(this);
         this.changeNazivHandler = this.changeNazivHandler.bind(this);
-        this.saveClinic = this.saveClinic.bind(this);
+        this.updateClinic = this.updateClinic.bind(this);
     }
 
+    componentDidMount() {
+        ClinicsService.getClinicById(this.state.id).then(response => {
+            const clinic = response.data;
 
-    saveClinic = (event) => {
+            this.setState({
+                naziv: clinic.naziv,
+                opis: clinic.opis,
+                adresa: clinic.adresa
+            });
+        });
+    }
+
+    updateClinic = (event) => {
         event.preventDefault();
 
         const klinika = {
@@ -28,7 +40,7 @@ class CreateClinicComponent extends Component {
         }
         console.log(klinika);
 
-        ClinicsService.createClinic(klinika).then(response => {
+        ClinicsService.updateClinic(klinika, this.state.id).then(response => {
             this.props.history.push("/klinike");
         });
 
@@ -56,7 +68,7 @@ class CreateClinicComponent extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
-                            <h3 className="text-center">Dodaj kliniku</h3>
+                            <h3 className="text-center">Izmena klinike</h3>
                             <div className="card-body">
                                 <form>
                                     <div className="form-group">
@@ -73,7 +85,7 @@ class CreateClinicComponent extends Component {
                                             value={this.state.adresa} onChange={this.changeAdresaHandler} />
                                     </div>
 
-                                    <button className="btn btn-success" onClick={this.saveClinic}>Kreiraj</button>
+                                    <button className="btn btn-success" onClick={this.updateClinic}>Izmeni</button>
                                     <button className="btn btn-default" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px"}}>Odustani</button>
                                 </form>
                             </div>
@@ -86,4 +98,4 @@ class CreateClinicComponent extends Component {
 
 }
 
-export default CreateClinicComponent;
+export default UpdateClinicComponent;

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.services.IKlinikaService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/Klinike")
 public class KlinikaController {
