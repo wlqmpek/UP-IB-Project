@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class ZdravstveniKartonDTO implements Serializable{
 	
 	private Long idZdravstvenogKartona;
-	private PacijentDTO pacijent;
+	private PacijentRegisterDTO pacijent;
 	
 	
 	public ZdravstveniKartonDTO() {
 		super();
 	}
 
-	public ZdravstveniKartonDTO(Long idZdravstvenogKartona, PacijentDTO pacijent) {
+	public ZdravstveniKartonDTO(Long idZdravstvenogKartona, PacijentRegisterDTO pacijent) {
 		super();
 		this.idZdravstvenogKartona = idZdravstvenogKartona;
 		this.pacijent = pacijent;
@@ -28,11 +28,11 @@ public class ZdravstveniKartonDTO implements Serializable{
 		this.idZdravstvenogKartona = idZdravstvenogKartona;
 	}
 
-	public PacijentDTO getPacijent() {
+	public PacijentRegisterDTO getPacijent() {
 		return pacijent;
 	}
 
-	public void setPacijent(PacijentDTO pacijent) {
+	public void setPacijent(PacijentRegisterDTO pacijent) {
 		this.pacijent = pacijent;
 	}
 	

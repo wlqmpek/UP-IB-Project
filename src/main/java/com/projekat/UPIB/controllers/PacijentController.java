@@ -1,5 +1,7 @@
 package com.projekat.UPIB.controllers;
 
+import com.projekat.UPIB.dto.PacijentRegisterDTO;
+import com.projekat.UPIB.dto.PacijentRegisterDTO;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.models.ZdravstveniKarton;
@@ -77,5 +79,33 @@ public class PacijentController {
 
         pacijentService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //Ovde menjati kad stignemo do toga da lozinku ne cuvamo kao plain-text vec kao hashovanu vrednost.
+    @PostMapping(value = "/login")
+    public ResponseEntity<PacijentRegisterDTO> loginPacijent(@RequestParam(name = "email_korisnika") String emailKorisnika,
+                                                             @RequestParam(name= "lozinka_korisnika") String lozinkaKorisnika) {
+
+        System.out.println("Pogodjeno!");
+        System.out.println("Email " + emailKorisnika);
+        System.out.println("Lozinka " +lozinkaKorisnika);
+
+        Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(emailKorisnika);
+
+        //Ako se lozinka ne podudara referenci nadjenog pacijenta dodeljujemo null.
+        //TODO: Ovde promeniti kada stignemo do hashovanja lozinke!
+        if(!pacijent.getLozinkaKorisnika().equals(lozinkaKorisnika))
+            pacijent = null;
+
+        if(pacijent != null) {
+
+            PacijentRegisterDTO pacijentDTO = new PacijentRegisterDTO();
+
+            return new ResponseEntity<>(pacijentDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
     }
 }

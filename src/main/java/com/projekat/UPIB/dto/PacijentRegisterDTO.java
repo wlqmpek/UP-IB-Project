@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.projekat.UPIB.enums.StatusKorisnika;
 
-public class PacijentDTO implements Serializable {
+public class PacijentRegisterDTO implements Serializable {
 
     private long id;
     private String ime;
@@ -15,11 +15,11 @@ public class PacijentDTO implements Serializable {
     private ZdravstveniKartonDTO zdravstveniKarton;
     private StatusKorisnika statusKorisnika;
     
-	public PacijentDTO() {
+	public PacijentRegisterDTO() {
 		super();
 	}	
 
-	public PacijentDTO(long id, String ime, String prezime, String email, String lozinka, String jBZO,
+	public PacijentRegisterDTO(long id, String ime, String prezime, String email, String lozinka, String jBZO,
 			ZdravstveniKartonDTO zdravstveniKarton, StatusKorisnika statusKorisnika) {
 		super();
 		this.id = id;
