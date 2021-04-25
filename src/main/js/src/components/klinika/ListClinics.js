@@ -47,7 +47,7 @@ class ListClinicsComponent extends Component {
 		return (
 			
 			<div style={{ margin: "100px" }}>
-				<h2 className="text-center">Lista klinika</h2>	
+				<h2 style={{ margin: "10px",textDecoration: "underline" }} className="text-center">Lista klinika</h2>	
 				<div className="row">
 
 					<table className="table table-striped table bordered">
