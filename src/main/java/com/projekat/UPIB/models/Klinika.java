@@ -34,8 +34,10 @@ public class Klinika {
     @Column(name = "opis", nullable = false, unique = false)
     private String opis;
 
-    @Column(name = "slobodni_termini", nullable = true, unique = false)
-    private LocalDateTime slobodniTermini;
+//    @Column(name = "slobodni_termini", nullable = true, unique = false)
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "klinika")
+    private Set<Pregled> slobodniTermini = new HashSet<Pregled>();
 
 //    private Double ocena;
 
