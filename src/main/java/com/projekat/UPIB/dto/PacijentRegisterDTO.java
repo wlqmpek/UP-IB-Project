@@ -3,6 +3,7 @@ package com.projekat.UPIB.dto;
 import java.io.Serializable;
 
 import com.projekat.UPIB.enums.StatusKorisnika;
+import com.projekat.UPIB.models.Pacijent;
 
 public class PacijentRegisterDTO implements Serializable {
 
@@ -30,6 +31,18 @@ public class PacijentRegisterDTO implements Serializable {
 		this.JBZO = jBZO;
 		this.zdravstveniKarton = zdravstveniKarton;
 		this.statusKorisnika = statusKorisnika;
+	}
+
+	public PacijentRegisterDTO(Pacijent pacijent) {
+		super();
+		this.id = pacijent.getIdKorisnika();
+		this.ime = pacijent.getImeKorisnika();
+		this.prezime = pacijent.getPrezimeKorisnika();
+		this.email = pacijent.getEmailKorisnika();
+		this.lozinka = pacijent.getLozinkaKorisnika();
+		this.JBZO = pacijent.getJBZO();
+		this.zdravstveniKarton = new ZdravstveniKartonDTO(pacijent.getZdravstveniKarton());
+		this.statusKorisnika = pacijent.getStatusKorisnika();
 	}
 
 	

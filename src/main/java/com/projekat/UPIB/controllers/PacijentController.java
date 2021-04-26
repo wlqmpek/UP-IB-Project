@@ -1,5 +1,7 @@
 package com.projekat.UPIB.controllers;
 
+import com.projekat.UPIB.dto.PacijentFrontDTO;
+import com.projekat.UPIB.dto.PacijentLoginDTO;
 import com.projekat.UPIB.dto.PacijentRegisterDTO;
 import com.projekat.UPIB.dto.PacijentRegisterDTO;
 import com.projekat.UPIB.enums.StatusKorisnika;
@@ -82,30 +84,51 @@ public class PacijentController {
     }
 
     //Ovde menjati kad stignemo do toga da lozinku ne cuvamo kao plain-text vec kao hashovanu vrednost.
-    @PostMapping(value = "/login")
-    public ResponseEntity<PacijentRegisterDTO> loginPacijent(@RequestParam(name = "email_korisnika") String emailKorisnika,
-                                                             @RequestParam(name= "lozinka_korisnika") String lozinkaKorisnika) {
+//    @PostMapping(value = "/login")
+//    public ResponseEntity<Pacijent> loginPacijent(@RequestParam(name = "email_korisnika") String emailKorisnika,
+//                                                             @RequestParam(name= "lozinka_korisnika") String lozinkaKorisnika) {
+//
+//        System.out.println("Pogodjeno!");
+//        System.out.println("Email " + emailKorisnika);
+//        System.out.println("Lozinka " +lozinkaKorisnika);
+//
+//        Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(emailKorisnika);
+//
+//        //Ako se lozinka ne podudara referenci nadjenog pacijenta dodeljujemo null.
+//        //TODO: Ovde promeniti kada stignemo do hashovanja lozinke!
+//        if(!pacijent.getLozinkaKorisnika().equals(lozinkaKorisnika))
+//            pacijent = null;
+//        System.out.println(pacijent.getZdravstveniKarton());
+//
+//        if(pacijent != null) {
+//
+////            PacijentRegisterDTO pacijentDTO = new PacijentRegisterDTO();
+//
+//            return new ResponseEntity<>(pacijent, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+    @PostMapping(value = "/login", consumes = "application/json")
+    public ResponseEntity<PacijentFrontDTO> loginPacijent(@RequestBody PacijentLoginDTO pacijentLoginDTO) {
 
         System.out.println("Pogodjeno!");
-        System.out.println("Email " + emailKorisnika);
-        System.out.println("Lozinka " +lozinkaKorisnika);
+        System.out.println("Email " + pacijentLoginDTO.getEmailKorisnika());
+        System.out.println("Lozinka " +pacijentLoginDTO.getLozinkaKorisnika());
 
-        Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(emailKorisnika);
+        Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(pacijentLoginDTO.getEmailKorisnika());
 
-        //Ako se lozinka ne podudara referenci nadjenog pacijenta dodeljujemo null.
-        //TODO: Ovde promeniti kada stignemo do hashovanja lozinke!
-        if(!pacijent.getLozinkaKorisnika().equals(lozinkaKorisnika))
+        if(!pacijent.getLozinkaKorisnika().equals(pacijentLoginDTO.getLozinkaKorisnika()))
             pacijent = null;
 
         if(pacijent != null) {
 
-            PacijentRegisterDTO pacijentDTO = new PacijentRegisterDTO();
+            PacijentFrontDTO pacijentFrontDTO = new PacijentFrontDTO(pacijent);
 
-            return new ResponseEntity<>(pacijentDTO, HttpStatus.OK);
+            return new ResponseEntity<>(pacijentFrontDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
 
     }
 }

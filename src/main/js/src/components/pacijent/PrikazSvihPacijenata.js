@@ -15,8 +15,7 @@ const PrikazSvihPacijenata = (props) => {
                     <td>{pacijent.prezimeKorisnika}</td>
                     <td>{pacijent.emailKorisnika}</td>
                     <td>{pacijent.statusKorisnika}</td>
-                    <th><button>Izmeni</button></th>
-                    <th><button>Obrisi</button></th>
+                    <th><button>Blokiraj</button></th>
                 </tr>
             );
         });
@@ -30,7 +29,6 @@ const PrikazSvihPacijenata = (props) => {
                         <th>Prezime</th>
                         <th>Email</th>
                         <th>StatusKorisnika</th>
-                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -48,7 +46,7 @@ const PrikazSvihPacijenata = (props) => {
                     <th>Prezime</th>
                     <th>Email</th>
                     <th>StatusKorisnika</th>
-                    
+                    <th></th>
                 </tr>
             </thead>
             <tbody>

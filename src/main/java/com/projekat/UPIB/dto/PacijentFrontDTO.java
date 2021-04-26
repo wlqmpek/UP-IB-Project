@@ -1,6 +1,8 @@
 package com.projekat.UPIB.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projekat.UPIB.enums.StatusKorisnika;
+import com.projekat.UPIB.models.Pacijent;
 
 public class PacijentFrontDTO {
 
@@ -9,6 +11,7 @@ public class PacijentFrontDTO {
     private String prezime;
     private String email;
     private String JBZO;
+    @JsonIgnore
     private ZdravstveniKartonDTO zdravstveniKarton;
     private StatusKorisnika statusKorisnika;
 
@@ -28,6 +31,16 @@ public class PacijentFrontDTO {
         this.statusKorisnika = statusKorisnika;
     }
 
+    public PacijentFrontDTO(Pacijent pacijent) {
+        super();
+        this.id = pacijent.getIdKorisnika();
+        this.ime = pacijent.getImeKorisnika();
+        this.prezime = pacijent.getPrezimeKorisnika();
+        this.email = pacijent.getEmailKorisnika();
+        this.JBZO = pacijent.getJBZO();
+        this.zdravstveniKarton = new ZdravstveniKartonDTO();
+        this.statusKorisnika = pacijent.getStatusKorisnika();
+    }
 
 
     public long getId() {
@@ -61,7 +74,7 @@ public class PacijentFrontDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getJBZO() {
         return JBZO;
     }

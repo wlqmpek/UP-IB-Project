@@ -38,7 +38,7 @@ const FrontPage = () => {
                         <div className="card">
                             <img className="card-img-top" src="/images/doktor1.jpg" alt="Doktor"></img>
                             <div className="card-body">
-                                <h5 class="card-title">Marina Jevremovic</h5>
+                                <h5 className="card-title">Marina Jevremovic</h5>
                                 <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -49,7 +49,7 @@ const FrontPage = () => {
                         <div className="card">
                             <img className="card-img-top" src="/images/doktor2.jpg" alt="Doktor"></img>
                             <div className="card-body">
-                                <h5 class="card-title">Jovan Tirnanic</h5>
+                                <h5 className="card-title">Jovan Tirnanic</h5>
                                 <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -60,7 +60,7 @@ const FrontPage = () => {
                         <div className="card">
                             <img className="card-img-top" src="/images/doktor3.jpg" alt="Doktor"></img>
                             <div className="card-body">
-                                <h5 class="card-title">Dusko Zivanovic</h5>
+                                <h5 className="card-title">Dusko Zivanovic</h5>
                                 <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>

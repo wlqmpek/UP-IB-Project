@@ -16,6 +16,7 @@ import HeaderComponent from './components/Header';
 import FrontPage from './components/FrontPage'
 import FooterComponent from './components/Footer';
 import GetPacijenti from './services/pacijent/GetPacijenti';
+import PacijentLogin from "./components/pacijent/Login";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
               <div className="container-fluid">
                     <Switch>
                       <Route path="/Registration" component={PacijentRegistration}></Route>
+                      <Route path="/pacijenti/prijava" component={PacijentLogin}></Route>
                     </Switch>
                     <Switch>
                       <Route path='/Requests' component={RegistrationRequsets}></Route>

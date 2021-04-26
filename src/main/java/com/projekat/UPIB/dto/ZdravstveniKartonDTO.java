@@ -1,5 +1,7 @@
 package com.projekat.UPIB.dto;
 
+import com.projekat.UPIB.models.ZdravstveniKarton;
+
 import java.io.Serializable;
 
 public class ZdravstveniKartonDTO implements Serializable{
@@ -16,6 +18,12 @@ public class ZdravstveniKartonDTO implements Serializable{
 		super();
 		this.idZdravstvenogKartona = idZdravstvenogKartona;
 		this.pacijent = pacijent;
+	}
+
+	public ZdravstveniKartonDTO(ZdravstveniKarton zdravstveniKarton) {
+		super();
+		this.idZdravstvenogKartona = zdravstveniKarton.getIdZdravstvenogKartona();
+		this.pacijent = new PacijentRegisterDTO(zdravstveniKarton.getPacijent());
 	}
 
 	
