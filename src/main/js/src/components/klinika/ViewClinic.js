@@ -20,21 +20,23 @@ class ViewClinicComponent extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{ margin: "50px" }}>
                 <div className="card col-md-6 offset-md-3">
-                    <h3 className="text-center"> Pregled klinike </h3>
+                    <h3 style={{ margin:"10px",textDecoration: "underline" }} className="text-center"> Pregled klinike </h3>
                     <div className="card-body">
                         <div className="row">
-                            <label> Naziv klinike: </label>
-                            <div> {this.state.clinic.naziv} </div>
+                            <label> Naziv klinike:&emsp; </label>
+                            <a href=""><div> {this.state.clinic.naziv} </div></a>
                         </div>
+                        <br />
                         <div className="row">
-                            <label> Opis klinike: </label>
-                            <div> {this.state.clinic.opis} </div>
+                            <label> Opis klinike:&emsp; </label>
+                            <a href=""><div> {this.state.clinic.opis} </div></a>
                         </div>
+                        <br />
                         <div className="row">
-                            <label> Adresa klinike: </label>
-                            <div> {this.state.clinic.adresa} </div>
+                            <label> Adresa klinike:&emsp; </label>
+                            <a href=""><div> {this.state.clinic.adresa} </div></a>
                         </div>
                     </div>
                 </div>

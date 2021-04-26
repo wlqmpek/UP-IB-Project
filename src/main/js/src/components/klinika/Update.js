@@ -64,23 +64,23 @@ class UpdateClinicComponent extends Component {
 
     render() {
         return(
-            <div>
+            <div style={{ margin: "50px" }}>
                 <div className="container">
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
-                            <h3 className="text-center">Izmena klinike</h3>
+                            <h3 style={{ margin: "10px",textDecoration: "underline" }} className="text-center" > Izmena klinike</h3>
                             <div className="card-body">
                                 <form>
                                     <div className="form-group">
                                         <label> Naziv: </label>
                                         <input placeholder="Naziv" name="naziv" className="form-control"
                                             value={this.state.naziv} onChange={this.changeNazivHandler} />
+                                        <br />
                                         <label> Opis: </label>
-                                        
                                         <input placeholder="Opis" name="opis" className="form-control"
                                             value={this.state.opis} onChange={this.changeOpisHandler} />
+                                        <br />
                                         <label> Adresa: </label>
-                                        
                                         <input placeholder="Adresa" name="adresa" className="form-control"
                                             value={this.state.adresa} onChange={this.changeAdresaHandler} />
                                     </div>
