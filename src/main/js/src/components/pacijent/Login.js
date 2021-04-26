@@ -56,11 +56,11 @@ const Login = () => {
                         <form>
                             <div className="form-group">
                                 <label>Email: </label>
-                                <input type="text" value={emailKorisnika} onChange={e => setEmailKorisnika(e.target.value)} placeholder="Email" className="form-controll"></input><br/>
+                                <input type="text" value={emailKorisnika} onChange={e => setEmailKorisnika(e.target.value)} placeholder="Email" className="form-control"></input><br/>
                             </div>
                             <div className="form-group">
-                                <label>Password: </label>
-                                <input type="password" value={lozinkaKorisnika} onChange={e => setLozinkaKorisnika(e.target.value)} placeholder="Lozinka" className="form-controll"></input><br/>
+                                <label>Lozinka: </label>
+                                <input type="password" value={lozinkaKorisnika} onChange={e => setLozinkaKorisnika(e.target.value)} placeholder="Lozinka" className="form-control"></input><br/>
                             </div>
                             <button type='submit' className='btn btn-primary' onClick={onSubmit}>Prijavi se</button>
                         </form>
