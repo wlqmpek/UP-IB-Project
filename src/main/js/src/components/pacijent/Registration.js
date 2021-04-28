@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { PacientService } from "../../services/PacientService"
 import validator from 'validator'
 
 const Registration = () => {
@@ -11,33 +12,31 @@ const Registration = () => {
     const [jbzo, setJbzo] = useState('')
     const [pacijenti, setPacijenti] = useState([])
 
-    function PostPacijent(imeKorisnika, prezimeKorisnika, emailKorisnika, lozinkaKorisnika, jbzo) {
-
-        const pacijent = {
-            imeKorisnika: imeKorisnika,
-            prezimeKorisnika: prezimeKorisnika,
-            emailKorisnika: emailKorisnika,
-            lozinkaKorisnika: lozinkaKorisnika,
-            jbzo: jbzo
-        }
-        const onAdd = async (pacijent) => {
-        const res = await fetch('http://localhost:8080/KlinickiCentar/Pacijenti',
-        {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(pacijent)
-        })
-  
-          const data = await res.json()
-  
-          setPacijenti(data)
-        }
-        onAdd(pacijent)
-        
+    const pacijent = {
+        imeKorisnika: imeKorisnika,
+        prezimeKorisnika: prezimeKorisnika,
+        emailKorisnika: emailKorisnika,
+        lozinkaKorisnika: lozinkaKorisnika,
+        jbzo: jbzo
     }
-    
+
+    async function fetchPacients(){
+        try {
+            const response = await PacientService.getPacients()
+            setPacijenti(response.data)
+        } catch (error){
+            console.error(`Greska ${error}`)
+        }
+    }
+
+    async function addPacient() {
+        try {
+            await PacientService.createPacient(pacijent)
+
+        } catch (error){
+            console.error(`Greska ${error}`)
+        }
+    }
 
     const onSubmit = (e) =>{
         e.preventDefault();
@@ -47,7 +46,7 @@ const Registration = () => {
             return
         }
 
-        if(lozinkaKorisnika.valueOf() != ponovljenaLozinka.valueOf()){
+        if(lozinkaKorisnika.valueOf() !== ponovljenaLozinka.valueOf()){
             alert('Ponovljena lozinka nije ista kao uneta lozinka')
             return
         }
@@ -61,7 +60,8 @@ const Registration = () => {
             alert('Email nije validan')
             return
         }
-        PostPacijent(imeKorisnika, prezimeKorisnika, emailKorisnika, lozinkaKorisnika, jbzo)
+
+        addPacient()
 
         setIme('')
         setPrezime('')

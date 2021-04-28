@@ -1,25 +1,23 @@
 import { useState, useEffect } from "react"
 import Request from "./Request"
+import { RegistrationRequestService } from "../../services/RegistrationRequestService";
 
 const RegistrationRequsets = () => {
 
     const [zahtevi, setZahtevi] = useState([])
 
     useEffect(() => {
-        const getRequests = async() => {
-            const requests = await fetchRequests()
-            setZahtevi(requests)
+        fetchRequests()
+    },[])
+
+    async function fetchRequests(){
+        try {
+            const response = await RegistrationRequestService.getRequests()
+            setZahtevi(response.data)
+        } catch (error){
+            console.error(`Greska ${error}`)
         }
-
-        getRequests()
-    }, [])
-
-    const fetchRequests = async () => {
-        const res = await fetch('http://localhost:8080/KlinickiCentar/Zahtevi')
-        const data = await res.json()
-    
-        return data
-      }
+    }
 
     return (
         <div className='table-responsive' style={{marginTop: "100px"}}>
@@ -36,7 +34,7 @@ const RegistrationRequsets = () => {
                 </thead>
                 <tbody>
                     {zahtevi.map((zahtev, index) => (
-                     <Request key={index} zahtev={zahtev} />
+                     <Request key={index} zahtev={zahtev} updateZahtevi={setZahtevi} zahtevi={zahtevi}/>
                     ))}
                 </tbody>
             </table>

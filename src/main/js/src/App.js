@@ -27,11 +27,11 @@ function App() {
             <HeaderComponent />
               <div className="container-fluid">
                     <Switch>
-                      <Route path="/Registration" component={PacijentRegistration}></Route>
+                      <Route path="/registracija" component={PacijentRegistration}></Route>
                       <Route path="/pacijenti/prijava" component={PacijentLogin}></Route>
                     </Switch>
                     <Switch>
-                      <Route path='/Requests' component={RegistrationRequsets}></Route>
+                      <Route path='/zahtevi' component={RegistrationRequsets}></Route>
                     </Switch>
                     <Switch>
                         <Route exact path="/klinike" component={ListClinicsComponent} ></Route>
