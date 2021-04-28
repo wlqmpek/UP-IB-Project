@@ -27,11 +27,11 @@ function App() {
             <HeaderComponent />
               <div className="container-fluid">
                     <Switch>
-                      <Route path="/registracija" component={PacijentRegistration}></Route>
-                      <Route path="/pacijenti/prijava" component={PacijentLogin}></Route>
+                      <Route exact path="/registracija" component={PacijentRegistration}></Route>
+                      <Route exact path="/pacijenti/prijava" component={PacijentLogin}></Route>
                     </Switch>
                     <Switch>
-                      <Route path='/zahtevi' component={RegistrationRequsets}></Route>
+                      <Route exact path='/registracija/zahtevi' component={RegistrationRequsets}></Route>
                     </Switch>
                     <Switch>
                         <Route exact path="/klinike" component={ListClinicsComponent} ></Route>
@@ -40,7 +40,7 @@ function App() {
                         <Route exact path="/klinike/izmeni/:id" component={UpdateClinicComponent} ></Route>
                     </Switch>
                     <Switch>
-                        <Route path="/PrikazSvihPacijenata" component={GetPacijenti} ></Route>
+                        <Route exact path="/pacijenti" component={GetPacijenti} ></Route>
                     </Switch>
                     <Switch>
                         <Route path="/" exact component={FrontPage}></Route>

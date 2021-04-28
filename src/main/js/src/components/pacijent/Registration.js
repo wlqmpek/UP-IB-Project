@@ -73,37 +73,36 @@ const Registration = () => {
 
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className='col-md-6 offset-md-3 offset-md-3'>
-                    <h3 className="text-center">Registracija</h3>
-                        <form>
-                            <div className='form-group'>
-                                <label>Ime: </label>
-                                <input type='text' value={imeKorisnika} onChange={e => setIme(e.target.value)} placeholder='Ime' className='form-control' />
-                            </div>
-                            <div className='form-group'>
-                                <label>Prezime: </label>
-                                <input type='text' value={prezimeKorisnika} onChange={e => setPrezime(e.target.value)} placeholder='Prezime' className='form-control' />
-                            </div>
-                            <div className='form-group'>
-                                <label>Email: </label>
-                                <input type='email' value={emailKorisnika} onChange={e => setEmail(e.target.value)} placeholder='Email' className='form-control' />
-                            </div>
-                            <div className='form-group'>
-                                <label>Lozinka: </label>
-                                <input type='password' value={lozinkaKorisnika} onChange={e => setLozinka(e.target.value)} placeholder='Lozinka' className='form-control' />
-                            </div>
-                            <div className='form-group'>
-                                <label>Ponovljena lozinka: </label>
-                                <input type='password' value={ponovljenaLozinka} onChange={e => setPonovljena(e.target.value)} placeholder='Ponovljena lozinka' className='form-control' />
-                            </div>
-                            <div className='form-group'>
-                                <label>JBZO: </label>
-                                <input type='text' value={jbzo} onChange={e => setJbzo(e.target.value)} placeholder='JBZO' className='form-control'></input>
-                            </div>
-                            <button type='submit' className='btn btn-primary' onClick={onSubmit}>Registruj se</button>
-                        </form>
+        <div style={{ margin: "50px" }}>
+            <div className="container">
+                <div className="row">
+                    <div className='card col-md-6 offset-md-3 offset-md-3'>
+                        <h3 style={{ margin: "10px", textDecoration: "underline" }} className="text-center">Registracija</h3>
+                        <div className="card-body">
+                            <form>
+                                <div className='form-group'>
+                                    <label>Ime: </label>
+                                    <input type='text' value={imeKorisnika} onChange={e => setIme(e.target.value)} placeholder='Ime' className='form-control' />
+                                    <br />
+                                    <label>Prezime: </label>
+                                    <input type='text' value={prezimeKorisnika} onChange={e => setPrezime(e.target.value)} placeholder='Prezime' className='form-control' />
+                                    <br />
+                                    <label>Email: </label>
+                                    <input type='email' value={emailKorisnika} onChange={e => setEmail(e.target.value)} placeholder='Email' className='form-control' />
+                                    <br />
+                                    <label>Lozinka: </label>
+                                    <input type='password' value={lozinkaKorisnika} onChange={e => setLozinka(e.target.value)} placeholder='Lozinka' className='form-control' />
+                                    <br />
+                                    <label>Ponovljena lozinka: </label>
+                                    <input type='password' value={ponovljenaLozinka} onChange={e => setPonovljena(e.target.value)} placeholder='Ponovljena lozinka' className='form-control' />
+                                    <br />
+                                    <label>JBZO: </label>
+                                    <input type='text' value={jbzo} onChange={e => setJbzo(e.target.value)} placeholder='JBZO' className='form-control'></input>
+                                </div>
+                                <button type='submit' className='btn btn-primary' onClick={onSubmit}>Registruj se</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
