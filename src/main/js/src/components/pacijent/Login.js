@@ -49,19 +49,26 @@ const Login = () => {
     }
 
     return (
-        <div className="col-md-3">
-            <form>
-                <div className="form-group">
-                    <label>Email: </label>
-                    <input type="text" value={emailKorisnika} onChange={e => setEmailKorisnika(e.target.value)} placeholder="Email" className="form-controll"></input>
+        <div style={{ margin: "50px" }}>
+            <div className="container">
+                <div className="row">
+                    <div className="card col-md-6 offset-md-3 offset-md-3">
+                        <form>
+                            <div className="form-group">
+                                <label>Email: </label>
+                                <input type="text" value={emailKorisnika} onChange={e => setEmailKorisnika(e.target.value)} placeholder="Email" className="form-controll"></input><br/>
+                            </div>
+                            <div className="form-group">
+                                <label>Password: </label>
+                                <input type="password" value={lozinkaKorisnika} onChange={e => setLozinkaKorisnika(e.target.value)} placeholder="Lozinka" className="form-controll"></input><br/>
+                            </div>
+                            <button type='submit' className='btn btn-primary' onClick={onSubmit}>Prijavi se</button>
+                        </form>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>Email: </label>
-                    <input type="password" value={lozinkaKorisnika} onChange={e => setLozinkaKorisnika(e.target.value)} placeholder="Lozinka" className="form-controll"></input>
-                </div>
-                <button type='submit' className='btn btn-primary' onClick={onSubmit}>Prijavi se</button>
-            </form>
+            </div>
         </div>
+        
     )
 }
 

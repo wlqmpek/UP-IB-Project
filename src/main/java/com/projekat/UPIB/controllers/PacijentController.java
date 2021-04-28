@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "/Pacijenti")
 public class PacijentController {
 
@@ -82,33 +82,7 @@ public class PacijentController {
         pacijentService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    //Ovde menjati kad stignemo do toga da lozinku ne cuvamo kao plain-text vec kao hashovanu vrednost.
-//    @PostMapping(value = "/login")
-//    public ResponseEntity<Pacijent> loginPacijent(@RequestParam(name = "email_korisnika") String emailKorisnika,
-//                                                             @RequestParam(name= "lozinka_korisnika") String lozinkaKorisnika) {
-//
-//        System.out.println("Pogodjeno!");
-//        System.out.println("Email " + emailKorisnika);
-//        System.out.println("Lozinka " +lozinkaKorisnika);
-//
-//        Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(emailKorisnika);
-//
-//        //Ako se lozinka ne podudara referenci nadjenog pacijenta dodeljujemo null.
-//        //TODO: Ovde promeniti kada stignemo do hashovanja lozinke!
-//        if(!pacijent.getLozinkaKorisnika().equals(lozinkaKorisnika))
-//            pacijent = null;
-//        System.out.println(pacijent.getZdravstveniKarton());
-//
-//        if(pacijent != null) {
-//
-////            PacijentRegisterDTO pacijentDTO = new PacijentRegisterDTO();
-//
-//            return new ResponseEntity<>(pacijent, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    
     @PostMapping(value = "/login", consumes = "application/json")
     public ResponseEntity<PacijentFrontDTO> loginPacijent(@RequestBody PacijentLoginDTO pacijentLoginDTO) {
 
@@ -118,10 +92,7 @@ public class PacijentController {
 
         Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(pacijentLoginDTO.getEmailKorisnika());
 
-        if(!pacijent.getLozinkaKorisnika().equals(pacijentLoginDTO.getLozinkaKorisnika()))
-            pacijent = null;
-
-        if(pacijent != null) {
+        if(pacijent != null && pacijent.getLozinkaKorisnika().equals(pacijentLoginDTO.getLozinkaKorisnika())) {
 
             PacijentFrontDTO pacijentFrontDTO = new PacijentFrontDTO(pacijent);
 
@@ -131,4 +102,7 @@ public class PacijentController {
         }
 
     }
+
+    
+    
 }
