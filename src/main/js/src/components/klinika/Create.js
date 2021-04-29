@@ -17,6 +17,19 @@ class CreateClinicComponent extends Component {
         this.saveClinic = this.saveClinic.bind(this);
     }
 
+    changeNazivHandler = (event) => {
+        this.setState({ naziv: event.target.value });
+    }
+
+    changeOpisHandler = (event) => {
+        this.setState({ opis: event.target.value });
+    }
+
+    changeAdresaHandler = (event) => {
+        this.setState({ adresa: event.target.value });
+    }
+
+
 
     saveClinic = (event) => {
         event.preventDefault();
@@ -32,18 +45,6 @@ class CreateClinicComponent extends Component {
             this.props.history.push("/klinike");
         });
 
-    }
-
-    changeNazivHandler = (event) => {
-        this.setState({ naziv: event.target.value });
-    }
-
-    changeOpisHandler = (event) => {
-        this.setState({ opis: event.target.value });
-    }
-
-    changeAdresaHandler = (event) => {
-        this.setState({ adresa: event.target.value });
     }
 
     cancel() {
@@ -74,7 +75,7 @@ class CreateClinicComponent extends Component {
                                     </div>
 
                                     <button className="btn btn-success" onClick={this.saveClinic}>Kreiraj</button>
-                                    <button className="btn btn-default" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px"}}>Odustani</button>
+                                    <button className="btn" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px"}}>Odustani</button>
                                 </form>
                             </div>
                         </div>

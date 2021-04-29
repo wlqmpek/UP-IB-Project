@@ -1,5 +1,6 @@
 package com.projekat.UPIB.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projekat.UPIB.dto.KlinikaDTO;
+import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.models.Klinika;
+import com.projekat.UPIB.services.IAdministratorService;
 import com.projekat.UPIB.services.IKlinikaService;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -25,23 +29,34 @@ public class KlinikaController {
 	
 	@Autowired
     private IKlinikaService klinikaService;
+	
+	@Autowired
+    private IAdministratorService administratorService;
 
     @GetMapping
-    public ResponseEntity<List<Klinika>> findAll(){
+    public ResponseEntity<List<KlinikaDTO>> findAll(){
 
         List<Klinika> klinike = klinikaService.findAll();
-        return new ResponseEntity<List<Klinika>>(klinike, HttpStatus.OK);
+        List<KlinikaDTO> klinikeFrontendDTO = new ArrayList<KlinikaDTO>();
+        
+        for (Klinika klinika : klinike) {
+        	KlinikaDTO klinikaFrontendDTO = new KlinikaDTO(klinika);
+        	klinikeFrontendDTO.add(klinikaFrontendDTO);
+        }
+        
+        return new ResponseEntity<List<KlinikaDTO>>(klinikeFrontendDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Klinika> findOne(@PathVariable(name = "id") Long id){
+    public ResponseEntity<KlinikaDTO> findOne(@PathVariable(name = "id") Long id){
 
     	Klinika klinika = klinikaService.findOne(id);
         if(klinika == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        KlinikaDTO klinikaFrontendDTO = new KlinikaDTO(klinika);
 
-        return new ResponseEntity<>(klinika, HttpStatus.OK);
+        return new ResponseEntity<KlinikaDTO>(klinikaFrontendDTO, HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
@@ -68,6 +83,24 @@ public class KlinikaController {
         klinikaOld = klinikaService.save(klinikaOld);
 
         return new ResponseEntity<>(klinikaOld, HttpStatus.OK);
+    }
+    
+    @PutMapping(value = "/{idKlinike}/dodajAdmina/{idAdmina}", consumes = "application/json")
+    public  ResponseEntity<Administrator> dodajAdminaUKliniku(@PathVariable(name = "idKlinike") Long idKlinike,
+    		@PathVariable(name = "idAdmina") Long idAdmina){
+
+        Administrator admin = administratorService.findOne(idAdmina);
+        Klinika klinika = klinikaService.findOne(idKlinike);
+        if(admin == null || klinika == null){
+            return new ResponseEntity<Administrator>(HttpStatus.BAD_REQUEST);
+        }
+
+        admin.setKlinika(klinika);
+
+        admin = administratorService.save(admin);
+        klinika.getAdministratori().add(admin);
+
+        return new ResponseEntity<Administrator>(admin, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -17,7 +17,11 @@ import FrontPage from './components/FrontPage'
 import FooterComponent from './components/Footer';
 import GetPacijenti from './services/pacijent/GetPacijenti';
 import PacijentLogin from "./components/pacijent/Login";
-
+import AddAdminToClinicComponent from "./components/klinika/admin/AddAdmin";
+import UpdateAdminComponent from "./components/klinika/admin/UpdateAdmin";
+import ListAdminsComponent from "./components/administrator/ListAdmins";
+import AddAdminComponent from './components/administrator/Create';
+import UpdateAdminKCComponent from './components/administrator/Update';
 
 function App() {
 
@@ -35,10 +39,18 @@ function App() {
                     </Switch>
                     <Switch>
                         <Route exact path="/klinike" component={ListClinicsComponent} ></Route>
-                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent} ></Route>
+                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent} ></Route>  
                         <Route exact path="/klinike/pregled/:id" component={ViewClinicComponent} ></Route>
                         <Route exact path="/klinike/izmeni/:id" component={UpdateClinicComponent} ></Route>
+                        <Route exact path="/klinike/:id/dodajAdmina" component={AddAdminToClinicComponent} ></Route>
+                        <Route exact path='/klinike/:idKlinike/izmeniAdmina/:idAdmina' component={UpdateAdminComponent}></Route>
                     </Switch>
+                    <Switch>
+                        <Route exact path="/admini" component={ListAdminsComponent} ></Route>
+                        <Route exact path="/admini/dodaj" component={AddAdminComponent} ></Route>
+                        <Route exact path="/admini/izmeni/:id" component={UpdateAdminKCComponent} ></Route>
+                    </Switch>
+
                     <Switch>
                         <Route exact path="/pacijenti" component={GetPacijenti} ></Route>
                     </Switch>

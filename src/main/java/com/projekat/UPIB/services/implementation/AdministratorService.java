@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AdministratorSerice implements IAdministratorService {
+public class AdministratorService implements IAdministratorService {
 
     @Autowired
     private AdminRepozitorijum adminRepozitorijum;

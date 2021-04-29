@@ -2,6 +2,8 @@ package com.projekat.UPIB.dto;
 
 import java.io.Serializable;
 
+import com.projekat.UPIB.models.Klinika;
+
 public class KlinikaDTO implements Serializable{
 	
 	private Long idKlinike;
@@ -21,6 +23,15 @@ public class KlinikaDTO implements Serializable{
 		this.adresa = adresa;
 		this.opis = opis;
 	}
+	
+	public KlinikaDTO(Klinika klinika) {
+		super();
+		this.idKlinike = klinika.getIdKlinike();
+		this.naziv = klinika.getNaziv();
+		this.adresa = klinika.getAdresa();
+		this.opis = klinika.getOpis();
+	}
+
 
 	public Long getIdKlinike() {
 		return idKlinike;
