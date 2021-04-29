@@ -17,7 +17,7 @@ const GetPacijenti = (props) => {
             izmenaPacijenata(sviPacijenti);
         })
     };
-    
+
     console.log("Print 1" + pacijenti);
 
     return (

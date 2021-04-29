@@ -1,4 +1,4 @@
-import React,{ Component } from "react"
+import React, {Component} from "react"
 import ClinicsService from "../../services/ClinicsService";
 
 class CreateClinicComponent extends Component {
@@ -9,7 +9,7 @@ class CreateClinicComponent extends Component {
         this.state = {
             naziv: '',
             opis: '',
-            adresa:''
+            adresa: ''
         }
         this.changeAdresaHandler = this.changeAdresaHandler.bind(this);
         this.changeOpisHandler = this.changeOpisHandler.bind(this);
@@ -35,15 +35,15 @@ class CreateClinicComponent extends Component {
     }
 
     changeNazivHandler = (event) => {
-        this.setState({ naziv: event.target.value });
+        this.setState({naziv: event.target.value});
     }
 
     changeOpisHandler = (event) => {
-        this.setState({ opis: event.target.value });
+        this.setState({opis: event.target.value});
     }
 
     changeAdresaHandler = (event) => {
-        this.setState({ adresa: event.target.value });
+        this.setState({adresa: event.target.value});
     }
 
     cancel() {
@@ -51,37 +51,40 @@ class CreateClinicComponent extends Component {
     }
 
     render() {
-        return(
-            <div style={{ margin: "50px" }}>
+        return (
+            <div style={{margin: "50px"}}>
                 <div className="container">
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
-                            <h3 style={{ margin: "10px",textDecoration: "underline" }} className="text-center">Dodaj kliniku</h3>
+                            <h3 style={{margin: "10px", textDecoration: "underline"}} className="text-center">Dodaj
+                                kliniku</h3>
                             <div className="card-body">
                                 <form>
                                     <div className="form-group">
                                         <label> Naziv: </label>
                                         <input placeholder="Naziv" name="naziv" className="form-control"
-                                            value={this.state.naziv} onChange={this.changeNazivHandler} />
-                                        <br />
+                                               value={this.state.naziv} onChange={this.changeNazivHandler}/>
+                                        <br/>
                                         <label> Opis: </label>
                                         <input placeholder="Opis" name="opis" className="form-control"
-                                            value={this.state.opis} onChange={this.changeOpisHandler} />
-                                        <br />
+                                               value={this.state.opis} onChange={this.changeOpisHandler}/>
+                                        <br/>
                                         <label> Adresa: </label>
                                         <input placeholder="Adresa" name="adresa" className="form-control"
-                                            value={this.state.adresa} onChange={this.changeAdresaHandler} />
+                                               value={this.state.adresa} onChange={this.changeAdresaHandler}/>
                                     </div>
 
                                     <button className="btn btn-success" onClick={this.saveClinic}>Kreiraj</button>
-                                    <button className="btn btn-default" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px"}}>Odustani</button>
+                                    <button className="btn btn-default" onClick={this.cancel.bind(this)}
+                                            style={{marginLeft: "10px"}}>Odustani
+                                    </button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            )
+        )
     }
 
 }

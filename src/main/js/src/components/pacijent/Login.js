@@ -1,4 +1,4 @@
-import { useState} from "react";
+import {useState} from "react";
 import axios from 'axios';
 
 const Login = () => {
@@ -19,10 +19,10 @@ const Login = () => {
         console.log("Moj objekat " + json);
 
         axios.post('http://localhost:8080/KlinickiCentar/Pacijenti/login', json, {
-        headers: {
-            // Overwrite Axios's automatically set Content-Type
-            'Content-Type': 'application/json'
-        }
+            headers: {
+                // Overwrite Axios's automatically set Content-Type
+                'Content-Type': 'application/json'
+            }
         }).then(response => alert("Ulogovan korisnik je" + JSON.stringify(response.data)));
 
         // const onLogIn = async (pacijent) => {
@@ -30,13 +30,13 @@ const Login = () => {
         //     Axios.post("http://localhost:8080/KlinickiCentar/Pacijenti/login", pacijent).then(response => console.log(response));
         // }
 
-        
+
     }
 
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if(!emailKorisnika || !lozinkaKorisnika) {
+        if (!emailKorisnika || !lozinkaKorisnika) {
             alert("Molim vas unesite lozinku i email!")
             return
         }
@@ -45,22 +45,26 @@ const Login = () => {
 
         PacijentLogin()
 
-        
+
     }
 
     return (
-        <div style={{ margin: "50px" }}>
+        <div style={{margin: "50px"}}>
             <div className="container">
                 <div className="row">
                     <div className="card col-md-6 offset-md-3 offset-md-3">
                         <form>
                             <div className="form-group">
                                 <label>Email: </label>
-                                <input type="text" value={emailKorisnika} onChange={e => setEmailKorisnika(e.target.value)} placeholder="Email" className="form-controll"></input><br/>
+                                <input type="text" value={emailKorisnika}
+                                       onChange={e => setEmailKorisnika(e.target.value)} placeholder="Email"
+                                       className="form-controll"></input><br/>
                             </div>
                             <div className="form-group">
                                 <label>Password: </label>
-                                <input type="password" value={lozinkaKorisnika} onChange={e => setLozinkaKorisnika(e.target.value)} placeholder="Lozinka" className="form-controll"></input><br/>
+                                <input type="password" value={lozinkaKorisnika}
+                                       onChange={e => setLozinkaKorisnika(e.target.value)} placeholder="Lozinka"
+                                       className="form-controll"></input><br/>
                             </div>
                             <button type='submit' className='btn btn-primary' onClick={onSubmit}>Prijavi se</button>
                         </form>
@@ -68,7 +72,7 @@ const Login = () => {
                 </div>
             </div>
         </div>
-        
+
     )
 }
 

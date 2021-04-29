@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import './App.css'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import PacijentRegistration from './components/pacijent/Registration'
 import RegistrationRequsets from './components/pacijent/RegistrationRequsets'
 import CreateClinicComponent from './components/klinika/Create';
@@ -18,43 +18,45 @@ import FooterComponent from './components/Footer';
 import GetPacijenti from './services/pacijent/GetPacijenti';
 import PacijentLogin from "./components/pacijent/Login";
 import AllPacijents from "./components/administrator/AllPacijents";
+import IzmenaPacijenta from "./components/pacijent/IzmenaPacijenta";
 
 
 function App() {
 
-  return (
-  	<div>
-        <Router>
-            <HeaderComponent />
-              <div className="container-fluid">
+    return (
+        <div>
+            <Router>
+                <HeaderComponent/>
+                <div className="container-fluid">
                     <Switch>
-                      <Route path="/registracija" component={PacijentRegistration}></Route>
-                      <Route path="/pacijenti/prijava" component={PacijentLogin}></Route>
+                        <Route path="/registracija" component={PacijentRegistration}></Route>
+                        <Route path="/pacijenti/prijava" component={PacijentLogin}></Route>
                     </Switch>
                     <Switch>
-                      <Route path='/zahtevi' component={RegistrationRequsets}></Route>
+                        <Route path='/zahtevi' component={RegistrationRequsets}></Route>
                     </Switch>
                     <Switch>
-                        <Route exact path="/klinike" component={ListClinicsComponent} ></Route>
-                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent} ></Route>
-                        <Route exact path="/klinike/pregled/:id" component={ViewClinicComponent} ></Route>
-                        <Route exact path="/klinike/izmeni/:id" component={UpdateClinicComponent} ></Route>
+                        <Route exact path="/klinike" component={ListClinicsComponent}></Route>
+                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent}></Route>
+                        <Route exact path="/klinike/pregled/:id" component={ViewClinicComponent}></Route>
+                        <Route exact path="/klinike/izmeni/:id" component={UpdateClinicComponent}></Route>
                     </Switch>
                     <Switch>
-                        <Route path="/PrikazSvihPacijenata" component={GetPacijenti} ></Route>
+                        <Route path="/PrikazSvihPacijenata" component={GetPacijenti}></Route>
                     </Switch>
                     <Switch>
-                        <Route path="/pacijenti" component={AllPacijents}></Route>
+                        <Route exact path="/pacijenti" component={AllPacijents}/>
+                        <Route exact path="/pacijenti/:id" component={IzmenaPacijenta}/>
                     </Switch>
                     <Switch>
                         <Route path="/" exact component={FrontPage}></Route>
                     </Switch>
-                  
-	            </div>
-            <FooterComponent />
-        </Router>
-	</div>
-  );
+
+                </div>
+                <FooterComponent/>
+            </Router>
+        </div>
+    );
 }
 
 export default App;

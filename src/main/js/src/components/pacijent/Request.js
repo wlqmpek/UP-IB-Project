@@ -3,37 +3,41 @@ import {RegistrationRequestService} from "../../services/RegistrationRequestServ
 
 const Request = ({zahtev, updateZahtevi, zahtevi}) => {
 
-    async function editRequests(id){
+    async function editRequests(id) {
         try {
-            await RegistrationRequestService.editRequest(zahtev.idKorisnika, zahtev)
+            await RegistrationRequestService.editRequest(zahtev.id, zahtev)
 
-            updateZahtevi((zahtevi)=> zahtevi.filter((zahtev) => zahtev.idKorisnika !== id))
-        } catch (error){
+            updateZahtevi((zahtevi) => zahtevi.filter((zahtev) => zahtev.id !== id))
+        } catch (error) {
             console.error(`Greska ${error}`)
         }
     }
 
     const accept = (e) => {
-        
+
         zahtev.statusKorisnika = "PRIHVACEN"
-        editRequests(zahtev.idKorisnika)
+        editRequests(zahtev.id)
 
     }
 
     const decline = (e) => {
-        
+
         zahtev.statusKorisnika = "ODBIJEN"
-        editRequests(zahtev.idKorisnika)
+        editRequests(zahtev.id)
 
     }
-    
+
     return (
         <tr>
-            <td>{zahtev.imeKorisnika}</td>
-            <td>{zahtev.prezimeKorisnika}</td>
-            <td>{zahtev.emailKorisnika}</td>
-            <td><button className="btn btn-success" onClick={accept}>Prihvati</button></td>
-            <td><button className="btn btn-danger" onClick={decline}>Odbij</button></td>
+            <td>{zahtev.ime}</td>
+            <td>{zahtev.prezime}</td>
+            <td>{zahtev.email}</td>
+            <td>
+                <button className="btn btn-success" onClick={accept}>Prihvati</button>
+            </td>
+            <td>
+                <button className="btn btn-danger" onClick={decline}>Odbij</button>
+            </td>
         </tr>
     )
 }

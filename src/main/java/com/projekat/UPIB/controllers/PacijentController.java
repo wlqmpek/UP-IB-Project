@@ -33,7 +33,7 @@ public class PacijentController {
             PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(pacijent);
             retVal.add(registerDTO);
         }
-        return new ResponseEntity<List<PacijentRegisterDTO>>(retVal, HttpStatus.OK);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")

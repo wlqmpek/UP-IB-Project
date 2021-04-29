@@ -13,7 +13,7 @@ class ClinicsService {
     }
 
     createClinic(clinic) {
-        return axios.post(CLINICS_API_BASE_URL,clinic);
+        return axios.post(CLINICS_API_BASE_URL, clinic);
     }
 
     updateClinic(clinic, clinicId) {

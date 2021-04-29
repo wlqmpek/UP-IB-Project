@@ -1,31 +1,42 @@
-import { PacijentService } from "../../services/PacijentService";
+import {PacijentService} from "../../services/PacijentService";
+import { useHistory } from "react-router"
 
 const PacijentTableRow = ({patient, updatePatient, patients}) => {
 
-    async function editPatient(id){
-        try {
-            await PacijentService.editPacijent(patient.idKorisnika, patient)
+    const history = useHistory();
 
-            updatePatient((patients) => patients.filter((patient) => patient.idKorisnika !== id))
-        } catch (error){
+    async function editPatient(id) {
+        try {
+            await PacijentService.editPacijent(patient.id, patient)
+
+            updatePatient((patients) => patients.filter((patient) => patient.id !== id))
+        } catch (error) {
             console.error(`Greska ${error}`)
         }
     }
 
-    const block = (e) => {
-
+    const block = () => {
         patient.statusKorisnika = "BLOKIRAN"
-        editPatient(patient.idKorisnika)
+        editPatient(patient.id)
 
     }
 
-    return(
+    const update = (id) => {
+        history.push("/pacijenti/"+ id)
+    }
+
+    return (
         <tr>
-            <td>{patient.imeKorisnika}</td>
-            <td>{patient.prezimeKorisnika}</td>
-            <td>{patient.emailKorisnika}</td>
-            <td><button className="btn btn-warning">Izmeni</button></td>
-            <td><button className="btn btn-danger" onClick={block}>Blokiraj</button></td>
+            <td>{patient.ime}</td>
+            <td>{patient.prezime}</td>
+            <td>{patient.email}</td>
+            <td>{patient.statusKorisnika}</td>
+            <td>
+                <button className="btn btn-warning" onClick={()=> update(patient.id)}>Izmeni</button>
+            </td>
+            <td>
+                <button className="btn btn-danger" onClick={block}>Blokiraj</button>
+            </td>
         </tr>
     )
 }

@@ -5,10 +5,10 @@ export const RegistrationRequestService = {
     editRequest
 }
 
-async function getRequests(){
+async function getRequests() {
     return await AxiosClient.get("Zahtevi")
 }
 
-async function editRequest(id, request){
+async function editRequest(id, request) {
     return await AxiosClient.put(`Zahtevi/${id}`, request)
 }
