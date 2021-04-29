@@ -13,7 +13,6 @@ public class PacijentRegisterDTO implements Serializable {
     private String email;
     private String lozinka;
     private String JBZO;
-    private ZdravstveniKartonDTO zdravstveniKarton;
     private StatusKorisnika statusKorisnika;
     
 	public PacijentRegisterDTO() {
@@ -21,7 +20,7 @@ public class PacijentRegisterDTO implements Serializable {
 	}	
 
 	public PacijentRegisterDTO(long id, String ime, String prezime, String email, String lozinka, String jBZO,
-			ZdravstveniKartonDTO zdravstveniKarton, StatusKorisnika statusKorisnika) {
+			 StatusKorisnika statusKorisnika) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -29,7 +28,6 @@ public class PacijentRegisterDTO implements Serializable {
 		this.email = email;
 		this.lozinka = lozinka;
 		this.JBZO = jBZO;
-		this.zdravstveniKarton = zdravstveniKarton;
 		this.statusKorisnika = statusKorisnika;
 	}
 
@@ -41,7 +39,6 @@ public class PacijentRegisterDTO implements Serializable {
 		this.email = pacijent.getEmailKorisnika();
 		this.lozinka = pacijent.getLozinkaKorisnika();
 		this.JBZO = pacijent.getJBZO();
-		this.zdravstveniKarton = new ZdravstveniKartonDTO(pacijent.getZdravstveniKarton());
 		this.statusKorisnika = pacijent.getStatusKorisnika();
 	}
 
@@ -93,14 +90,6 @@ public class PacijentRegisterDTO implements Serializable {
 	
 	public void setJBZO(String jBZO) {
 		JBZO = jBZO;
-	}
-	
-	public ZdravstveniKartonDTO getZdravstveniKarton() {
-		return zdravstveniKarton;
-	}
-
-	public void setZdravstveniKarton(ZdravstveniKartonDTO zdravstveniKarton) {
-		this.zdravstveniKarton = zdravstveniKarton;
 	}
 
 	public StatusKorisnika getStatusKorisnika() {

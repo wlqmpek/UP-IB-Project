@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { PacientService } from "../../services/PacientService"
+import { PacijentService } from "../../services/PacijentService"
 import validator from 'validator'
 
 const Registration = () => {
@@ -20,18 +20,18 @@ const Registration = () => {
         jbzo: jbzo
     }
 
-    async function fetchPacients(){
+    async function fetchPacijents(){
         try {
-            const response = await PacientService.getPacients()
+            const response = await PacijentService.getPacijents()
             setPacijenti(response.data)
         } catch (error){
             console.error(`Greska ${error}`)
         }
     }
 
-    async function addPacient() {
+    async function addPacijent() {
         try {
-            await PacientService.createPacient(pacijent)
+            await PacijentService.createPacijent(pacijent)
 
         } catch (error){
             console.error(`Greska ${error}`)
@@ -61,7 +61,7 @@ const Registration = () => {
             return
         }
 
-        addPacient()
+        addPacijent()
 
         setIme('')
         setPrezime('')

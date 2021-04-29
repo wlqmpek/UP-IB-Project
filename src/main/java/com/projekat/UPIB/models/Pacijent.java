@@ -1,6 +1,7 @@
 package com.projekat.UPIB.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projekat.UPIB.dto.PacijentRegisterDTO;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,4 +30,15 @@ public class Pacijent extends Korisnik {
 
     @Column(name = "status_korisnika", nullable = false)
     private StatusKorisnika statusKorisnika;
+
+    public Pacijent (PacijentRegisterDTO registerDTO){
+
+        this.setImeKorisnika(registerDTO.getIme());
+        this.setPrezimeKorisnika(registerDTO.getPrezime());
+        this.setEmailKorisnika(registerDTO.getEmail());
+        this.setLozinkaKorisnika(registerDTO.getLozinka());
+        this.setStatusKorisnika(registerDTO.getStatusKorisnika());
+        this.setJBZO(registerDTO.getJBZO());
+        this.setZdravstveniKarton(new ZdravstveniKarton());
+    }
 }

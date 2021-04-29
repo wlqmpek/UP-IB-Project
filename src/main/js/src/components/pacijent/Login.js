@@ -27,7 +27,7 @@ const Login = () => {
 
         // const onLogIn = async (pacijent) => {
         //     console.log("Acious")
-        //     axious.post("http://localhost:8080/KlinickiCentar/Pacijenti/login", pacijent).then(response => console.log(response));
+        //     Axios.post("http://localhost:8080/KlinickiCentar/Pacijenti/login", pacijent).then(response => console.log(response));
         // }
 
         

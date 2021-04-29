@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import axious from 'axios';
+import Axios from 'axios';
 import PrikazSvihPacijenata from '../../components/pacijent/PrikazSvihPacijenata';
 
 
@@ -12,7 +12,7 @@ const GetPacijenti = (props) => {
     }, []);
 
     const pribaviSvePacijente = () => {
-        axious.get("http://localhost:8080/KlinickiCentar/Pacijenti").then((response) => {
+        Axios.get("http://localhost:8080/KlinickiCentar/Pacijenti").then((response) => {
             const sviPacijenti = response.data;
             izmenaPacijenata(sviPacijenti);
         })

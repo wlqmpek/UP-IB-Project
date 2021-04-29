@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,51 +25,58 @@ public class PacijentController {
     private IPacijentService pacijentService;
 
     @GetMapping
-    public ResponseEntity<List<Pacijent>> findAll(){
+    public ResponseEntity<List<PacijentRegisterDTO>> findAll(){
 
+        List<PacijentRegisterDTO> retVal = new ArrayList<>();
         List<Pacijent> pacijenti = pacijentService.findAll();
-        return new ResponseEntity<List<Pacijent>>(pacijenti, HttpStatus.OK);
+        for (Pacijent pacijent : pacijenti) {
+            PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(pacijent);
+            retVal.add(registerDTO);
+        }
+        return new ResponseEntity<List<PacijentRegisterDTO>>(retVal, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Pacijent> findOne(@PathVariable(name = "id") Long id){
+    public ResponseEntity<PacijentRegisterDTO> findOne(@PathVariable(name = "id") Long id){
 
         Pacijent pacijent = pacijentService.findOne(id);
+        PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(pacijent);
         if(pacijent == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(pacijent, HttpStatus.OK);
+        return new ResponseEntity<>(registerDTO, HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Pacijent> savePacijent(@RequestBody Pacijent pacijent){
+    public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent){
 
-        pacijent.setZdravstveniKarton(new ZdravstveniKarton());
         pacijent.setStatusKorisnika(StatusKorisnika.NA_CEKANJU);
-        pacijent.getZdravstveniKarton().setPacijent(pacijent);
-        pacijentService.save(pacijent);
+        Pacijent registered = new Pacijent(pacijent);
+        registered.getZdravstveniKarton().setPacijent(registered);
+        pacijentService.save(registered);
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }
 
     @PutMapping(consumes = "application/json", value = "/{id}")
-    public ResponseEntity<Pacijent> updatePacijent(@PathVariable(name = "id") Long id, @RequestBody Pacijent pacijent){
+    public ResponseEntity<PacijentRegisterDTO> updatePacijent(@PathVariable(name = "id") Long id,
+                                                              @RequestBody PacijentRegisterDTO pacijent){
 
         Pacijent pacijentOld = pacijentService.findOne(id);
         if(pacijentOld == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        pacijentOld.setImeKorisnika(pacijent.getImeKorisnika());
-        pacijentOld.setEmailKorisnika(pacijent.getEmailKorisnika());
-        pacijentOld.setLozinkaKorisnika(pacijent.getLozinkaKorisnika());
-        pacijentOld.setPrezimeKorisnika(pacijent.getPrezimeKorisnika());
+        pacijentOld.setImeKorisnika(pacijent.getIme());
+        pacijentOld.setEmailKorisnika(pacijent.getEmail());
+        pacijentOld.setLozinkaKorisnika(pacijent.getLozinka());
+        pacijentOld.setPrezimeKorisnika(pacijent.getPrezime());
         pacijentOld.setStatusKorisnika(pacijent.getStatusKorisnika());
-        pacijentOld.setZdravstveniKarton(pacijent.getZdravstveniKarton());
 
         pacijentOld = pacijentService.save(pacijentOld);
+        pacijent = new PacijentRegisterDTO(pacijentOld);
 
-        return new ResponseEntity<>(pacijentOld, HttpStatus.OK);
+        return new ResponseEntity<>(pacijent, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

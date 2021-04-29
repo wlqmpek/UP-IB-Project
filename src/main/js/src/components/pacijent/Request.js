@@ -13,15 +13,14 @@ const Request = ({zahtev, updateZahtevi, zahtevi}) => {
         }
     }
 
-    const prihvati = (e)=>{
+    const accept = (e) => {
         
         zahtev.statusKorisnika = "PRIHVACEN"
-        console.log(zahtev)
         editRequests(zahtev.idKorisnika)
 
     }
 
-    const odbij = (e) => {
+    const decline = (e) => {
         
         zahtev.statusKorisnika = "ODBIJEN"
         editRequests(zahtev.idKorisnika)
@@ -33,8 +32,8 @@ const Request = ({zahtev, updateZahtevi, zahtevi}) => {
             <td>{zahtev.imeKorisnika}</td>
             <td>{zahtev.prezimeKorisnika}</td>
             <td>{zahtev.emailKorisnika}</td>
-            <td><button className="btn btn-success" onClick={prihvati}>Prihvati</button></td>
-            <td><button className="btn btn-danger" onClick={odbij}>Odbij</button></td>
+            <td><button className="btn btn-success" onClick={accept}>Prihvati</button></td>
+            <td><button className="btn btn-danger" onClick={decline}>Odbij</button></td>
         </tr>
     )
 }
