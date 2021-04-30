@@ -1,34 +1,31 @@
 import React from 'react'
+import {RegistrationRequestService} from "../../services/RegistrationRequestService";
 
-const Request = ({zahtev}) => {
+const Request = ({zahtev, updateZahtevi, zahtevi}) => {
 
-    function obrada(zahtev) {
+    async function editRequests(id){
+        try {
+            await RegistrationRequestService.editRequest(zahtev.idKorisnika, zahtev)
 
-        const izmena = async (zahtev) => {
-            const rez = await fetch(`http://localhost:8080/KlinickiCentar/Zahtevi/${zahtev.idKorisnika}`, {
-                method: "PUT",
-                headers: {
-                    'Content-type': 'application/json',
-                  },
-                  body: JSON.stringify(zahtev),
-            })
-            const podaci = await rez.json()
+            updateZahtevi((zahtevi)=> zahtevi.filter((zahtev) => zahtev.idKorisnika !== id))
+        } catch (error){
+            console.error(`Greska ${error}`)
         }
-        izmena(zahtev)
-
-        window.location.reload(false)
     }
 
     const prihvati = (e)=>{
         
         zahtev.statusKorisnika = "PRIHVACEN"
-        obrada(zahtev)
+        console.log(zahtev)
+        editRequests(zahtev.idKorisnika)
+
     }
 
     const odbij = (e) => {
         
         zahtev.statusKorisnika = "ODBIJEN"
-        obrada(zahtev)
+        editRequests(zahtev.idKorisnika)
+
     }
     
     return (
