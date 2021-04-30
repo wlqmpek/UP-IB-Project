@@ -22,6 +22,9 @@ import UpdateAdminComponent from "./components/klinika/admin/UpdateAdmin";
 import ListAdminsComponent from "./components/administrator/ListAdmins";
 import AddAdminComponent from './components/administrator/Create';
 import UpdateAdminKCComponent from './components/administrator/Update';
+import MSHomePageComponent from './components/medicinskaSestra/HomePage';
+import ViewPatientComponent from './components/medicinskaSestra/ViewPatient';
+import ViewMedSestraComponent from './components/medicinskaSestra/ViewMedSestra';
 
 function App() {
 
@@ -53,6 +56,9 @@ function App() {
 
                     <Switch>
                         <Route exact path="/pacijenti" component={GetPacijenti} ></Route>
+                        <Route exact path="/pacijenti/pregled/:id" component={ViewPatientComponent} ></Route>
+                        <Route exact path="/medicinskaSestra/:idKlinike" component={MSHomePageComponent} ></Route>
+                        <Route exact path="/medicinskaSestra/pregled/:id" component={ViewMedSestraComponent} ></Route>
                     </Switch>
                     <Switch>
                         <Route path="/" exact component={FrontPage}></Route>

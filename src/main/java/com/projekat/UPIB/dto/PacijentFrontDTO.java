@@ -6,28 +6,27 @@ import com.projekat.UPIB.models.Pacijent;
 
 public class PacijentFrontDTO {
 
-    private long id;
+    private Long id;
     private String ime;
     private String prezime;
     private String email;
     private String JBZO;
-    @JsonIgnore
-    private ZdravstveniKartonDTO zdravstveniKarton;
+    private Long idZdravstvenogKartona;
     private StatusKorisnika statusKorisnika;
 
     public PacijentFrontDTO() {
         super();
     }
 
-    public PacijentFrontDTO(long id, String ime, String prezime, String email, String jBZO,
-                               ZdravstveniKartonDTO zdravstveniKarton, StatusKorisnika statusKorisnika) {
+    public PacijentFrontDTO(Long id, String ime, String prezime, String email, String jBZO,
+    		Long idZdravstvenogKartona, StatusKorisnika statusKorisnika) {
         super();
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;
         this.JBZO = jBZO;
-        this.zdravstveniKarton = zdravstveniKarton;
+        this.idZdravstvenogKartona = idZdravstvenogKartona;
         this.statusKorisnika = statusKorisnika;
     }
 
@@ -38,16 +37,16 @@ public class PacijentFrontDTO {
         this.prezime = pacijent.getPrezimeKorisnika();
         this.email = pacijent.getEmailKorisnika();
         this.JBZO = pacijent.getJBZO();
-        this.zdravstveniKarton = new ZdravstveniKartonDTO();
+        this.idZdravstvenogKartona = pacijent.getZdravstveniKarton().getIdZdravstvenogKartona();
         this.statusKorisnika = pacijent.getStatusKorisnika();
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -83,12 +82,12 @@ public class PacijentFrontDTO {
         JBZO = jBZO;
     }
 
-    public ZdravstveniKartonDTO getZdravstveniKarton() {
-        return zdravstveniKarton;
+    public Long getIdZdravstvenogKartona() {
+        return idZdravstvenogKartona;
     }
 
-    public void setZdravstveniKarton(ZdravstveniKartonDTO zdravstveniKarton) {
-        this.zdravstveniKarton = zdravstveniKarton;
+    public void setIdZdravstvenogKartona(Long idZdravstvenogKartona) {
+        this.idZdravstvenogKartona = idZdravstvenogKartona;
     }
 
     public StatusKorisnika getStatusKorisnika() {

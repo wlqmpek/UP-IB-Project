@@ -1,10 +1,12 @@
 package com.projekat.UPIB.controllers;
 
+import com.projekat.UPIB.dto.AdministratorFrontendDTO;
 import com.projekat.UPIB.dto.PacijentFrontDTO;
 import com.projekat.UPIB.dto.PacijentLoginDTO;
 import com.projekat.UPIB.dto.PacijentRegisterDTO;
 import com.projekat.UPIB.dto.PacijentRegisterDTO;
 import com.projekat.UPIB.enums.StatusKorisnika;
+import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.models.ZdravstveniKarton;
 import com.projekat.UPIB.services.IPacijentService;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,21 +27,30 @@ public class PacijentController {
     private IPacijentService pacijentService;
 
     @GetMapping
-    public ResponseEntity<List<Pacijent>> findAll(){
+    public ResponseEntity<List<PacijentFrontDTO>> findAll(){
 
         List<Pacijent> pacijenti = pacijentService.findAll();
-        return new ResponseEntity<List<Pacijent>>(pacijenti, HttpStatus.OK);
+        List<PacijentFrontDTO> pacijentiFrontDTO = new ArrayList<>();
+        
+        for (Pacijent pacijent: pacijenti) {
+        	PacijentFrontDTO pacijentFrontDTO = new PacijentFrontDTO(pacijent);
+        	pacijentiFrontDTO.add(pacijentFrontDTO);
+        }
+        
+        return new ResponseEntity<List<PacijentFrontDTO>>(pacijentiFrontDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Pacijent> findOne(@PathVariable(name = "id") Long id){
+    public ResponseEntity<PacijentFrontDTO> findOne(@PathVariable(name = "id") Long id){
 
         Pacijent pacijent = pacijentService.findOne(id);
         if(pacijent == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<PacijentFrontDTO>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(pacijent, HttpStatus.OK);
+        PacijentFrontDTO pacijentFrontDTO = new PacijentFrontDTO(pacijent);
+        
+        return new ResponseEntity<PacijentFrontDTO>(pacijentFrontDTO, HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")

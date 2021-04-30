@@ -2,3 +2,9 @@
     cursor: default;
     background-color: rgba(0,148,255,0.2);
 }
+
+.sort:hover{
+    cursor: pointer;
+    color: dodgerblue;
+    user-select: none;
+}
