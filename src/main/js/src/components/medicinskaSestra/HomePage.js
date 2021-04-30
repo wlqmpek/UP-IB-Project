@@ -76,7 +76,7 @@ class MSHomePageComponent extends Component {
     }
 
     viewReceipts() {
-        this.props.history.push(`/medicinskaSestra/${this.state.id}/recepti`);
+        this.props.history.push(`/medicinskaSestra/${this.state.id}/klinika/${this.state.idKlinike}/recepti`);
     }
 
     sort(param) {

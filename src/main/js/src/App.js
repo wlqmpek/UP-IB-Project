@@ -23,8 +23,7 @@ import ListAdminsComponent from "./components/administrator/ListAdmins";
 import AddAdminComponent from './components/administrator/Create';
 import UpdateAdminKCComponent from './components/administrator/Update';
 import MSHomePageComponent from './components/medicinskaSestra/HomePage';
-import ViewPatientComponent from './components/medicinskaSestra/ViewPatient';
-import ViewMedSestraComponent from './components/medicinskaSestra/ViewMedSestra';
+import ListReceiptsComponent from './components/medicinskaSestra/ListReceipts';
 
 function App() {
 
@@ -56,9 +55,8 @@ function App() {
 
                     <Switch>
                         <Route exact path="/pacijenti" component={GetPacijenti} ></Route>
-                        <Route exact path="/pacijenti/pregled/:id" component={ViewPatientComponent} ></Route>
-                        <Route exact path="/medicinskaSestra/:idKlinike" component={MSHomePageComponent} ></Route>
-                        <Route exact path="/medicinskaSestra/pregled/:id" component={ViewMedSestraComponent} ></Route>
+                      <Route exact path="/medicinskaSestra/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
+                      <Route exact path="/medicinskaSestra/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
                     </Switch>
                     <Switch>
                         <Route path="/" exact component={FrontPage}></Route>
