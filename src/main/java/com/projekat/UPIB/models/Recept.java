@@ -24,7 +24,9 @@ public class Recept {
 
 //    @OneToMany(fetch = FetchType.LAZY)
 //    private List<String> lekovi = new ArrayList<>();
-
+    @Column(name = "opis_recepta", unique = false, nullable = false)
+    private String opisRecepta;
+    
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "recept")
     private Pregled pregled;
 
