@@ -1,6 +1,13 @@
 import AxiosClient from "./clients/AxiosClient";
 
-export const MedicinkaSestraService = {}
+export const MedicinkaSestraService = {
+
+    getMSestre,
+    getMSestra,
+    createMSestra,
+    editMSestra,
+    deleteMSestra
+}
 
 async function getMSestre() {
     return await AxiosClient.get("MedicinkseSestre")

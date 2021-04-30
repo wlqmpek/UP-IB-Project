@@ -5,15 +5,7 @@ import { useParams } from "react-router";
 
 const IzmenaPacijenta = () => {
 
-    // const[patientToUpdate, setPatientToUpdate] = useState({})
-    const[patient, setPatient] = useState({
-        // id: patientToUpdate.id,
-        // ime: patientToUpdate.ime,
-        // prezime: patientToUpdate.prezime,
-        // email: patientToUpdate.email,
-        // lozinka: patientToUpdate.lozinka,
-        // jbzo: patientToUpdate.jbzo
-    })
+    const[patient, setPatient] = useState({})
 
     const {id} = useParams();
 
@@ -93,7 +85,7 @@ const IzmenaPacijenta = () => {
                         <div className='form-group'>
                             <label>JBZO: </label>
                             <input type='text' value={patient.jbzo} onChange={handleFormInputChange("jbzo")}
-                                   className='form-control'></input>
+                            className='form-control'/>
                         </div>
                         <button type='submit' className='btn btn-primary' onClick={onSubmit}>Izmeni</button>
                     </form>

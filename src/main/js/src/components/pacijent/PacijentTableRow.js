@@ -8,7 +8,6 @@ const PacijentTableRow = ({patient, updatePatient, patients}) => {
     async function editPatient(id) {
         try {
             await PacijentService.editPacijent(patient.id, patient)
-
             updatePatient((patients) => patients.filter((patient) => patient.id !== id))
         } catch (error) {
             console.error(`Greska ${error}`)

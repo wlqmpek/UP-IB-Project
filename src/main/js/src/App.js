@@ -19,7 +19,12 @@ import GetPacijenti from './services/pacijent/GetPacijenti';
 import PacijentLogin from "./components/pacijent/Login";
 import AllPacijents from "./components/administrator/AllPacijents";
 import IzmenaPacijenta from "./components/pacijent/IzmenaPacijenta";
-
+import AllDoctors from "./components/administrator/AllDoctors";
+import AllMSestre from "./components/administrator/AllMSestre";
+import AddDoctor from "./components/lekar/AddDoctor";
+import EditDoctor from "./components/lekar/EditDoctor";
+import EditMedicinkaSestra from "./components/medicinska_sestra/EditMedicinkaSestra";
+import AddMedicinskaSestra from "./components/medicinska_sestra/AddMedicinskaSestra";
 
 function App() {
 
@@ -29,11 +34,11 @@ function App() {
                 <HeaderComponent/>
                 <div className="container-fluid">
                     <Switch>
-                        <Route path="/registracija" component={PacijentRegistration}></Route>
-                        <Route path="/pacijenti/prijava" component={PacijentLogin}></Route>
+                        <Route exact path="/registracija" component={PacijentRegistration}/>
+                        <Route exact path="/pacijenti/prijava" component={PacijentLogin}/>
                     </Switch>
                     <Switch>
-                        <Route path='/zahtevi' component={RegistrationRequsets}></Route>
+                        <Route exact path='/zahtevi' component={RegistrationRequsets}/>
                     </Switch>
                     <Switch>
                         <Route exact path="/klinike" component={ListClinicsComponent}></Route>
@@ -49,7 +54,17 @@ function App() {
                         <Route exact path="/pacijenti/:id" component={IzmenaPacijenta}/>
                     </Switch>
                     <Switch>
-                        <Route path="/" exact component={FrontPage}></Route>
+                        <Route exact path="/lekari" component={AllDoctors}/>
+                        <Route exact path="/lekari/:id" component={EditDoctor}/>
+                        <Route exact path="/lekari/dodaj" component={AddDoctor}/>
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/medicinske-sestre" component={AllMSestre} />
+                        <Route exact path="/medicinske-sestre/:id" component={EditMedicinkaSestra} />
+                        <Route exact path="/medicinske-sestre/dodaj" component={AddMedicinskaSestra} />
+                    </Switch>
+                    <Switch>
+                        <Route path="/" exact component={FrontPage}/>
                     </Switch>
 
                 </div>

@@ -1,5 +1,7 @@
 package com.projekat.UPIB.dto;
 
+import com.projekat.UPIB.models.Lekar;
+
 import java.io.Serializable;
 
 public class LekarDTO implements Serializable{
@@ -9,7 +11,7 @@ public class LekarDTO implements Serializable{
     private String prezimeKorisnika;
     private String emailKorisnika;
     private String lozinkaKorisnika;
-    private KlinikaDTO klinika;
+    private long idKlinike;
     
 	public LekarDTO() {
 		super();
@@ -23,7 +25,16 @@ public class LekarDTO implements Serializable{
 		this.prezimeKorisnika = prezimeKorisnika;
 		this.emailKorisnika = emailKorisnika;
 		this.lozinkaKorisnika = lozinkaKorisnika;
-		this.klinika = klinika;
+		this.idKlinike = klinika.getIdKlinike();
+	}
+
+	public LekarDTO(Lekar lekar) {
+		this.idKorisnika = lekar.getIdKorisnika();
+		this.imeKorisnika = lekar.getImeKorisnika();
+		this.prezimeKorisnika = lekar.getPrezimeKorisnika();
+		this.emailKorisnika = lekar.getEmailKorisnika();
+		this.lozinkaKorisnika = lekar.getLozinkaKorisnika();
+		this.idKlinike = lekar.getKlinika().getIdKlinike();
 	}
 
 
@@ -67,12 +78,12 @@ public class LekarDTO implements Serializable{
 		this.lozinkaKorisnika = lozinkaKorisnika;
 	}
 
-	public KlinikaDTO getKlinika() {
-		return klinika;
+	public long getIdKlinike() {
+		return idKlinike;
 	}
 
-	public void setKlinika(KlinikaDTO klinika) {
-		this.klinika = klinika;
+	public void setIdKlinike(long idKlinike) {
+		this.idKlinike = idKlinike;
 	}
     
 

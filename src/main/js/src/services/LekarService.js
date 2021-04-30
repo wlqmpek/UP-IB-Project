@@ -1,6 +1,12 @@
 import AxiosClient from "./clients/AxiosClient";
 
-export const LekarService = {}
+export const LekarService = {
+    getLekars,
+    getLekar,
+    createLekar,
+    editLekar,
+    deleteLekar
+}
 
 async function getLekars() {
     return await AxiosClient.get("Lekari")
