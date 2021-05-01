@@ -14,6 +14,8 @@ public class AdministratorSerice implements IAdministratorService {
     @Autowired
     private AdminRepozitorijum adminRepozitorijum;
 
+    //Mozda treba da se zameni sa .findById(id); //WLQMPEK
+    //Razlika izmedju dve metode je sto getOne radi lazyLoding dok findById skida ceo Objekat.
     @Override
     public Administrator findOne(Long id) {
         return adminRepozitorijum.getOne(id);

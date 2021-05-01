@@ -9,12 +9,16 @@ import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.repositories.KlinikaRepozitorijum;
 import com.projekat.UPIB.services.IKlinikaService;
 
+
+//TODO: Pomocu Criteria API ili QueryDLS implementirati search. (docs.spring.io) WLQMPEK
 @Service
 public class KlinikaService implements IKlinikaService{
 
 	@Autowired
     private KlinikaRepozitorijum klinikaRepozitorijum;
 
+    //Mozda treba da se zameni sa .findById(id); //WLQMPEK
+    //Razlika izmedju dve metode je sto getOne radi lazyLoding dok findById skida ceo Objekat.
     @Override
     public Klinika findOne(Long id) {
         return klinikaRepozitorijum.getOne(id);

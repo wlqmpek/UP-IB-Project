@@ -14,6 +14,8 @@ public class LekarService implements ILekarService {
     @Autowired
     private LekarRepozitorijum lekarRepozitorijum;
 
+    //Mozda treba da se zameni sa .findById(id); //WLQMPEK
+    //Razlika izmedju dve metode je sto getOne radi lazyLoding dok findById skida ceo Objekat.
     @Override
     public Lekar findOne(Long id) {
         return lekarRepozitorijum.getOne(id);
@@ -35,4 +37,5 @@ public class LekarService implements ILekarService {
         Lekar lekar = lekarRepozitorijum.getOne(id);
         lekarRepozitorijum.delete(lekar);
     }
+
 }

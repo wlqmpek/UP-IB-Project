@@ -15,6 +15,8 @@ public class PacijentService implements IPacijentService {
     @Autowired
     private PacijentRepozitorijum pacijentRepozitorijum;
 
+    //Mozda treba da se zameni sa .findById(id); //WLQMPEK
+    //Razlika izmedju dve metode je sto getOne radi lazyLoding dok findById skida ceo Objekat.
     @Override
     public Pacijent findOne(Long id) {
         return pacijentRepozitorijum.findById(id).get();
