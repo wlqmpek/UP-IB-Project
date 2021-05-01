@@ -24,6 +24,7 @@ import AddAdminComponent from './components/administrator/Create';
 import UpdateAdminKCComponent from './components/administrator/Update';
 import MSHomePageComponent from './components/medicinskaSestra/HomePage';
 import ListReceiptsComponent from './components/medicinskaSestra/ListReceipts';
+import ViewWorkCalendar from './components/klinika/WorkCalendar';
 
 function App() {
 
@@ -52,11 +53,13 @@ function App() {
                         <Route exact path="/admini/dodaj" component={AddAdminComponent} ></Route>
                         <Route exact path="/admini/izmeni/:id" component={UpdateAdminKCComponent} ></Route>
                     </Switch>
-
+                    <Switch>
+                        <Route exact path="/:idKorisnika/radniKalendar/:idKlinike" component={ViewWorkCalendar}></Route>
+                    </Switch>
                     <Switch>
                         <Route exact path="/pacijenti" component={GetPacijenti} ></Route>
-                      <Route exact path="/medicinskaSestra/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
-                      <Route exact path="/medicinskaSestra/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
+                        <Route exact path="/medicinskaSestra/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
+                        <Route exact path="/medicinskaSestra/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
                     </Switch>
                     <Switch>
                         <Route path="/" exact component={FrontPage}></Route>

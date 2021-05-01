@@ -14,7 +14,7 @@ public class PregledFrontendDTO implements Serializable{
     private Long idLekara;
     private Long idMedicinskeSestre;
     private LocalDateTime pocetakTermina;
-    private LocalDateTime krajTermima;
+    private LocalDateTime krajTermina;
     private double cena;
     private int popust;
     private Long idZdravstvenogKartona;
@@ -26,7 +26,7 @@ public class PregledFrontendDTO implements Serializable{
 	}
      
 	public PregledFrontendDTO(Long idPregleda, String dijagnoza, String opis, Long idRecepta, Long idLekara,
-			Long idMedicinskeSestre, LocalDateTime pocetakTermina, LocalDateTime krajTermima, double cena, int popust,
+			Long idMedicinskeSestre, LocalDateTime pocetakTermina, LocalDateTime krajTermina, double cena, int popust,
 			Long idZdravstvenogKartona, Long idKlinike) {
 		super();
 		this.idPregleda = idPregleda;
@@ -36,7 +36,7 @@ public class PregledFrontendDTO implements Serializable{
 		this.idLekara = idLekara;
 		this.idMedicinskeSestre = idMedicinskeSestre;
 		this.pocetakTermina = pocetakTermina;
-		this.krajTermima = krajTermima;
+		this.krajTermina = krajTermina;
 		this.cena = cena;
 		this.popust = popust;
 		this.idZdravstvenogKartona = idZdravstvenogKartona;
@@ -51,8 +51,10 @@ public class PregledFrontendDTO implements Serializable{
 		this.idRecepta = pregled.getRecept().getIdRecepta();
 		//this.idLekara =  pregled.getLekar().getIdKorisnika();
 		//this.idMedicinskeSestre = pregled.getMedicinskaSestra().getIdKorisnika();
-		//this.pocetakTermina = pregled.getPocetakTermina();
-		//this.krajTermima = pregled.getKrajTermima();
+		//LocalDateTime pocetak = LocalDateTime.of(2021, 5, 1, 19, 45);
+		//LocalDateTime kraj = LocalDateTime.of(2021, 5, 1, 20, 45);
+		this.pocetakTermina = pregled.getPocetakTermina();
+		this.krajTermina = pregled.getKrajTermima();
 		this.cena = pregled.getCena();
 		this.popust = pregled.getPopust();
 		this.idZdravstvenogKartona = pregled.getZdravstveniKarton().getIdZdravstvenogKartona();
@@ -105,11 +107,11 @@ public class PregledFrontendDTO implements Serializable{
 	public void setPocetakTermina(LocalDateTime pocetakTermina) {
 		this.pocetakTermina = pocetakTermina;
 	}
-	public LocalDateTime getKrajTermima() {
-		return krajTermima;
+	public LocalDateTime getKrajTermina() {
+		return krajTermina;
 	}
-	public void setKrajTermima(LocalDateTime krajTermima) {
-		this.krajTermima = krajTermima;
+	public void setKrajTermina(LocalDateTime krajTermina) {
+		this.krajTermina = krajTermina;
 	}
 	public double getCena() {
 		return cena;

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ClinicsService from '../../services/ClinicsService';
 import ReceiptService from '../../services/ReceiptsService';
 import PreglediService from '../../services/PreglediService';
 

@@ -21,6 +21,7 @@ class MSHomePageComponent extends Component {
         this.viewPatient = this.viewPatient.bind(this);
         this.viewMedSestra = this.viewMedSestra.bind(this);
         this.viewReceipts = this.viewReceipts.bind(this);
+        this.viewWorkCalendar = this.viewWorkCalendar.bind(this);
         this.sort = this.sort.bind(this);
         this.changeSortTypeHandler = this.changeSortTypeHandler.bind(this);
     }
@@ -34,7 +35,9 @@ class MSHomePageComponent extends Component {
     componentDidMount() {
         ClinicsService.getClinicById(this.state.idKlinike).then(response => {
             this.setState({ clinic: response.data });
-        });
+        }).catch(err => {
+            return;
+        })
 
         PreglediService.getPregledi().then((response) => {
             this.setState({ pregledi: response.data.filter(pregled => pregled.idKlinike === this.state.clinic.idKlinike) });
@@ -77,6 +80,10 @@ class MSHomePageComponent extends Component {
 
     viewReceipts() {
         this.props.history.push(`/medicinskaSestra/${this.state.id}/klinika/${this.state.idKlinike}/recepti`);
+    }
+
+    viewWorkCalendar() {
+        this.props.history.push(`/${this.state.id}/radniKalendar/${this.state.clinic.idKlinike}`);
     }
 
     sort(param) {
@@ -146,7 +153,7 @@ class MSHomePageComponent extends Component {
                         <button className="btn btn-primary" onClick={this.viewMedSestra}> Vas profil </button>
                     </div>
                     <div className="row">
-					    <button className="btn btn-primary" onClick={this.radniKalendar}> Radni kalendar</button>
+					    <button className="btn btn-primary" onClick={this.viewWorkCalendar}> Radni kalendar</button>
 				    </div>
 				    <div className="row">
 					    <button className="btn btn-primary" onClick={this.viewReceipts}> Overa recepata </button>
