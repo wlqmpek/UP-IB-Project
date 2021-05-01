@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projekat.UPIB.models.Administrator;
+import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.models.Recept;
 import com.projekat.UPIB.services.IPregledService;
 import com.projekat.UPIB.services.IReceptService;
@@ -62,7 +63,7 @@ public class ReceptController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Recept> savePregled(@RequestBody ReceptBackendDTO receptBackendDTO){
+    public ResponseEntity<Recept> saveRecept(@RequestBody ReceptBackendDTO receptBackendDTO){
 
     	Recept recept = new Recept();
     	recept.setOpisRecepta(receptBackendDTO.getOpisRecepta());
@@ -77,9 +78,10 @@ public class ReceptController {
     	receptService.save(recept);
         return new ResponseEntity<Recept>(recept, HttpStatus.CREATED);
     }
-
+    
+    
     @PutMapping(consumes = "application/json", value = "/{id}")
-    public ResponseEntity<Recept> updatePregled(@PathVariable(name = "id") Long id, @RequestBody ReceptBackendDTO receptBackendDTO){
+    public ResponseEntity<Recept> updateRecept(@PathVariable(name = "id") Long id, @RequestBody ReceptBackendDTO receptBackendDTO){
 
     	Recept recept = receptService.findOne(id);
         if(recept == null){
@@ -88,11 +90,11 @@ public class ReceptController {
 
         recept.setPregled(pregledService.findOne(receptBackendDTO.getIdPregleda()));
         recept.setOpisRecepta(receptBackendDTO.getOpisRecepta());
-        recept.setOveren(receptBackendDTO.isOveren());
+        recept.setOveren(true);
 
         recept = receptService.save(recept);
 
-        return new ResponseEntity<Recept>(recept, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     

@@ -103,18 +103,18 @@ public class PregledController {
         pregled.setCena(pregledBackendDTO.getCena());
         pregled.setDijagnoza(pregledBackendDTO.getDijagnoza());
         pregled.setKlinika(klinikaService.findOne(pregledBackendDTO.getIdKlinike()));
-        pregled.setLekar(lekarService.findOne(pregledBackendDTO.getIdLekara()));
+        //pregled.setLekar(lekarService.findOne(pregledBackendDTO.getIdLekara()));
         pregled.setMedicinskaSestra(null);
         pregled.setOpis(pregledBackendDTO.getOpis());
         pregled.setPocetakTermina(pregledBackendDTO.getPocetakTermina());
         pregled.setKrajTermima(pregledBackendDTO.getKrajTermima());
         pregled.setPopust(pregledBackendDTO.getPopust());
         pregled.setRecept(receptService.findOne(pregledBackendDTO.getIdRecepta()));
-        pregled.setZdravstveniKarton(null);
+        //pregled.setZdravstveniKarton(null);
 
         pregled = pregledService.save(pregled);
 
-        return new ResponseEntity<Pregled>(pregled, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     
