@@ -7,6 +7,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+import com.projekat.UPIB.enums.TipKorisnika;
+import com.projekat.UPIB.enums.VrstaAdministratora;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -32,4 +35,8 @@ public abstract class Korisnik {
 
     @Column(name = "lozinka_korisnika", unique = false, nullable = false)
     private String lozinkaKorisnika;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tip_korisnika")
+    private TipKorisnika tipKorisnika;
 }

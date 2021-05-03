@@ -1,6 +1,6 @@
 import AxiousClient from "./clients/AxiousClient"
 
-export const ReceiptService = {
+export const ReceiptsService = {
     getReceipts,
     getReceipt,
     createReceipt,
@@ -28,4 +28,4 @@ async function deleteReceipt(id) {
     return await AxiousClient.delete(`Recepti/${id}`)
 }
 
-export default ReceiptService;
+export default ReceiptsService;

@@ -1,12 +1,17 @@
 package com.projekat.UPIB.controllers;
 
+import com.projekat.UPIB.dto.LekarBackendDTO;
+import com.projekat.UPIB.dto.LekarFrontendDTO;
+import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.models.Lekar;
+import com.projekat.UPIB.services.IKlinikaService;
 import com.projekat.UPIB.services.ILekarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -15,46 +20,95 @@ public class LekarController {
 
     @Autowired
     private ILekarService lekarService;
+    
+    @Autowired
+    private IKlinikaService klinikaService;
 
     @GetMapping
-    public ResponseEntity<List<Lekar>> findAll(){
+    public ResponseEntity<List<LekarFrontendDTO>> findAll(){
 
         List<Lekar> lekari = lekarService.findAll();
-        return new ResponseEntity<>(lekari, HttpStatus.OK);
+        List<LekarFrontendDTO> lekariFrontendDTO = new ArrayList<>();
+        
+        for (Lekar lekar : lekari) {
+        	LekarFrontendDTO lekarFrontendDTO = new LekarFrontendDTO(lekar);
+        	lekariFrontendDTO.add(lekarFrontendDTO);
+        }
+        return new ResponseEntity<>(lekariFrontendDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Lekar> findOne(@PathVariable(name = "id") Long id){
+    public ResponseEntity<LekarFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
         Lekar lekar = lekarService.findOne(id);
         if(lekar == null){
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        
+        LekarFrontendDTO lekarFrontendDTO = new LekarFrontendDTO(lekar);
 
-        return  new ResponseEntity<>(lekar, HttpStatus.OK);
+        return  new ResponseEntity<>(lekarFrontendDTO, HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Lekar> saveLekar(@RequestBody Lekar lekar){
+    public ResponseEntity<Lekar> saveLekar(@RequestBody LekarBackendDTO lekarInfo){
 
+    	Lekar lekar = new Lekar();
+    	lekar.setImeKorisnika(lekarInfo.getImeKorisnika());
+    	lekar.setPrezimeKorisnika(lekarInfo.getPrezimeKorisnika());
+    	lekar.setLozinkaKorisnika(lekarInfo.getLozinkaKorisnika());
+    	lekar.setEmailKorisnika(lekarInfo.getEmailKorisnika());
+    	lekar.setTipKorisnika(lekarInfo.getTipKorisnika());
+    	
+    	// bad request ukoliko id klinike nije prosledjen ili id nije ispravan
+    	if (lekarInfo.getIdKlinike() != null) {
+    		Klinika klinika = klinikaService.findOne(lekarInfo.getIdKlinike());
+    		if (klinika != null) {
+    			lekar.setKlinika(klinika);
+    		}
+    		else {
+        		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        	}
+    	}
+    	else {
+    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    	}
+    	
         lekarService.save(lekar);
-        return new ResponseEntity<>(lekar, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(consumes = "application/json", value = "/{id}")
-    public ResponseEntity<Lekar> updateLekar(@PathVariable(name = "id") Long id, @RequestBody Lekar lekar){
+    public ResponseEntity<Lekar> updateLekar(@PathVariable(name = "id") Long id, @RequestBody LekarBackendDTO lekarInfo){
 
         Lekar lekarOld = lekarService.findOne(id);
         if(lekarOld == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        lekarOld.setEmailKorisnika(lekar.getEmailKorisnika());
-        lekarOld.setImeKorisnika(lekar.getImeKorisnika());
-        lekarOld.setLozinkaKorisnika(lekar.getLozinkaKorisnika());
-        lekarOld.setPrezimeKorisnika(lekar.getPrezimeKorisnika());
-        lekarOld.setPregledi(lekar.getPregledi());
-        lekarOld.setKlinika(lekar.getKlinika());
+        lekarOld.setEmailKorisnika(lekarInfo.getEmailKorisnika());
+        lekarOld.setImeKorisnika(lekarInfo.getImeKorisnika());
+        lekarOld.setLozinkaKorisnika(lekarInfo.getLozinkaKorisnika());
+        lekarOld.setPrezimeKorisnika(lekarInfo.getPrezimeKorisnika());
+        
+        // potrebna for petlja da se za svaki ID iz pregledi HashSet-a
+        // pronadje objekat Pregled i onda doda u preglede za lekara
+        
+        //lekarOld.setPregledi(lekarInfo.getPregledi());
+        
+        // bad request ukoliko id klinike nije prosledjen ili id nije ispravan
+    	if (lekarInfo.getIdKlinike() != null) {
+    		Klinika klinika = klinikaService.findOne(lekarInfo.getIdKlinike());
+    		if (klinika != null) {
+    			lekarOld.setKlinika(klinika);
+    		}
+    		else {
+        		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        	}
+    	}
+    	else {
+    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    	}
 
         lekarOld = lekarService.save(lekarOld);
 

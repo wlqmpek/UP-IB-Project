@@ -7,8 +7,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,10 +33,6 @@ public class Pregled {
     @Column(name = "opis", nullable = true, unique = false)
     private String opis;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_recepta", referencedColumnName = "id_recepta")
-    private Recept recept;
-
     @ManyToOne
     @JoinColumn(name = "id_lekara", referencedColumnName = "id_korisnika", nullable = true)
     private Lekar lekar;
@@ -42,6 +43,7 @@ public class Pregled {
 
     @Column(name = "pocetak_termina", nullable = true, unique = false)
     private LocalDateTime pocetakTermina;
+    
 
     @Column(name = "kraj_termina", nullable = true, unique = false)
     private LocalDateTime krajTermima;

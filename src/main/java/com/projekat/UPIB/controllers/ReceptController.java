@@ -63,7 +63,7 @@ public class ReceptController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Recept> saveRecept(@RequestBody ReceptBackendDTO receptBackendDTO){
+    public ResponseEntity<ReceptFrontendDTO> saveRecept(@RequestBody ReceptBackendDTO receptBackendDTO){
 
     	Recept recept = new Recept();
     	recept.setOpisRecepta(receptBackendDTO.getOpisRecepta());
@@ -71,12 +71,14 @@ public class ReceptController {
     		recept.setPregled(pregledService.findOne(receptBackendDTO.getIdPregleda()));
     	}
     	else {
-    		return new ResponseEntity<Recept>(HttpStatus.BAD_REQUEST);
+    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     	}
     	recept.setOveren(receptBackendDTO.isOveren());
     	
+    	ReceptFrontendDTO receptFrontendDTO = new ReceptFrontendDTO(recept);
+    	
     	receptService.save(recept);
-        return new ResponseEntity<Recept>(recept, HttpStatus.CREATED);
+        return new ResponseEntity<ReceptFrontendDTO>(receptFrontendDTO,HttpStatus.CREATED);
     }
     
     

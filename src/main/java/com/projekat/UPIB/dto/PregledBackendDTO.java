@@ -2,17 +2,16 @@ package com.projekat.UPIB.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 
 public class PregledBackendDTO implements Serializable{
 
-    private Long idPregleda;
     private String dijagnoza;
     private String opis;
-    private Long idRecepta;
     private Long idLekara;
     private Long idMedicinskeSestre;
     private LocalDateTime pocetakTermina;
-    private LocalDateTime krajTermima;
+    private LocalDateTime krajTermina;
     private double cena;
     private int popust;
     private Long idZdravstvenogKartona;
@@ -24,18 +23,18 @@ public class PregledBackendDTO implements Serializable{
 	}
 
 
-	public PregledBackendDTO(Long idPregleda, String dijagnoza, String opis, Long idRecepta, Long idLekara,
-			Long idMedicinskeSestre, LocalDateTime pocetakTermina, LocalDateTime krajTermima, double cena, int popust,
+
+
+	public PregledBackendDTO(String dijagnoza, String opis, Long idLekara,
+			Long idMedicinskeSestre, LocalDateTime pocetakTermina, LocalDateTime krajTermina, double cena, int popust,
 			Long idZdravstvenogKartona, Long idKlinike) {
 		super();
-		this.idPregleda = idPregleda;
 		this.dijagnoza = dijagnoza;
 		this.opis = opis;
-		this.idRecepta = idRecepta;
 		this.idLekara = idLekara;
 		this.idMedicinskeSestre = idMedicinskeSestre;
 		this.pocetakTermina = pocetakTermina;
-		this.krajTermima = krajTermima;
+		this.krajTermina = krajTermina;
 		this.cena = cena;
 		this.popust = popust;
 		this.idZdravstvenogKartona = idZdravstvenogKartona;
@@ -43,15 +42,26 @@ public class PregledBackendDTO implements Serializable{
 	}
 
 
-	public Long getIdPregleda() {
-		return idPregleda;
+
+	
+
+	
+	
+	public LocalDateTime getKrajTermina() {
+		return krajTermina;
 	}
 
-
-	public void setIdPregleda(Long idPregleda) {
-		this.idPregleda = idPregleda;
+	public void setKrajTermina(LocalDateTime krajTermina) {
+		this.krajTermina = krajTermina;
 	}
 
+	public LocalDateTime getPocetakTermina() {
+		return pocetakTermina;
+	}
+
+	public void setPocetakTermina(LocalDateTime pocetakTermina) {
+		this.pocetakTermina = pocetakTermina;
+	}
 
 	public String getDijagnoza() {
 		return dijagnoza;
@@ -72,17 +82,6 @@ public class PregledBackendDTO implements Serializable{
 		this.opis = opis;
 	}
 
-
-	public Long getIdRecepta() {
-		return idRecepta;
-	}
-
-
-	public void setIdRecepta(Long idRecepta) {
-		this.idRecepta = idRecepta;
-	}
-
-
 	public Long getIdLekara() {
 		return idLekara;
 	}
@@ -101,27 +100,6 @@ public class PregledBackendDTO implements Serializable{
 	public void setIdMedicinskeSestre(Long idMedicinskeSestre) {
 		this.idMedicinskeSestre = idMedicinskeSestre;
 	}
-
-
-	public LocalDateTime getPocetakTermina() {
-		return pocetakTermina;
-	}
-
-
-	public void setPocetakTermina(LocalDateTime pocetakTermina) {
-		this.pocetakTermina = pocetakTermina;
-	}
-
-
-	public LocalDateTime getKrajTermima() {
-		return krajTermima;
-	}
-
-
-	public void setKrajTermima(LocalDateTime krajTermima) {
-		this.krajTermima = krajTermima;
-	}
-
 
 	public double getCena() {
 		return cena;

@@ -1,6 +1,8 @@
 ﻿import React, { Component } from "react"
 import ClinicsService from "../../services/ClinicsService";
 import PreglediService from "../../services/PreglediService";
+import LekarService from "../../services/LekarService";
+import MedSestraService from "../../services/MedSestraService";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
@@ -12,8 +14,10 @@ class ViewWorkCalendar extends Component {
         this.state = {
             idKorisnika: this.props.match.params.idKorisnika,
             idKlinike: this.props.match.params.idKlinike,
+            korisnik: {},
+            tipKorisnika: "",
             clinic: {},
-            sviDatumi: new Date(),
+            sviDatumi: [],
             sviPregledi: [],
             preglediZaDatum: [],
             selektovaniDatum: "",
@@ -24,6 +28,31 @@ class ViewWorkCalendar extends Component {
     }
 
     componentDidMount() {
+        /*if (this.state.tipKorisnika === "MEDICINSKA_SESTRA") {
+            MedSestraService.getMedSestra(this.state.idKorisnika).then(response => {
+                this.setState({
+                    korisnik: response.data
+                })
+            }).catch(err => {
+                return;
+            })
+        }
+        
+        else if (this.state.tipKorisnika === "LEKAR") {
+            LekarService.getLekar(this.state.idKorisnika).then(response => {
+                this.setState({
+                    korisnik: response.data
+                })
+            }).catch(err => {
+                return;
+            })
+        }
+
+        else {
+            // ako nije ni medicinska sestra ni lekar onda ne treba da se prikazuje radni kalendar
+            // jer se ne radi o medicinskom osoblju
+            return;
+        }*/
 
         ClinicsService.getClinicById(this.state.idKlinike).then(response => {
             this.setState({ clinic: response.data });
@@ -50,8 +79,6 @@ class ViewWorkCalendar extends Component {
         });
         
     }
-
-
 
     onChange(selektovaniDatum) {
         // OPERACIJE
@@ -87,26 +114,48 @@ class ViewWorkCalendar extends Component {
         })
     }
 
+
+    updatePregled(id) {
+        this.props.history.push(`/pregledi/${id}/azuriraj`);
+    }
+
     render() {
         return (
             <div>
-                <div style={{ margin: "40px auto auto" }}>
-                    <div className="col-md-6 offset-md-3">
+                <div style={{ 'margin-top': "40px" }}>
+                    <div className="col-md-6 offset-md-3" >
                         <div className="card-body" style={{ margin: 'auto' }} >
-                            <h3 style={{ margin:'auto' }} > Radni kalendar </h3>
-                            <Calendar
-                                minDetail="decade"
-                                onClickDay={(value, event) => this.onClickDay()}
-                                onChange={(value, event) => this.onChange(value)}
-                                value={this.state.sviDatumi}
-                            />
+
+                            <div style={{ 'margin-left': '20px', width: '45%', float: 'right', margin:'auto' }}>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <h4> <span style={{ color: 'rgb(255, 255, 115)', 'background-color': 'rgb(255, 255, 115)' }}> AA</span> Današnji dan ({new Date().toDateString()})</h4>
+                                <br />
+                                <h4> <span style={{ color: 'rgb(118, 186, 255)', 'background-color':'rgb(118, 186, 255)' }}> AA</span> Dani sa pregledima </h4>
+                            </div>
+
+
+                            <div style={{ width: '55%' }}>
+                                <h3 style={{ margin: 'auto' }} > Radni kalendar </h3>
+                                <Calendar
+                                    minDetail="decade"
+                                    onClickDay={(value, event) => this.onClickDay()}
+                                    onChange={(value, event) => this.onChange(value)}
+                                    value={this.state.sviDatumi.length === 0 ? false : this.state.sviDatumi}
+                                />
+                            </div>
+                            
                         </div>
+
                     </div>
                 </div>
+                <br />
 
-                <h3 style={{ margin: 'auto', textAlign: 'center' }} > Lista pacijenata za datum:&nbsp; <a href="">{this.state.selektovaniDatum}</a></h3>
+                <h3 style={{ margin: 'auto', textAlign: 'center' }} > Lista pregleda za datum:&nbsp; <a href="">{this.state.selektovaniDatum}</a></h3>
 
-                <div style={{ 'margin': '20px auto' }} className="card col-md-6 offset-md-3" >
+                <div style={{ 'margin': '20px auto', width: '70%', padding:'0 25px' }} className="card" >
                     <div className="row">
                         <div className="card-body">
                             <table className="table table-striped table bordered">
@@ -117,6 +166,7 @@ class ViewWorkCalendar extends Component {
                                         <th> Trajanje </th>
                                         <th> Ime pacijenta </th>
                                         <th> Prezime pacijenta </th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 
@@ -125,10 +175,48 @@ class ViewWorkCalendar extends Component {
                                         this.state.preglediZaDatum.map(
                                             pregled =>
                                                 <tr id="lista" key={pregled.idPregleda}>
-                                                    <td>{pregled.pocetakTermina.replace('T', ' ')}</td>
-                                                    <td>{Math.abs(new Date(pregled.krajTermina).getTime() - new Date(pregled.pocetakTermina).getTime()) / 60000}&nbsp;min</td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td style={{ verticalAlign: 'middle', fontSize:'20px' }}>{
+                                                        new Date(pregled.pocetakTermina).toISOString().split("T")[1].slice(0,5) + "h"
+                                                    }</td>
+                                                    <td style={{ verticalAlign: 'middle', fontSize: '20px' }}>
+                                                        {
+                                                            // ako je pregled zavrsen (kraj termina je definisan)
+                                                            pregled.krajTermina != null ?
+                                                                Math.round(Math.abs(new Date(pregled.krajTermina).getTime() - new Date(pregled.pocetakTermina).getTime()) / 60000)
+                                                                : false  
+                                                        }
+                                                        {
+                                                            // ako je pregled zavrsen (kraj termina je definisan)
+                                                            pregled.krajTermina != null ?
+                                                                (<span>&nbsp;min&nbsp;(završen)</span>)
+                                                                : false
+                                                        }
+                                                        {
+                                                            // ako kraj termina nije definisan a pregled je poceo
+                                                            pregled.krajTermina === null && new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() ?
+                                                                (<span>Pregled je u toku</span>)
+                                                                : false
+                                                        }
+                                                        {
+                                                            // ako kraj termina nije definisan a pregled je u buducnosti
+                                                            pregled.krajTermina === null && new Date(pregled.pocetakTermina).getTime() > new Date().getTime() ?
+                                                                (<span>Pregled nije počeo</span>)
+                                                                : false
+                                                        }
+
+                                                        
+                                                    </td>
+                                                    <td style={{ verticalAlign: 'middle', fontSize: '20px' }}></td>
+                                                    <td style={{ verticalAlign: 'middle', fontSize: '20px' }}></td>
+                                                    <td style={{ width: '20%' }}>
+                                                        {new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() && pregled.krajTermina === null ? ( // && this.state.tipKorisnika === "LEKAR"? (
+                                                        <button onClick={() => this.updatePregled(pregled.idPregleda)} className="btn btn-info">Azuriraj</button>
+                                                        )
+                                                        : (
+                                                            <div />
+                                                            )
+                                                        }
+                                                    </td>
                                                 </tr>
                                         )
                                     }

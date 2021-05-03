@@ -2,15 +2,18 @@ package com.projekat.UPIB.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import com.projekat.UPIB.models.Pregled;
+import com.projekat.UPIB.models.Recept;
 
 public class PregledFrontendDTO implements Serializable{
 
 	private Long idPregleda;
     private String dijagnoza;
     private String opis;
-    private Long idRecepta;
+    private ArrayList<Long> idRecepata;
     private Long idLekara;
     private Long idMedicinskeSestre;
     private LocalDateTime pocetakTermina;
@@ -25,34 +28,14 @@ public class PregledFrontendDTO implements Serializable{
 		super();
 	}
      
-	public PregledFrontendDTO(Long idPregleda, String dijagnoza, String opis, Long idRecepta, Long idLekara,
-			Long idMedicinskeSestre, LocalDateTime pocetakTermina, LocalDateTime krajTermina, double cena, int popust,
-			Long idZdravstvenogKartona, Long idKlinike) {
-		super();
-		this.idPregleda = idPregleda;
-		this.dijagnoza = dijagnoza;
-		this.opis = opis;
-		this.idRecepta = idRecepta;
-		this.idLekara = idLekara;
-		this.idMedicinskeSestre = idMedicinskeSestre;
-		this.pocetakTermina = pocetakTermina;
-		this.krajTermina = krajTermina;
-		this.cena = cena;
-		this.popust = popust;
-		this.idZdravstvenogKartona = idZdravstvenogKartona;
-		this.idKlinike = idKlinike;
-	}
 	
 	public PregledFrontendDTO(Pregled pregled) {
 		super();
 		this.idPregleda = pregled.getIdPregleda();
 		this.dijagnoza = pregled.getDijagnoza();
 		this.opis = pregled.getOpis();
-		this.idRecepta = pregled.getRecept().getIdRecepta();
 		//this.idLekara =  pregled.getLekar().getIdKorisnika();
 		//this.idMedicinskeSestre = pregled.getMedicinskaSestra().getIdKorisnika();
-		//LocalDateTime pocetak = LocalDateTime.of(2021, 5, 1, 19, 45);
-		//LocalDateTime kraj = LocalDateTime.of(2021, 5, 1, 20, 45);
 		this.pocetakTermina = pregled.getPocetakTermina();
 		this.krajTermina = pregled.getKrajTermima();
 		this.cena = pregled.getCena();
@@ -82,12 +65,6 @@ public class PregledFrontendDTO implements Serializable{
 	}
 	public void setOpis(String opis) {
 		this.opis = opis;
-	}
-	public Long getIdRecepta() {
-		return idRecepta;
-	}
-	public void setIdRecepta(Long idRecepta) {
-		this.idRecepta = idRecepta;
 	}
 	public Long getIdLekara() {
 		return idLekara;

@@ -25,6 +25,7 @@ import UpdateAdminKCComponent from './components/administrator/Update';
 import MSHomePageComponent from './components/medicinskaSestra/HomePage';
 import ListReceiptsComponent from './components/medicinskaSestra/ListReceipts';
 import ViewWorkCalendar from './components/klinika/WorkCalendar';
+import ViewPregledComponent from './components/klinika/pregledi/ViewPregled';
 
 function App() {
 
@@ -52,6 +53,10 @@ function App() {
                         <Route exact path="/admini" component={ListAdminsComponent} ></Route>
                         <Route exact path="/admini/dodaj" component={AddAdminComponent} ></Route>
                         <Route exact path="/admini/izmeni/:id" component={UpdateAdminKCComponent} ></Route>
+                    </Switch>
+
+                    <Switch>
+                      <Route exact path="/pregledi/:id/azuriraj" component={ViewPregledComponent}></Route>
                     </Switch>
                     <Switch>
                         <Route exact path="/:idKorisnika/radniKalendar/:idKlinike" component={ViewWorkCalendar}></Route>

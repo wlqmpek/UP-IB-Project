@@ -1,7 +1,10 @@
 package com.projekat.UPIB.controllers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projekat.UPIB.dto.PregledBackendDTO;
 import com.projekat.UPIB.dto.PregledFrontendDTO;
 import com.projekat.UPIB.models.Pregled;
+import com.projekat.UPIB.models.Recept;
 import com.projekat.UPIB.services.IKlinikaService;
 import com.projekat.UPIB.services.ILekarService;
 import com.projekat.UPIB.services.IPregledService;
@@ -82,9 +86,8 @@ public class PregledController {
         pregled.setMedicinskaSestra(null);
         pregled.setOpis(pregledBackendDTO.getOpis());
         pregled.setPocetakTermina(pregledBackendDTO.getPocetakTermina());
-        pregled.setKrajTermima(pregledBackendDTO.getKrajTermima());
+        pregled.setKrajTermima(pregledBackendDTO.getKrajTermina());
         pregled.setPopust(pregledBackendDTO.getPopust());
-        pregled.setRecept(receptService.findOne(pregledBackendDTO.getIdRecepta()));
         pregled.setZdravstveniKarton(null);
     	
     	
@@ -107,10 +110,12 @@ public class PregledController {
         pregled.setMedicinskaSestra(null);
         pregled.setOpis(pregledBackendDTO.getOpis());
         pregled.setPocetakTermina(pregledBackendDTO.getPocetakTermina());
-        pregled.setKrajTermima(pregledBackendDTO.getKrajTermima());
+        pregled.setKrajTermima(pregledBackendDTO.getKrajTermina());
+        System.out.println(pregledBackendDTO.getKrajTermina());
         pregled.setPopust(pregledBackendDTO.getPopust());
-        pregled.setRecept(receptService.findOne(pregledBackendDTO.getIdRecepta()));
-        //pregled.setZdravstveniKarton(null);
+        
+        
+        //pregled.setZdravstveniKarton(pregledBackendDTO.getIdZdravstvenogKartona());
 
         pregled = pregledService.save(pregled);
 
