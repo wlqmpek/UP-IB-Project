@@ -124,72 +124,137 @@ class ViewPregledComponent extends Component {
     }
 
     render() {
-        return (
-            <div style={{ margin: "50px" }}>
-                <div className="container">
-                    <div className="row">
-                        <div className="card offset-md-3">
-                            <h3 style={{ margin: "10px", textDecoration: "underline" }} className="text-center" > Azuriranje pregleda </h3>
-                            <div className="card-body">
-                                <form>
-                                    <div className="form-group">
-                                        <label> Opis pregleda: </label>
-                                        <textarea placeholder="Opis pregleda" name="opis" className="form-control"
-                                            value={this.state.opis} onChange={this.changeOpisHandler} />
-                                        <br />
-                                        <label> Dijagnoza: </label>
-                                        <textarea placeholder="Dijagnoza" name="dijagnoza" className="form-control"
-                                            value={this.state.dijagnoza} onChange={this.changeDijagnozaHandler} />
-                                        <br />
-                                        
-                                        <div className="row" style={{ margin: '10px' }}>
-                                            <label style={{ width: '100%' }}> Recepti: </label>
-                                            <table className="table table-striped table bordered">
-                                                <div style={{ height: '200px', overflow: 'auto', backgroundColor: 'rgba(0, 123, 255,0.1)' }}>
-                                                    <tbody>
-                                                    
-                                                        {
-                                                            this.state.recepti != null ?
-                                                                this.state.recepti.map(
-                                                                    recept =>
-                                                                        <tr id="lista" key={recept.idRecepta}>
-                                                                            <td style={{ width: '10%' }}>
-                                                                                <textarea style={{ width: '100%' }} readOnly>{recept.opisRecepta}</textarea>
+        if (this.state.pregled.krajTermina !== null) {
+            return (
+                <div style={{ margin: "50px" }}>
+                    <div className="container">
+                        <div className="row">
+                            <div className="card col-md-6 offset-md-3 offset-md-3">
+                                <h3 style={{ margin: "10px", textDecoration: "underline" }} className="text-center" > Detaljnije o pregledu </h3>
+                                <div className="card-body">
+                                    <form>
+                                        <div className="form-group">
+                                            <label> Opis pregleda: </label>
+                                            <textarea readOnly placeholder="Opis pregleda" name="opis" className="form-control"
+                                                value={this.state.opis} onChange={this.changeOpisHandler} />
+                                            <br />
+                                            <label> Dijagnoza: </label>
+                                            <textarea readOnly placeholder="Dijagnoza" name="dijagnoza" className="form-control"
+                                                value={this.state.dijagnoza} onChange={this.changeDijagnozaHandler} />
+                                            <br />
+
+                                            <div className="row" style={{ margin: '10px' }}>
+                                                <label style={{ width: '100%' }}> Recepti: </label>
+                                                <table className="table table-striped table bordered">
+                                                    <div style={{ height: '200px', overflow: 'auto', backgroundColor: 'rgba(0, 123, 255,0.1)' }}>
+                                                        <tbody>
+
+                                                            {
+                                                                this.state.recepti != null ?
+                                                                    this.state.recepti.map(
+                                                                        recept =>
+                                                                            <tr id="lista" key={recept.idRecepta}>
+                                                                                <td style={{ width: '10%' }}>
+                                                                                    <textarea style={{ width: '100%' }} readOnly>{recept.opisRecepta}</textarea>
+                                                                                </td>
+                                                                            </tr>
+                                                                    ) : (
+                                                                        <tr id="lista">
+                                                                            <td>
+                                                                                <h3>Nema recepata</h3>
                                                                             </td>
                                                                         </tr>
-                                                                ) : (
-                                                                    <tr id="lista">
-                                                                        <td>
-                                                                            <h3>Nema recepata</h3>
-                                                                        </td>
-                                                                    </tr>
-                                                                )
-                                                        }
-                                                    
-                                                    </tbody>
-                                                </div>
-                                            </table>
-                                            <textarea placeholder="Recept" name="recept" className="form-control"
-                                                value={this.state.recept} onChange={this.changeReceptHandler} />
-                                            <div style={{ textAlign:'right' }}>
-                                                <button type='button' style={{ padding: '10px', fontSize: '10px' }} className="btn btn-success" onClick={this.addReciept}>Dodaj recept</button>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        
-                                        
-                                    </div>
+                                                                    )
+                                                            }
 
-                                    <button type="button" className="btn btn-info" onClick={() => this.updatePregled(true)}>Zavrsi pregled</button>
-                                    <button type="button" className="btn btn-success" onClick={() => this.updatePregled(false)}>Azuriraj</button>
-                                    <button className="btn" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px" }}>Odustani</button>
-                                </form>
+                                                        </tbody>
+                                                    </div>
+                                                </table>
+                                            </div>
+                                            <br />
+
+
+                                        </div>
+
+                                        <button disabled type="button" className="btn btn-info" onClick={() => this.updatePregled(true)}>Zavrsi pregled</button>
+                                        <button disabled type="button" className="btn btn-success" onClick={() => this.updatePregled(false)}>Azuriraj</button>
+                                        <button className="btn" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px" }}>Nazad</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        )
+            )
+        }
+        else {
+            return (
+                <div style={{ margin: "50px" }}>
+                    <div className="container">
+                        <div className="row">
+                            <div className="card offset-md-3">
+                                <h3 style={{ margin: "10px", textDecoration: "underline" }} className="text-center" > Azuriranje pregleda </h3>
+                                <div className="card-body">
+                                    <form>
+                                        <div className="form-group">
+                                            <label> Opis pregleda: </label>
+                                            <textarea placeholder="Opis pregleda" name="opis" className="form-control"
+                                                value={this.state.opis} onChange={this.changeOpisHandler} />
+                                            <br />
+                                            <label> Dijagnoza: </label>
+                                            <textarea placeholder="Dijagnoza" name="dijagnoza" className="form-control"
+                                                value={this.state.dijagnoza} onChange={this.changeDijagnozaHandler} />
+                                            <br />
+
+                                            <div className="row" style={{ margin: '10px' }}>
+                                                <label style={{ width: '100%' }}> Recepti: </label>
+                                                <table className="table table-striped table bordered">
+                                                    <div style={{ height: '200px', overflow: 'auto', backgroundColor: 'rgba(0, 123, 255,0.1)' }}>
+                                                        <tbody>
+
+                                                            {
+                                                                this.state.recepti != null ?
+                                                                    this.state.recepti.map(
+                                                                        recept =>
+                                                                            <tr id="lista" key={recept.idRecepta}>
+                                                                                <td style={{ width: '10%' }}>
+                                                                                    <textarea style={{ width: '100%' }} readOnly>{recept.opisRecepta}</textarea>
+                                                                                </td>
+                                                                            </tr>
+                                                                    ) : (
+                                                                        <tr id="lista">
+                                                                            <td>
+                                                                                <h3>Nema recepata</h3>
+                                                                            </td>
+                                                                        </tr>
+                                                                    )
+                                                            }
+
+                                                        </tbody>
+                                                    </div>
+                                                </table>
+                                                <textarea placeholder="Recept" name="recept" className="form-control"
+                                                    value={this.state.recept} onChange={this.changeReceptHandler} />
+                                                <div style={{ textAlign: 'right' }}>
+                                                    <button type='button' style={{ padding: '10px', fontSize: '10px' }} className="btn btn-success" onClick={this.addReciept}>Dodaj recept</button>
+                                                </div>
+                                            </div>
+                                            <br />
+
+
+                                        </div>
+
+                                        <button type="button" className="btn btn-info" onClick={() => this.updatePregled(true)}>Zavrsi pregled</button>
+                                        <button type="button" className="btn btn-success" onClick={() => this.updatePregled(false)}>Azuriraj</button>
+                                        <button className="btn" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px" }}>Odustani</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
     }
 
 }
