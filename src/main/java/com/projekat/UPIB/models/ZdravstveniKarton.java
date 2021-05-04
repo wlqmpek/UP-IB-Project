@@ -23,10 +23,22 @@ public class ZdravstveniKarton {
     @Column(name = "id_zdravstvenog_kartona", nullable = false, unique = true)
     private Long idZdravstvenogKartona;
 
+    @Column(name = "visina", nullable = true, unique = false)
+    private int visina;
+
+    @Column(name = "tezina", nullable = true, unique = false)
+    private int tezina;
+    
+    @Column(name = "krvna_grupa", nullable = true, unique = false)
+    private String krvnaGrupa;
+
+    @Column(name = "dioptrija", nullable = true, unique = false)
+    private double dioptrija;
+    
+    @Column(name = "alergije", nullable = true, unique = false)
+    private String alergije;
+    
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "zdravstveniKarton")
     private Pacijent pacijent;
 
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "zdravstveniKarton")
-    private Set<Pregled> pregledi = new HashSet<>();
 }

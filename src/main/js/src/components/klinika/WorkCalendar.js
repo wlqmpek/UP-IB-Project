@@ -25,6 +25,7 @@ class ViewWorkCalendar extends Component {
         }
         this.onChange = this.onChange.bind(this);
         this.onClickDay = this.onClickDay.bind(this);
+        this.ukloniFilter = this.ukloniFilter.bind(this);
     }
 
     componentDidMount() {
@@ -72,10 +73,10 @@ class ViewWorkCalendar extends Component {
             
             this.setState({
                 sviPregledi: pregledi,
+                preglediZaDatum: pregledi,
                 sviDatumi: datumi
             });
 
-            this.onChange(new Date());
         });
         
     }
@@ -108,6 +109,13 @@ class ViewWorkCalendar extends Component {
         
     }
 
+    ukloniFilter() {
+        this.setState({
+            preglediZaDatum: this.state.sviPregledi,
+            selektovaniDatum: false
+        })
+    }
+
     onClickDay() {
         this.setState({
             dayClicked: true
@@ -119,6 +127,9 @@ class ViewWorkCalendar extends Component {
         this.props.history.push(`/pregledi/${id}/azuriraj`);
     }
 
+    updateZK(id) {
+        this.props.history.push(`/zdravstveniKarton/${id}/azuriraj`);
+    }
     render() {
         return (
             <div>
@@ -126,14 +137,14 @@ class ViewWorkCalendar extends Component {
                     <div className="col-md-6 offset-md-3" >
                         <div className="card-body" style={{ margin: 'auto' }} >
 
-                            <div style={{ 'margin-left': '20px', width: '45%', float: 'right', margin:'auto' }}>
+                            <div style={{ marginLeft: '20px', width: '45%', float: 'right', margin: 'auto' }}>
                                 <br />
                                 <br />
                                 <br />
                                 <br />
-                                <h4> <span style={{ color: 'rgb(255, 255, 115)', 'background-color': 'rgb(255, 255, 115)' }}> AA</span> Današnji dan ({new Date().toDateString()})</h4>
+                                <h4> <span style={{ color: 'rgb(255, 255, 115)', backgroundColor: 'rgb(255, 255, 115)' }}> AA</span> Današnji dan ({new Date().toDateString()})</h4>
                                 <br />
-                                <h4> <span style={{ color: 'rgb(118, 186, 255)', 'background-color':'rgb(118, 186, 255)' }}> AA</span> Dani sa pregledima </h4>
+                                <h4> <span style={{ color: 'rgb(118, 186, 255)', backgroundColor:'rgb(118, 186, 255)' }}> AA</span> Dani sa pregledima </h4>
                             </div>
 
 
@@ -153,7 +164,14 @@ class ViewWorkCalendar extends Component {
                 </div>
                 <br />
 
-                <h3 style={{ margin: 'auto', textAlign: 'center' }} > Lista pregleda za datum:&nbsp; <a href="">{this.state.selektovaniDatum}</a></h3>
+                {
+                    this.state.preglediZaDatum.length !== this.state.sviPregledi.length ? (
+                        <h3 style={{ margin: 'auto', textAlign: 'center' }} > Lista pregleda za datum:&nbsp; <a href="">{this.state.selektovaniDatum}</a></h3>
+                    ) : (
+                            <h3 style={{ margin: 'auto', textAlign: 'center' }} > Lista svih pregleda </h3>
+                            )
+                }
+                
 
                 <div style={{ 'margin': '20px auto', width: '70%', padding:'0 25px' }} className="card" >
                     <div className="row">
@@ -162,11 +180,19 @@ class ViewWorkCalendar extends Component {
 
                                 <thead>
                                     <tr>
+                                        <th> Datum </th>
                                         <th> Vreme početka </th>
                                         <th> Trajanje </th>
                                         <th> Ime pacijenta </th>
                                         <th> Prezime pacijenta </th>
-                                        <th></th>
+                                        {
+                                            this.state.preglediZaDatum.length !== this.state.sviPregledi.length ? (
+                                                <th style={{ textAlign: 'right' }}>
+                                                    <a onClick={this.ukloniFilter}>
+                                                        <img style={{ width: '20px', height: '20px' }} src="/images/unfilter.png" alt="Unfilter"></img>
+                                                </a></th>
+                                            ): false
+                                        }
                                     </tr>
                                 </thead>
                                 
@@ -175,6 +201,9 @@ class ViewWorkCalendar extends Component {
                                         this.state.preglediZaDatum.map(
                                             pregled =>
                                                 <tr id="lista" key={pregled.idPregleda}>
+                                                    <td style={{ verticalAlign: 'middle', fontSize: '20px' }}>{
+                                                        new Date(pregled.pocetakTermina).toISOString().split("T")[0]
+                                                    }</td>
                                                     <td style={{ verticalAlign: 'middle', fontSize:'20px' }}>{
                                                         new Date(pregled.pocetakTermina).toISOString().split("T")[1].slice(0,5) + "h"
                                                     }</td>
@@ -208,15 +237,15 @@ class ViewWorkCalendar extends Component {
                                                     </td>
                                                     <td style={{ verticalAlign: 'middle', fontSize: '20px' }}></td>
                                                     <td style={{ verticalAlign: 'middle', fontSize: '20px' }}></td>
-                                                    <td style={{ width: '20%' }}>
-                                                        {new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() && pregled.krajTermina === null ? ( // && this.state.tipKorisnika === "LEKAR"? (
-                                                        <button onClick={() => this.updatePregled(pregled.idPregleda)} className="btn btn-info">Azuriraj</button>
-                                                        )
-                                                        : (
-                                                            <div />
-                                                            )
+                                                    
+                                                        {new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() ? ( // && this.state.tipKorisnika === "LEKAR"? (
+                                                            <td style={{ width: '20%' }}>    
+                                                                <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updatePregled(pregled.idPregleda)} className="btn btn-info">Azuriraj pregled</button>
+                                                                <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updateZK(pregled.idZdravstvenogKartona)} className="btn btn-success">Zdravstveni karton</button>
+                                                            </td>
+                                                    )
+                                                        : <td></td>
                                                         }
-                                                    </td>
                                                 </tr>
                                         )
                                     }

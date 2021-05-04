@@ -27,6 +27,7 @@ import ListReceiptsComponent from './components/medicinskaSestra/ListReceipts';
 import ViewWorkCalendar from './components/klinika/WorkCalendar';
 import ViewPregledComponent from './components/klinika/pregledi/ViewPregled';
 import FirstTimeLoginComponent from './components/administrator/FirstTimeLogin';
+import UpdateZKComponent from './components/klinika/zdravstveniKarton/Update';
 
 function App() {
 
@@ -60,7 +61,11 @@ function App() {
                     <Switch>
                         <Route path="/" exact component={FrontPage}></Route>
                     </Switch>
-                    
+
+                  <Switch>
+                      <Route exact path="/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent}></Route>
+                  </Switch>
+
                     <Switch>
                       <Route exact path="/pregledi/:id/azuriraj" component={ViewPregledComponent}></Route>
                     </Switch>
@@ -71,9 +76,6 @@ function App() {
                         <Route exact path="/pacijenti" component={GetPacijenti} ></Route>
                         <Route exact path="/medicinskaSestra/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
                         <Route exact path="/medicinskaSestra/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
-                    </Switch>
-                    <Switch>
-                        <Route path="/" exact component={FrontPage}></Route>
                     </Switch>
                   
 	            </div>
