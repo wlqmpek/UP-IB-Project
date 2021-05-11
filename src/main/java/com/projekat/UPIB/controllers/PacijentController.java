@@ -51,6 +51,9 @@ public class PacijentController {
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }
 
+    //TODO: Umesto da radimo convertovanje iz DTO U Entity i obrnuto
+    //u kontroleru uraditi da se isto radi u konverteru primer se nalazi
+    //u IB Vezva 7 oko 32min
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Pacijent> updatePacijent(@PathVariable(name = "id") Long id, @RequestBody Pacijent pacijent){
 
@@ -82,7 +85,8 @@ public class PacijentController {
         pacijentService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
+
+    //Komentar
     @PostMapping(value = "/login", consumes = "application/json")
     public ResponseEntity<PacijentFrontDTO> loginPacijent(@RequestBody PacijentLoginDTO pacijentLoginDTO) {
 

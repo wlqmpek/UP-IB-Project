@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MedicinskaSestraRepozitorijum  extends JpaRepository<MedicinskaSestra, Long> {
+    MedicinskaSestra findMedicinskaSestraByEmailKorisnika(String email);
 }

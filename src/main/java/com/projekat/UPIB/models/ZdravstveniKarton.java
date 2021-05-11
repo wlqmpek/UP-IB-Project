@@ -19,7 +19,7 @@ import java.util.Set;
 public class ZdravstveniKarton {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_zdravstvenog_kartona", nullable = false, unique = true)
     private Long idZdravstvenogKartona;
 

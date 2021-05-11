@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdminRepozitorijum  extends JpaRepository<Administrator, Long> {
+
+    Administrator findAdministratorByEmailKorisnika(String email);
 }

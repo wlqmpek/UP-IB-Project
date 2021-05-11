@@ -22,6 +22,11 @@ public class LekarService implements ILekarService {
     }
 
     @Override
+    public Lekar findLekarByEmailKorisnika(String email) {
+        return lekarRepozitorijum.findLekarByEmailKorisnika(email);
+    }
+
+    @Override
     public List<Lekar> findAll() {
         return lekarRepozitorijum.findAll();
     }

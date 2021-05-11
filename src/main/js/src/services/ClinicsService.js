@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import AxiousClient from "./clients/AxiousClient"
+import AxiousClient from "./clients/AxiosClient"
 
 export const ClinicsService = {
     getClinics,

@@ -8,6 +8,8 @@ public interface ILekarService {
 
     Lekar findOne(Long id);
 
+    Lekar findLekarByEmailKorisnika(String email);
+
     List<Lekar> findAll();
 
     Lekar save(Lekar lekar);

@@ -1,4 +1,4 @@
-import AxiousClient from "./clients/AxiousClient"
+import AxiousClient from "./clients/AxiosClient"
 
 export  const  PacientService = {
     getPacients,

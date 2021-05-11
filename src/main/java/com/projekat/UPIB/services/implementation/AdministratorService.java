@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AdministratorSerice implements IAdministratorService {
+public class AdministratorService implements IAdministratorService {
 
     @Autowired
     private AdminRepozitorijum adminRepozitorijum;
@@ -19,6 +19,11 @@ public class AdministratorSerice implements IAdministratorService {
     @Override
     public Administrator findOne(Long id) {
         return adminRepozitorijum.getOne(id);
+    }
+
+    @Override
+    public Administrator findAdministratorByEmailKorisnika(String email) {
+        return adminRepozitorijum.findAdministratorByEmailKorisnika(email);
     }
 
     @Override

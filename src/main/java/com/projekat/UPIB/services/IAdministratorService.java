@@ -9,6 +9,8 @@ public interface IAdministratorService {
 
     Administrator findOne(Long id);
 
+    Administrator findAdministratorByEmailKorisnika(String email);
+
     List<Administrator> findAll();
 
     Administrator save(Administrator administrator);

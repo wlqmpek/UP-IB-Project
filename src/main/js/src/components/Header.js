@@ -23,7 +23,7 @@ class HeaderComponent extends React.Component {
                                 </ul>
                                 <ul className="navbar-nav">
                                     <li className="nav-item"><Link className="nav-link" to="/registracija"><MDBIcon icon="user-plus" />Registracija</Link></li>
-                                    <li className="nav-item"><Link className="nav-link" to="/pacijenti/prijava"><MDBIcon icon="sign-in-alt" />Prijava</Link></li>
+                                    <li className="nav-item"><Link className="nav-link" to="/prijava"><MDBIcon icon="sign-in-alt" />Prijava</Link></li>
                                 </ul>   
                             </div>
                         </div>
