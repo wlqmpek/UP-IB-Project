@@ -21,7 +21,7 @@ const AllMSestre = () => {
 
     return(
         <div className="table-responsive" style={{marginTop: "100px"}}>
-            <h2 className="text-center">Lekari</h2>
+            <h2 className="text-center">Medicinske sestre</h2>
             <table className="table table-striped table border">
                 <thead>
                 <tr>
@@ -39,7 +39,7 @@ const AllMSestre = () => {
                 ))}
                 </tbody>
             </table>
-            <button className="btn btn-primary"><Link to="/medicinske-sestre/dodaj"/>Dodaj</button>
+            <button className="btn btn-primary"><Link to="/medicinske-sestre/dodaj">Dodaj</Link></button>
         </div>
     )
 }

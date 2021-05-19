@@ -73,7 +73,7 @@ const EditMedicinkaSestra = () =>{
         <div className="container">
             <div className="row">
                 <div className="col-md-6 offset-md-3 offset-md-3">
-                    <h3 className="text-center">Izmena doktora</h3>
+                    <h3 className="text-center">Izmena medicinske sestre</h3>
                     <form>
                         <div className='form-group'>
                             <label>Ime: </label>

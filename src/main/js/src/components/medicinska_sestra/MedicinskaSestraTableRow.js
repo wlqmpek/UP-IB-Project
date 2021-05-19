@@ -22,6 +22,15 @@ const MedicinskaSestraTableRow = ({msestra, msestre, updateMSestre}) => {
         }
     }
 
+    async function deleteMSestra(id){
+        try {
+            await MedicinkaSestraService.deleteMSestra(id)
+            updateMSestre((msestra) => msestre.filter((msestra) => msestra.idKorisnika !== id))
+        } catch (error){
+            console.error(error)
+        }
+    }
+
     async function fetchClinic(){
         try {
             const response = await ClinicsService.getClinicById(msestra.idKlinike)
@@ -35,6 +44,9 @@ const MedicinskaSestraTableRow = ({msestra, msestre, updateMSestre}) => {
         history.push("/medicinske-sestre"+ msestra.idKorisnika)
     }
 
+    const deleteMS = (id) => {
+        deleteMSestra(id)
+    }
     return(
         <tr>
             <td>{msestra.imeKorisnika}</td>
@@ -42,7 +54,8 @@ const MedicinskaSestraTableRow = ({msestra, msestre, updateMSestre}) => {
             <td>{msestra.emailKorisnika}</td>
             <td>{clinic.naziv}</td>
             <td>
-                <button className="btn btn-warning" onClick={()=>update(msestra.idKorisnika)}></button>
+                <button className="btn btn-warning" onClick={()=>update(msestra.idKorisnika)}>Izmeni</button>
+                <button className="btn btn-danger" onClick={()=>deleteMS(msestra.idKorisnika)}>Obrisi</button>
             </td>
         </tr>
     )

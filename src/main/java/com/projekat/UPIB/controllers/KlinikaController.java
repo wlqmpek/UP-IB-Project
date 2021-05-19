@@ -1,7 +1,9 @@
 package com.projekat.UPIB.controllers;
 
+import java.util.HashSet;
 import java.util.List;
 
+import com.projekat.UPIB.dto.KlinikaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,8 +47,14 @@ public class KlinikaController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Klinika> saveKlinika(@RequestBody Klinika klinika){
+    public ResponseEntity<Klinika> saveKlinika(@RequestBody KlinikaDTO klinikaDTO){
 
+        Klinika klinika = new Klinika();
+        klinika.setNaziv(klinikaDTO.getNaziv());
+        klinika.setOpis(klinikaDTO.getOpis());
+        klinika.setAdresa(klinikaDTO.getAdresa());
+        klinika.setSlobodniTermini(new HashSet<>());
+        klinika.setAdministratori(new HashSet<>());
     	klinikaService.save(klinika);
         return new ResponseEntity<>(klinika, HttpStatus.CREATED);
     }

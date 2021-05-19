@@ -21,6 +21,15 @@ const DoctorTableRow = ({doctor, doctors, updateDoctor}) =>{
         }
     }
 
+    async function deleteDoctor(id){
+        try {
+            await LekarService.deleteLekar(doctor.idKorisnika)
+            updateDoctor((doctor) => doctors.filter((doctor) => doctor.idKorisnika !== id))
+        } catch (error){
+            console.error(error)
+        }
+    }
+
     async function fetchClinic(){
         try {
             const respone = await ClinicsService.getClinicById(doctor.idKlinike)
@@ -34,6 +43,10 @@ const DoctorTableRow = ({doctor, doctors, updateDoctor}) =>{
         history.push("/lekari/"+ id)
     }
 
+    const deleteDoc = (id) =>{
+        deleteDoctor(id)
+    }
+
     return(
         <tr>
             <td>{doctor.imeKorisnika}</td>
@@ -42,6 +55,7 @@ const DoctorTableRow = ({doctor, doctors, updateDoctor}) =>{
             <td>{clinic.naziv}</td>
             <td>
                 <button className="btn btn-warning" onClick={()=>update(doctor.idKorisnika)}>Izmeni</button>
+                <button className="btn btn-danger" onClick={()=>deleteDoc(doctor.idKorisnika)}>Obrisi</button>
             </td>
         </tr>
     )

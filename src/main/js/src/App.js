@@ -54,15 +54,18 @@ function App() {
                         <Route exact path="/pacijenti/:id" component={IzmenaPacijenta}/>
                     </Switch>
                     <Switch>
-                        <Route exact path="/lekari" component={AllDoctors}/>
-                        <Route exact path="/lekari/:id" component={EditDoctor}/>
-                        <Route exact path="/lekari/dodaj" component={AddDoctor}/>
+                        <Route exact path="/medicinske-sestre" component={AllMSestre} />
+                        <Route exact path="/medicinske-sestre/dodaj" component={AddMedicinskaSestra} />
+                        <Route exact path="/medicinske-sestre/:id" component={EditMedicinkaSestra} />
+
                     </Switch>
                     <Switch>
-                        <Route exact path="/medicinske-sestre" component={AllMSestre} />
-                        <Route exact path="/medicinske-sestre/:id" component={EditMedicinkaSestra} />
-                        <Route exact path="/medicinske-sestre/dodaj" component={AddMedicinskaSestra} />
+                        <Route exact path="/lekari" component={AllDoctors}/>
+                        <Route exact path="/lekari/dodaj" component={AddDoctor}/>
+                        <Route exact path="/lekari/:id" component={EditDoctor}/>
+
                     </Switch>
+
                     <Switch>
                         <Route path="/" exact component={FrontPage}/>
                     </Switch>

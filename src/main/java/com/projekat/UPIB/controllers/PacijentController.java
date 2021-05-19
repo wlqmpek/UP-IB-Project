@@ -52,9 +52,20 @@ public class PacijentController {
     public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent){
 
         pacijent.setStatusKorisnika(StatusKorisnika.NA_CEKANJU);
-        Pacijent registered = new Pacijent(pacijent);
+        Pacijent registered = new Pacijent();
+
+        registered.setImeKorisnika(pacijent.getIme());
+        registered.setPrezimeKorisnika(pacijent.getPrezime());
+        registered.setEmailKorisnika(pacijent.getEmail());
+        registered.setLozinkaKorisnika(pacijent.getLozinka());
+        registered.setJBZO(pacijent.getJBZO());
+        registered.setStatusKorisnika(pacijent.getStatusKorisnika());
+        registered.setZdravstveniKarton(new ZdravstveniKarton());
         registered.getZdravstveniKarton().setPacijent(registered);
-        pacijentService.save(registered);
+
+        registered = pacijentService.save(registered);
+        pacijent = new PacijentRegisterDTO(registered);
+
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }
 
