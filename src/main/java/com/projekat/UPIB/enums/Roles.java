@@ -5,5 +5,4 @@ public enum Roles {
     PACIJENT,
     MEDICINSKA_SESTRA,
     LEKAR
-
 }

@@ -38,6 +38,7 @@ public class TokenUtils {
 
 
     public String generateToken(String email, String roles) {
+        System.out.println("Rola korisnika je " + roles + "!");
         return Jwts.builder()
                 .setIssuer(APP_NAME)
                 .setSubject(email)

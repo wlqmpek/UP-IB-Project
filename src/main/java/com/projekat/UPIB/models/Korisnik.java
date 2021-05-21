@@ -2,10 +2,8 @@ package com.projekat.UPIB.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projekat.UPIB.enums.Roles;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -43,14 +41,20 @@ public abstract class Korisnik implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "id_authority", referencedColumnName = "id_authority"))
     private List<Authority> authorities;
 
+
+    public Korisnik(String imeKorisnika, String prezimeKorisnika, String emailKorisnika, String lozinkaKorisnika) {
+        this.imeKorisnika = imeKorisnika;
+        this.prezimeKorisnika = prezimeKorisnika;
+        this.emailKorisnika = emailKorisnika;
+        this.lozinkaKorisnika = lozinkaKorisnika;
+    }
+
     @JsonIgnore
     public String getAuthoritiesAsString() {
         StringBuilder sb = new StringBuilder();
-
         for (Authority authority : this.authorities) {
-            sb.append(authority.getImeAuthority() + " ");
+            sb.append(authority.getImeAuthority());
         }
-
         return sb.toString();
     }
 

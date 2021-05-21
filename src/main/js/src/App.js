@@ -17,6 +17,7 @@ import FrontPage from './components/FrontPage'
 import FooterComponent from './components/Footer';
 import GetPacijenti from './services/pacijent/GetPacijenti';
 import Login from "./pages/Login";
+import PatientProfile from "./pages/patients/EditPatient";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
                     </Switch>
                     <Switch>
                         <Route exact path="/pacijenti" component={GetPacijenti} ></Route>
+                        <Route exact path="/pacijenti/profil/:id" component={PatientProfile} ></Route>
                     </Switch>
                     <Switch>
                         <Route path="/" exact component={FrontPage}></Route>

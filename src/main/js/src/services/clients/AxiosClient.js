@@ -10,7 +10,9 @@ const AxiosClient = axios.create({
 // Dodaj token na svaki zahtev ka backendu, ako je korisnik ulogovan.
 // Nemam pojma kako funkcionice. - WLQ
 AxiosClient.interceptors.request.use(function success(config) {
+
     const token = TokenService.getToken();
+    console.log("Axious Client " + token);
     if(token) {
         if (TokenService.didTokenExpire()) {
             alert("Token je istekao");

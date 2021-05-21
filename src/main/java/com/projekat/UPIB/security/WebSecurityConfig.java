@@ -74,8 +74,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // svim korisnicima dopusti da pristupe putanjama /korisnici/prijava
                 .authorizeRequests().antMatchers("/korisnici/prijava").permitAll()
 
+
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
-                .anyRequest().authenticated().and()
+//                .anyRequest().authenticated().and()
+                .anyRequest().permitAll().and()
 
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, userDetailsServiceImplementation),

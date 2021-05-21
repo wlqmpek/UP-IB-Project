@@ -5,6 +5,7 @@ import com.projekat.UPIB.repositories.PacijentRepozitorijum;
 import com.projekat.UPIB.services.IPacijentService;
 import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public class PacijentService implements IPacijentService {
     @Autowired
     private PacijentRepozitorijum pacijentRepozitorijum;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     //Mozda treba da se zameni sa .findById(id); //WLQMPEK
     //Razlika izmedju dve metode je sto getOne radi lazyLoding dok findById skida ceo Objekat.
     @Override
@@ -35,14 +38,14 @@ public class PacijentService implements IPacijentService {
 
     @Override
     public Pacijent save(Pacijent pacijent) {
+        System.out.println("Pokusavamo da sacuvamo " +pacijent.getImeKorisnika());
+        pacijent.setLozinkaKorisnika(passwordEncoder.encode(pacijent.getPassword()));
         return pacijentRepozitorijum.save(pacijent);
     }
 
     @Override
     public void remove(Long id) {
-
         Pacijent pacijent = pacijentRepozitorijum.getOne(id);
         pacijentRepozitorijum.delete(pacijent);
-
     }
 }

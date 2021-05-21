@@ -1,4 +1,4 @@
-import jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 // Fajl sluzi za rad sa tokenom iz lokalnog skladista. - WLQ
 export const TokenService = {
@@ -19,9 +19,9 @@ function removeToken() {
 }
 
 function decodeToken(token) {
-    console.log("Token " + token);
+    console.log("Token za dekodiranje " +token);
     try {
-        return jwt_decode(token);
+        return jwtDecode(token);
     } catch (error) {
         console.log(error);
         console.log("Nije uspesno dekodovan");

@@ -1,4 +1,4 @@
-package com.projekat.UPIB.controllers;
+package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.models.Lekar;
 import com.projekat.UPIB.services.ILekarService;

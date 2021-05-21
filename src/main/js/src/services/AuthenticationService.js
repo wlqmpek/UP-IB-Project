@@ -5,6 +5,7 @@ export const AuthenticationService = {
     login,
     logout,
     getRole,
+    getEmail
 };
 
 async function login(userCredentials) {
@@ -13,10 +14,7 @@ async function login(userCredentials) {
             "/korisnici/prijava",
             userCredentials
         );
-        console.log(response);
-        console.log(response.data);
-        console.log(response.data.accessToken);
-        const decoded_token = TokenService.decodeToken(response.data.accessToken);
+        const decoded_token = TokenService.decodeToken(response.data);
         console.log("Decoded " + decoded_token);
         if(decoded_token) {
             TokenService.setToken(response.data);
@@ -38,9 +36,21 @@ function logout() {
 
 function getRole() {
     const token = TokenService.getToken();
+    console.log(console.log("object: %O", token));
+    const decoded_token = token ? TokenService.decodeToken(token) : null;
+    console.log("Decoded token roles " + decoded_token.roles);
+    if (decoded_token) {
+        return decoded_token.roles;
+    } else {
+        return null;
+    }
+}
+
+function getEmail() {
+    const token = TokenService.getToken();
     const decoded_token = token ? TokenService.decodeToken(token) : null;
     if (decoded_token) {
-        return decoded_token.role.authority;
+        return decoded_token.sub;
     } else {
         return null;
     }

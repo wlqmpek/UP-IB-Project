@@ -28,15 +28,9 @@ const Login = () => {
         try {
             await AuthenticationService.login(credentials);
         } catch (error) {
-            if(error.response.status == 403) {
-                setGreska("Neispravni podaci!");
-            } else if (error.response.status >= 500) {
-                setGreska("Problem sa serverom!");
-            } else {
-                setGreska("Dobrodosli!");
-            }
-
-
+            if(error.response.status === 403)
+            console.log(error.response.status);
+            setGreska("Neispravni podaci!");
         }
     };
 

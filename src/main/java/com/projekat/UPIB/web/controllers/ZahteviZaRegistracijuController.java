@@ -1,4 +1,4 @@
-package com.projekat.UPIB.controllers;
+package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;

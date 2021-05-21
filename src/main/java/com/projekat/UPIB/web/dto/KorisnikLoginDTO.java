@@ -1,8 +1,12 @@
-package com.projekat.UPIB.dto;
+package com.projekat.UPIB.web.dto;
+
+import javax.validation.constraints.NotEmpty;
 
 public class KorisnikLoginDTO {
 
+    @NotEmpty
     private String emailKorisnika;
+    @NotEmpty
     private String lozinkaKorisnika;
 
     public KorisnikLoginDTO() { super(); }

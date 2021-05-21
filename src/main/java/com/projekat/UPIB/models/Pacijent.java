@@ -1,17 +1,10 @@
 package com.projekat.UPIB.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.projekat.UPIB.enums.Roles;
 import com.projekat.UPIB.enums.StatusKorisnika;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.springframework.security.core.GrantedAuthority;
-
+import lombok.*;
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -56,5 +49,13 @@ public class Pacijent extends Korisnik {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Builder
+    public Pacijent(String imeKorisnika, String prezimeKorisnika, String emailKorisnika, String lozinkaKorisnika, List<Authority> authorities, String JBZO, ZdravstveniKarton zdravstveniKarton, StatusKorisnika statusKorisnika) {
+        super(imeKorisnika, prezimeKorisnika, emailKorisnika, lozinkaKorisnika);
+        this.JBZO = JBZO;
+        this.zdravstveniKarton = zdravstveniKarton;
+        this.statusKorisnika = statusKorisnika;
     }
 }
