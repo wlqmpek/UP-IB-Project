@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/Lekari")
 public class LekarController {
 

@@ -1,7 +1,8 @@
 import {MedicinkaSestraService} from "../../services/MedicinkaSestraService";
 import {useEffect, useState} from "react";
 import MedicinskaSestraTableRow from "../medicinska_sestra/MedicinskaSestraTableRow";
-import {Link} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
+import useSortableData from "../SortTable";
 
 const AllMSestre = () => {
 
@@ -10,6 +11,27 @@ const AllMSestre = () => {
     useEffect(() => {
         fetchMSestre()
     },[])
+
+    const styleButton =  {
+        border: "0",
+        backgroundColor: "white",
+        borderRadius: "none",
+        fontFamily: "inherit",
+        fontSize: "inherit"
+    }
+
+    const history = useHistory()
+    const redirect = () => {
+        return history.push("/medicinske-sestre/dodaj")
+    }
+    const {items, requestSort, sortConfig} = useSortableData(msestre)
+    const getClassNameFor = (name) => {
+        if(!sortConfig){
+            return;
+        }
+        return sortConfig.key === name ? sortConfig.direction : undefined
+    }
+    
     async function fetchMSestre(){
         try {
             const response = await MedicinkaSestraService.getMSestre()
@@ -25,21 +47,57 @@ const AllMSestre = () => {
             <table className="table table-striped table border">
                 <thead>
                 <tr>
-                    <th>Ime</th>
-                    <th>Prezime</th>
-                    <th>Email</th>
-                    <th>Klinika</th>
+                    <th>
+                        <button
+                            type="button"
+                            style={styleButton}
+                            onClick={() => requestSort("ime")}
+                            className={getClassNameFor("ime")}
+                        >
+                            Ime
+                        </button>
+                    </th>
+                    <th>
+                        <button
+                            type="button"
+                            style={styleButton}
+                            onClick={() => requestSort("prezime")}
+                            className={getClassNameFor("prezime")}
+                        >
+                            Prezime
+                        </button>
+                    </th>
+                    <th>
+                        <button
+                            type="button"
+                            style={styleButton}
+                            onClick={() => requestSort("email")}
+                            className={getClassNameFor("email")}
+                        >
+                            Email
+                        </button>
+                    </th>
+                    <th>
+                        <button
+                            type="button"
+                            style={styleButton}
+                            onClick={() => requestSort("klinika")}
+                            className={getClassNameFor("klinika")}
+                        >
+                            Klinika
+                        </button>
+                    </th>
                     <th></th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                {msestre.map((msestra, index) => (
-                    <MedicinskaSestraTableRow key={index} msestra={msestra} msestre={msestre} updateMSestre={setMSestre}/>
+                {items.map((msestra, index) => (
+                    <MedicinskaSestraTableRow key={index} msestra={msestra} msestre={items} updateMSestre={setMSestre}/>
                 ))}
                 </tbody>
             </table>
-            <button className="btn btn-primary"><Link to="/medicinske-sestre/dodaj">Dodaj</Link></button>
+            <button className="btn btn-primary" onClick={redirect}>Dodaj</button>
         </div>
     )
 }

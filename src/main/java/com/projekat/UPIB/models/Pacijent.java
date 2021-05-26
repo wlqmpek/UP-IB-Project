@@ -31,14 +31,4 @@ public class Pacijent extends Korisnik {
     @Column(name = "status_korisnika", nullable = false)
     private StatusKorisnika statusKorisnika;
 
-    public Pacijent (PacijentRegisterDTO registerDTO){
-
-        this.setImeKorisnika(registerDTO.getIme());
-        this.setPrezimeKorisnika(registerDTO.getPrezime());
-        this.setEmailKorisnika(registerDTO.getEmail());
-        this.setLozinkaKorisnika(registerDTO.getLozinka());
-        this.setStatusKorisnika(registerDTO.getStatusKorisnika());
-        this.setJBZO(registerDTO.getJBZO());
-        this.setZdravstveniKarton(new ZdravstveniKarton());
-    }
 }

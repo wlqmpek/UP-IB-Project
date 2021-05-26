@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localohost:3000")
 @RequestMapping("/MedicinskeSestre")
 public class MSestraController {
 

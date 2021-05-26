@@ -29,7 +29,7 @@ const AddDoctor = () => {
 
     async function fetchClinics(){
         try {
-            const response = await ClinicsService.getClinics()
+            const response = await ClinicsService.getClinicsList()
             setClinics(response.data)
         }catch (error){
             console.error(error)
@@ -67,7 +67,7 @@ const AddDoctor = () => {
     }
 
     return(
-        <div className="container">
+        <div className="container" style={{marginTop: "100px"}}>
             <div className="row">
                 <div className="col-md-6 offset-md-3 offset-md-3">
                     <h3 className="text-center">Dodaj doktora</h3>

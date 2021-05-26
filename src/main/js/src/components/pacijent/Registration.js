@@ -73,7 +73,7 @@ const Registration = () => {
 
 
     return (
-        <div className="container">
+        <div className="container" style={{marginTop: "100px"}}>
             <div className="row">
                 <div className='col-md-6 offset-md-3 offset-md-3'>
                     <h3 className="text-center">Registracija</h3>

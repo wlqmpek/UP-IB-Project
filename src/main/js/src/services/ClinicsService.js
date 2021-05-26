@@ -23,6 +23,10 @@ class ClinicsService {
     deleteClinic(clinicId) {
         return axios.delete(CLINICS_API_BASE_URL + "/" + clinicId);
     }
+
+    getClinicsList(){
+        return axios.get(CLINICS_API_BASE_URL + "/" + "lista");
+    }
 }
 
 export default new ClinicsService();
