@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.List;
 
+import com.projekat.UPIB.enums.TipKorisnika;
+import com.projekat.UPIB.enums.VrstaAdministratora;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -67,4 +70,5 @@ public abstract class Korisnik implements UserDetails {
     public String getUsername() {
         return getEmailKorisnika();
     }
+    
 }

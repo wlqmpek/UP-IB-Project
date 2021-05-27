@@ -46,7 +46,7 @@ class ListClinicsComponent extends Component {
 
 		return (
 			
-			<div style={{ margin: "100px" }}>
+			<div style={{ margin: "auto" , width: '70%' }}>
 				<h2 style={{ margin: "10px",textDecoration: "underline" }} className="text-center">Lista klinika</h2>	
 				<div className="row">
 
@@ -69,9 +69,9 @@ class ListClinicsComponent extends Component {
 											<td>{clinic.naziv}</td>
 											<td>{clinic.opis}</td>
 											<td>{clinic.adresa}</td>
-											<td>
+											<td style={{ width: '35%' }}>
 												<button onClick={() => this.viewClinic(clinic.idKlinike)} className="btn btn-info">Pregled</button>
-												<button style={{ marginLeft: "10px" }} onClick={() => this.editClinic(clinic.idKlinike)} className="btn btn-light">Izmeni</button>
+												<button style={{ marginLeft: "10px" }} onClick={() => this.editClinic(clinic.idKlinike)} className="btn btn-default">Izmeni</button>
 												<button style={{ marginLeft: "10px" }} onClick={() => this.deleteClinic(clinic.idKlinike)} className="btn btn-danger">Obrisi</button>
 											</td>
 										</tr>

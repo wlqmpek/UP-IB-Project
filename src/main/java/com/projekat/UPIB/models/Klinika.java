@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projekat.UPIB.enums.TipKorisnika;
+import com.projekat.UPIB.enums.VrstaAdministratora;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -33,7 +35,7 @@ public class Klinika {
 
     @Column(name = "opis", nullable = false, unique = false)
     private String opis;
-
+    
 //    @Column(name = "slobodni_termini", nullable = true, unique = false)
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "klinika")

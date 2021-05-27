@@ -86,7 +86,7 @@ class UpdateClinicComponent extends Component {
                                     </div>
 
                                     <button className="btn btn-success" onClick={this.updateClinic}>Izmeni</button>
-                                    <button className="btn btn-default" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px"}}>Odustani</button>
+                                    <button className="btn" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px"}}>Odustani</button>
                                 </form>
                             </div>
                         </div>

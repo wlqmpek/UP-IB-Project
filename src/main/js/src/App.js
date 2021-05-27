@@ -18,7 +18,18 @@ import FooterComponent from './components/Footer';
 import GetPacijenti from './services/pacijent/GetPacijenti';
 import Login from "./pages/Login";
 import PatientProfile from "./pages/patients/EditPatient";
-
+import PacijentLogin from "./components/pacijent/Login";
+import AddAdminToClinicComponent from "./components/klinika/admin/AddAdmin";
+import UpdateAdminComponent from "./components/klinika/admin/UpdateAdmin";
+import ListAdminsComponent from "./components/administrator/ListAdmins";
+import AddAdminComponent from './components/administrator/Create';
+import UpdateAdminKCComponent from './components/administrator/Update';
+import MSHomePageComponent from './components/medicinskaSestra/HomePage';
+import ListReceiptsComponent from './components/medicinskaSestra/ListReceipts';
+import ViewWorkCalendar from './components/klinika/WorkCalendar';
+import ViewPregledComponent from './components/klinika/pregledi/ViewPregled';
+import FirstTimeLoginComponent from './components/administrator/FirstTimeLogin';
+import UpdateZKComponent from './components/klinika/zdravstveniKarton/Update';
 
 function App() {
 
@@ -36,9 +47,32 @@ function App() {
                     </Switch>
                     <Switch>
                         <Route exact path="/klinike" component={ListClinicsComponent} ></Route>
-                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent} ></Route>
+                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent} ></Route>  
                         <Route exact path="/klinike/pregled/:id" component={ViewClinicComponent} ></Route>
                         <Route exact path="/klinike/izmeni/:id" component={UpdateClinicComponent} ></Route>
+                        <Route exact path="/klinike/:id/dodajAdmina" component={AddAdminToClinicComponent} ></Route>
+                        <Route exact path='/klinike/:idKlinike/izmeniAdmina/:idAdmina' component={UpdateAdminComponent}></Route>
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/admini" component={ListAdminsComponent} ></Route>
+                        <Route exact path="/admini/dodaj" component={AddAdminComponent} ></Route>
+                        <Route exact path="/admini/izmeni/:id" component={UpdateAdminKCComponent} ></Route>
+                        <Route exact path="/admini/:id/initial" component={FirstTimeLoginComponent} ></Route>
+                    </Switch>
+
+                    <Switch>
+                        <Route path="/" exact component={FrontPage}></Route>
+                    </Switch>
+
+                  <Switch>
+                      <Route exact path="/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent}></Route>
+                  </Switch>
+
+                    <Switch>
+                      <Route exact path="/pregledi/:id/azuriraj" component={ViewPregledComponent}></Route>
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/:idKorisnika/radniKalendar/:idKlinike" component={ViewWorkCalendar}></Route>
                     </Switch>
                     <Switch>
                         <Route exact path="/pacijenti" component={GetPacijenti} ></Route>
@@ -46,7 +80,9 @@ function App() {
                     </Switch>
                     <Switch>
                         <Route path="/" exact component={FrontPage}></Route>
-                    </Switch>
+                        <Route exact path="/medicinskaSestra/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
+                        <Route exact path="/medicinskaSestra/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
+                  </Switch>
                   
 	            </div>
             <FooterComponent />

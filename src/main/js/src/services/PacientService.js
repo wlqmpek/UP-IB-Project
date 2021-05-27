@@ -1,4 +1,4 @@
-import AxiousClient from "./clients/AxiosClient"
+import AxiosClient from "./clients/AxiosClient"
 
 export  const  PacientService = {
     getPacients,
@@ -8,22 +8,22 @@ export  const  PacientService = {
     deletePacient
 }
 
-async function getPacients(){
-    return await AxiousClient.get("Pacijenti")
+async function getPacients() {
+    return await AxiosClient.get("Pacijenti")
 }
 
-async function getPacient(id){
-    return await AxiousClient.get(`Pacijenti/${id}`)
+async function getPacient(id) {
+    return await AxiosClient.get(`Pacijenti/${id}`)
 }
 
-async function createPacient(pacient){
-    return await AxiousClient.post("Pacijenti", pacient)
+async function createPacient(pacient) {
+    return await AxiosClient.post("Pacijenti", pacient)
 }
 
-async function editPacient(id, pacient){
-    return await AxiousClient.put(`Pacijenti/${id}`, pacient)
+async function editPacient(id, pacient) {
+    return await AxiosClient.put(`Pacijenti/${id}`, pacient)
 }
 
-async function deletePacient(id){
-    return await AxiousClient.delete(`Pacijenti/${id}`)
+async function deletePacient(id) {
+    return await AxiosClient.delete(`Pacijenti/${id}`)
 }

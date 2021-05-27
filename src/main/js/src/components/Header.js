@@ -20,11 +20,12 @@ class HeaderComponent extends React.Component {
                                     <li className="nav-item"><Link className="nav-link" to="/">Početna</Link></li>
                                     <li className="nav-item"><Link className="nav-link" to="/klinike">Klinike</Link></li>
                                     <li className="nav-item"><Link className="nav-link" to="/">Cenovnik</Link></li>
+                                    <li className="nav-item"><Link className="nav-link" to="/admini">Administratori</Link></li>
                                 </ul>
                                 <ul className="navbar-nav">
                                     <li className="nav-item"><Link className="nav-link" to="/registracija"><MDBIcon icon="user-plus" />Registracija</Link></li>
                                     <li className="nav-item"><Link className="nav-link" to="/prijava"><MDBIcon icon="sign-in-alt" />Prijava</Link></li>
-                                </ul>   
+                                </ul>
                             </div>
                         </div>
                     </nav>

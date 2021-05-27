@@ -9,13 +9,29 @@ class CreateClinicComponent extends Component {
         this.state = {
             naziv: '',
             opis: '',
-            adresa:''
+            adresa: '',
+            showAdresa: 'false'
+
         }
         this.changeAdresaHandler = this.changeAdresaHandler.bind(this);
         this.changeOpisHandler = this.changeOpisHandler.bind(this);
         this.changeNazivHandler = this.changeNazivHandler.bind(this);
         this.saveClinic = this.saveClinic.bind(this);
+        this.setAdresa = this.setAdresa.bind(this);
     }
+
+    changeNazivHandler = (event) => {
+        this.setState({ naziv: event.target.value });
+    }
+
+    changeOpisHandler = (event) => {
+        this.setState({ opis: event.target.value });
+    }
+
+    changeAdresaHandler = (event) => {
+        this.setState({ adresa: event.target.value });
+    }
+
 
 
     saveClinic = (event) => {
@@ -34,16 +50,11 @@ class CreateClinicComponent extends Component {
 
     }
 
-    changeNazivHandler = (event) => {
-        this.setState({ naziv: event.target.value });
-    }
+    setAdresa()  {
 
-    changeOpisHandler = (event) => {
-        this.setState({ opis: event.target.value });
-    }
-
-    changeAdresaHandler = (event) => {
-        this.setState({ adresa: event.target.value });
+        this.setState({
+            showAdresa: 'true'
+        })
     }
 
     cancel() {
@@ -51,12 +62,12 @@ class CreateClinicComponent extends Component {
     }
 
     render() {
-        return(
+        return (
             <div style={{ margin: "50px" }}>
                 <div className="container">
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
-                            <h3 style={{ margin: "10px",textDecoration: "underline" }} className="text-center">Dodaj kliniku</h3>
+                            <h3 style={{ margin: "10px", textDecoration: "underline" }} className="text-center">Dodaj kliniku</h3>
                             <div className="card-body">
                                 <form>
                                     <div className="form-group">
@@ -72,16 +83,16 @@ class CreateClinicComponent extends Component {
                                         <input placeholder="Adresa" name="adresa" className="form-control"
                                             value={this.state.adresa} onChange={this.changeAdresaHandler} />
                                     </div>
-
                                     <button className="btn btn-success" onClick={this.saveClinic}>Kreiraj</button>
-                                    <button className="btn btn-default" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px"}}>Odustani</button>
+                                    <button className="btn" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px" }}>Odustani</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            )
+
+        )
     }
 
 }
