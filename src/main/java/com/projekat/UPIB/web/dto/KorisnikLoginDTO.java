@@ -1,7 +1,10 @@
 package com.projekat.UPIB.web.dto;
 
+import lombok.ToString;
+
 import javax.validation.constraints.NotEmpty;
 
+@ToString
 public class KorisnikLoginDTO {
 
     @NotEmpty

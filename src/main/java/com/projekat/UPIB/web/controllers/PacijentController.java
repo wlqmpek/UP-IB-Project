@@ -1,8 +1,16 @@
 package com.projekat.UPIB.web.controllers;
 
+import com.projekat.UPIB.models.Korisnik;
+import com.projekat.UPIB.models.RefreshToken;
+import com.projekat.UPIB.payload.request.TokenRefreshRequest;
+import com.projekat.UPIB.payload.response.JwtResponse;
+import com.projekat.UPIB.payload.response.TokenRefreshResponse;
+import com.projekat.UPIB.security.TokenUtils;
+import com.projekat.UPIB.services.implementation.RefreshTokenService;
 import com.projekat.UPIB.support.converters.PacijentEditDtoToPacijent;
 import com.projekat.UPIB.support.converters.PacijentRegisterDtoToPacijent;
 import com.projekat.UPIB.support.converters.PacijentToPacijentFrontDto;
+import com.projekat.UPIB.support.exceptions.TokenRefreshException;
 import com.projekat.UPIB.web.dto.pacijent.PacijentFrontDTO;
 import com.projekat.UPIB.web.dto.pacijent.PacijentEditDto;
 import com.projekat.UPIB.web.dto.pacijent.PacijentLoginDTO;
@@ -13,12 +21,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(value = "/Pacijenti")
+@RequestMapping(value = "/pacijenti")
 public class PacijentController {
 
     @Autowired
@@ -32,6 +49,15 @@ public class PacijentController {
 
     @Autowired
     private PacijentToPacijentFrontDto pacijentToPacijentFrontDto;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private TokenUtils tokenUtils;
+
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
     @GetMapping
     public ResponseEntity<List<Pacijent>> findAll(){
@@ -52,6 +78,7 @@ public class PacijentController {
         return responseEntity;
     }
 
+    //Ovo treba izmes
     @PostMapping(consumes = "application/json")
     @PreAuthorize("permitAll()")
     public ResponseEntity<Pacijent> savePacijent(@RequestBody PacijentRegisterDTO pacijentRegisterDTO){
@@ -66,13 +93,14 @@ public class PacijentController {
         return responseEntity;
     }
 
+    //EDIT/UPDATE
     //TODO: Umesto da radimo convertovanje iz DTO U Entity i obrnuto
     //u kontroleru uraditi da se isto radi u konverteru primer se nalazi
     //u IB Vezva 7 oko 32min
     @PutMapping(consumes = "application/json", value = "/{id}")
-    @PreAuthorize("permitAll()")
-    public ResponseEntity<Pacijent> updatePacijent(@PathVariable(name = "id") Long id, @RequestBody PacijentEditDto pacijentEditDto){
-
+    @PreAuthorize("hasRole('PACIJENT')")
+    public ResponseEntity<Pacijent> updatePacijent(@PathVariable(name = "id") Long id, @RequestBody PacijentEditDto pacijentEditDto, HttpServletRequest request) {
+        System.out.println("Request");
         ResponseEntity responseEntity = null;
         Pacijent pacijentOld = pacijentService.findOne(id);
             pacijentOld = pacijentEditDtoToPacijent.convert(pacijentOld, pacijentEditDto);
@@ -84,6 +112,7 @@ public class PacijentController {
     }
 
 
+    //DELETE
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePacijent(@PathVariable(name = "id") Long id) {
         Pacijent pacijent = pacijentService.findOne(id);
@@ -93,24 +122,5 @@ public class PacijentController {
         pacijentService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-//    //Komentar
-//    @PostMapping(value = "/login", consumes = "application/json")
-//    public ResponseEntity<PacijentFrontDTO> loginPacijent(@RequestBody PacijentLoginDTO pacijentLoginDTO) {
-//
-//        Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(pacijentLoginDTO.getEmailKorisnika());
-//
-//        if(pacijent != null && pacijent.getLozinkaKorisnika().equals(pacijentLoginDTO.getLozinkaKorisnika())) {
-//
-//            PacijentFrontDTO pacijentFrontDTO = new PacijentFrontDTO(pacijent);
-//
-//            return new ResponseEntity<>(pacijentFrontDTO, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//    }
-
-    
     
 }

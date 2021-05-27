@@ -28,9 +28,12 @@ const Login = () => {
         try {
             await AuthenticationService.login(credentials);
         } catch (error) {
+            console.log("Greska")
+            console.log(error)
             if(error.response.status === 403)
             console.log(error.response.status);
             setGreska("Neispravni podaci!");
+            throw error;
         }
     };
 

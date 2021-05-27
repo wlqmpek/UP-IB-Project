@@ -1,5 +1,11 @@
 package com.projekat.UPIB.web.controllers;
 
+import com.projekat.UPIB.models.RefreshToken;
+import com.projekat.UPIB.payload.request.TokenRefreshRequest;
+import com.projekat.UPIB.payload.response.JwtResponse;
+import com.projekat.UPIB.payload.response.TokenRefreshResponse;
+import com.projekat.UPIB.services.implementation.RefreshTokenService;
+import com.projekat.UPIB.support.exceptions.TokenRefreshException;
 import com.projekat.UPIB.web.dto.KorisnikLoginDTO;
 import com.projekat.UPIB.models.Korisnik;
 import com.projekat.UPIB.security.TokenUtils;
@@ -16,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -46,38 +53,60 @@ public class KorisnikController {
     @Autowired
     private ILekarService lekarService;
 
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
     //TODO: Dodati za medicinsku sestru. - WLQ
 
     // Prvi endpoint koji pogadja korisnik kada se loguje.
     // Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
     @PostMapping(value =  "/prijava", consumes = "application/json")
-    public ResponseEntity<String>  login(@RequestBody KorisnikLoginDTO korisnikLoginDTO, HttpServletResponse response) {
+    public ResponseEntity<?> loginKorisnik(@RequestBody KorisnikLoginDTO korisnikLoginDTO) {
 
-        System.out.println("Pogodjen login");
-        System.out.println("Email korisnikLoginDto " + korisnikLoginDTO.getEmailKorisnika() + " password " + korisnikLoginDTO.getLozinkaKorisnika());
+        System.out.println(korisnikLoginDTO);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        korisnikLoginDTO.getEmailKorisnika(),
+                        korisnikLoginDTO.getLozinkaKorisnika()
+                )
+        );
 
-        Authentication authentication = null;
-        try {
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    korisnikLoginDTO.getEmailKorisnika(), korisnikLoginDTO.getLozinkaKorisnika()
-            ));
-        } catch (BadCredentialsException bce) {
-            System.out.println("Exception");
-            return ResponseEntity.status(403).build();
-        }
-
-        // Ubaci korisnika u trenutni security kontekst
+        // Ubaci korisnika u trenutni context
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        Korisnik userDetails = (Korisnik) authentication.getPrincipal();
+
+        System.out.println("Ulogovan korisnik je " + userDetails);
+
+        //Kreiraj token za tog korisnika
+        String jwt = tokenUtils.generateJwtToken(authentication);
+
+        String roles = userDetails.getAuthoritiesAsString();
+
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getIdKorisnika());
+
+        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getIdKorisnika(), userDetails.getEmailKorisnika(), roles));
+    }
 
 
-        Korisnik korisnik = (Korisnik) authentication.getPrincipal();
-        System.out.println("Korisnikk " + korisnik);
-
-        String jwt = tokenUtils.generateToken(korisnik.getEmailKorisnika(), korisnik.getAuthoritiesAsString());
-        Long isticeU = tokenUtils.getExpiredIn();
-
-        return ResponseEntity.ok(jwt);
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken(@RequestBody TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+        // Ovde ce puci ako je refresh token istekao.
+        return refreshTokenService.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getKorisnik)
+                .map(korisnik -> {
+                    String token = tokenUtils.generateJwtToken(authenticationManager.authenticate(
+                            new UsernamePasswordAuthenticationToken(
+                                    refreshTokenService.findByToken(request.getRefreshToken()).get().getKorisnik().getEmailKorisnika(),
+                                    //Ovo nema svrhe uopste ali dobroDD
+                                    "123"
+                    )));
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+                })
+                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+                        "Refresh token is not in database!"));
     }
 
 }

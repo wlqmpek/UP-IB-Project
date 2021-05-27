@@ -9,7 +9,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@ToString
 //END OF LOMBOK
 @Entity
 @Table(name = "pacijent")
@@ -51,11 +50,11 @@ public class Pacijent extends Korisnik {
         return true;
     }
 
-    @Builder
-    public Pacijent(String imeKorisnika, String prezimeKorisnika, String emailKorisnika, String lozinkaKorisnika, List<Authority> authorities, String JBZO, ZdravstveniKarton zdravstveniKarton, StatusKorisnika statusKorisnika) {
-        super(imeKorisnika, prezimeKorisnika, emailKorisnika, lozinkaKorisnika);
-        this.JBZO = JBZO;
-        this.zdravstveniKarton = zdravstveniKarton;
-        this.statusKorisnika = statusKorisnika;
+    @Override
+    public String toString() {
+        return "Pacijent{" +
+                "JBZO='" + JBZO + '\'' +
+                ", statusKorisnika=" + statusKorisnika +
+                "} " + super.toString();
     }
 }

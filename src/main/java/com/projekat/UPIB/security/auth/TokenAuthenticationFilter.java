@@ -1,6 +1,8 @@
 package com.projekat.UPIB.security.auth;
 
 import com.projekat.UPIB.security.TokenUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -24,47 +27,48 @@ import java.io.IOException;
 //Sem nad putanjama navedenim u WebSecurityConfig.configure(WebSecurity web)
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
     private TokenUtils tokenUtils;
 
+    @Autowired
     private UserDetailsService userDetailsService;
 
-    public TokenAuthenticationFilter(TokenUtils tokenHelper, UserDetailsService userDetailsService) {
-        this.tokenUtils = tokenHelper;
-        this.userDetailsService = userDetailsService;
-        System.out.println("UserDetailsService " +userDetailsService);
-    }
+
+    private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        String username;
-        String authToken = tokenUtils.getToken(request);
+        System.out.println("Filter");
 
-        System.out.println("Token " +authToken);
-
-        if (authToken != null) {
-
-            // uzmi username iz tokena
-            username = tokenUtils.getEmailFromToken(authToken);
-            System.out.println("Username " +username);
-
-            if (username != null) {
-                // uzmi user-a na osnovu username-a
+        try {
+            String jwt = parseJwt(request);
+            if(jwt != null && tokenUtils.validateJwtToken(jwt)) {
+                String username = tokenUtils.getEmailFromToken(jwt);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // proveri da li je prosledjeni token validan
-                if (tokenUtils.validateToken(authToken, userDetails)) {
-                    // kreiraj autentifikaciju
-                    TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
-                    authentication.setToken(authToken);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+        } catch (Exception ex) {
+            logger.error("Cannot set user authentication: {}", ex);
         }
 
         // prosledi request dalje u sledeci filter
         chain.doFilter(request, response);
+    }
+
+    private String parseJwt(HttpServletRequest request) {
+        String headerAuth = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7, headerAuth.length());
+        }
+
+        return null;
     }
 
 }

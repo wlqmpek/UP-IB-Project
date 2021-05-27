@@ -17,11 +17,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-// Ukljucivanje podrske za anotacije "@Pre*" i "@Post*" koje ce aktivirati autorizacione provere za svaki pristup metodi.
+// Ukljucivanje podrske za anotacije "@Pre*" i "Post*" koje ce aktivirati autorizacione provere za svaki pristup metodi.
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -40,12 +41,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
+
     // Registrujemo authentication manager koji ce da uradi autentifikaciju korisnika za nas
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    @Bean
+    public TokenAuthenticationFilter tokenAuthenticationFilter() {
+        return new TokenAuthenticationFilter();
+    }
+
 
     // Definisemo uputstvo za authentication managera koji servis da koristi da izvuce podatke o korisniku koji zeli da se autentifikuje,
     // kao i kroz koji enkoder da provuce lozinku koju je dobio od klijenta u zahtevu da bi adekvatan hash koji dobije kao rezultat bcrypt algoritma uporedio sa onim koji se nalazi u bazi (posto se u bazi ne cuva plain lozinka)
@@ -73,15 +81,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // svim korisnicima dopusti da pristupe putanjama /korisnici/prijava
                 .authorizeRequests().antMatchers("/korisnici/prijava").permitAll()
-
+//                .antMatchers("/korisnici/refreshtoken").permitAll()
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
 //                .anyRequest().authenticated().and()
                 .anyRequest().permitAll().and()
 
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
-                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, userDetailsServiceImplementation),
-                        BasicAuthenticationFilter.class);
+                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // zbog jednostavnosti primera
         http.csrf().disable();
@@ -90,8 +97,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // Generalna bezbednost aplikacije
     @Override
     public void configure(WebSecurity web) throws Exception {
-        // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
+
         web.ignoring().antMatchers(HttpMethod.POST, "/korisnici/prijava");
+        web.ignoring().antMatchers(HttpMethod.POST, "/korisnici/refreshtoken");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");
     }

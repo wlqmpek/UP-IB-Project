@@ -10,13 +10,12 @@ const AxiosClient = axios.create({
 // Dodaj token na svaki zahtev ka backendu, ako je korisnik ulogovan.
 // Nemam pojma kako funkcionice. - WLQ
 AxiosClient.interceptors.request.use(function success(config) {
-
-    const token = TokenService.getToken();
+    const token = TokenService.getAccessToken();
     console.log("Axious Client " + token);
     if(token) {
-        if (TokenService.didTokenExpire()) {
+        if (TokenService.didAccessTokenExpire()) {
             alert("Token je istekao");
-            AuthenticationService.logout();
+            // AuthenticationService.logout();
             return false;
         }
         config.headers["Authorization"] = "Bearer " + token;
@@ -30,10 +29,14 @@ AxiosClient.interceptors.response.use(
         return response;
     },
     function failure(error) {
-        const token = TokenService.getToken();
+        const token = TokenService.getAccessToken();
         if (token) {
+
             if (error.response && error.response.status === 403) {
-                AuthenticationService.logout();
+                // AuthenticationService.logout();
+            } else if (error.response && error.response.status === 401) {
+                console.log("Korisnik ide na reautentifikaciju.")
+                AuthenticationService.refresh()
             }
         }
         throw error;

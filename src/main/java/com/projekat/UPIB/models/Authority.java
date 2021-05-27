@@ -1,12 +1,14 @@
 package com.projekat.UPIB.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
 // POJO koji implementira Spring Security GrantedAuthority kojim se mogu definisati role u aplikaciji
 @Entity
+@ToString
 @Table(name="authority")
 public class Authority implements GrantedAuthority {
 
