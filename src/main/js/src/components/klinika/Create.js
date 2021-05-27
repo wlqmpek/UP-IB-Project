@@ -1,6 +1,5 @@
 import React,{ Component } from "react"
 import ClinicsService from "../../services/ClinicsService";
-import MapContainer from "./GoogleMap";
 
 class CreateClinicComponent extends Component {
 

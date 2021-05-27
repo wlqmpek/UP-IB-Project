@@ -240,7 +240,7 @@ class ViewWorkCalendar extends Component {
                                                     
                                                         {new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() ? ( // && this.state.tipKorisnika === "LEKAR"? (
                                                             <td style={{ width: '20%' }}>    
-                                                                <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updatePregled(pregled.idPregleda)} className="btn btn-info">Azuriraj pregled</button>
+                                                                <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updatePregled(pregled.idPregleda)} className="btn btn-info">Detaljnije o pregledu</button>
                                                                 <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updateZK(pregled.idZdravstvenogKartona)} className="btn btn-success">Zdravstveni karton</button>
                                                             </td>
                                                     )
