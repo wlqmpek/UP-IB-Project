@@ -30,6 +30,7 @@ const PacijentTableRow = ({patient, updatePatient, patients}) => {
             <td>{patient.prezime}</td>
             <td>{patient.email}</td>
             <td>{patient.statusKorisnika}</td>
+            <td>{patient.jbzo}</td>
             <td>
                 <button className="btn btn-warning" onClick={()=> update(patient.id)}>Izmeni</button>
             </td>
