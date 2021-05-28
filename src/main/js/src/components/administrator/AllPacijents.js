@@ -45,18 +45,78 @@ const AllPacijents = () => {
         }
     }
 
-    const filteredNames = searchName.length && searchLastName.length && searchJBZO.length === 0 ? patients :
-        items.filter(patient => patient.ime.toLowerCase()
-            .includes(searchName.toLowerCase()))
+    function filterPatients(){
+        if(searchName.length && searchLastName.length && searchJBZO.length !== 0){
+            return  items.filter(patient => patient.ime.toLowerCase()
+                    .includes(searchName.toLowerCase()) &&
+                patient.prezime.toLowerCase()
+                    .includes(searchLastName.toLowerCase()) &&
+            patient.jbzo.includes(searchJBZO))
+        }
+        if(searchName.length && searchLastName.length !== 0){
+            return  items.filter(patient => patient.ime.toLowerCase()
+                .includes(searchName.toLowerCase()) &&
+                patient.prezime.toLowerCase()
+                    .includes(searchLastName.toLowerCase()))
+        }
+        if(searchName.length && searchJBZO.length !== 0){
+            return  items.filter(patient => patient.ime.toLowerCase()
+                    .includes(searchName.toLowerCase()) &&
+                patient.jbzo.toLowerCase()
+                    .includes(searchJBZO.toLowerCase()))
+        }
+        if(searchLastName.length && searchJBZO.length !== 0){
+            return items.filter(patient => patient.prezime.toLowerCase()
+                .includes(searchLastName.toLowerCase()) &&
+            patient.jbzo.includes(searchJBZO))
+        }
+        if(searchName.length !== 0){
+            return items.filter(patient => patient.ime.toLowerCase()
+                    .includes(searchName.toLowerCase()))
+        }
+        if(searchLastName.length !== 0){
+            return items.filter(patient => patient.prezime.toLowerCase()
+                .includes(searchLastName.toLowerCase()))
+        }
+        if(searchJBZO.length !== 0){
+            return items.filter(patient => patient.jbzo.toLowerCase()
+                .includes(searchJBZO.toLowerCase()))
+        }
+
+        return items
+    }
+
+    const filteredPatients = filterPatients()
+        // searchName.length && searchLastName.length && searchJBZO.length === 0 ? patients :
+        // items.filter(patient => patient.ime.toLowerCase()
+        //     .includes(searchName.toLowerCase()))
 
     return (
         <div className="table-responsive" style={{marginTop: "100px"}}>
             <h2 className="text-center">Pacijenti</h2>
+            <label>Ime: </label>
             <input
-                type="text"
+                type="search"
+                className="form-control-sm rounded"
                 placeholder="Pretraga po imenu"
                 value={searchName}
-                onChange={(e) => setSearchName(e.target.value)}
+                onChange={(e) => setSearchName(e.target.value) && filteredPatients}
+            />
+            <label>Prezime: </label>
+            <input
+                type="search"
+                className="form-control-sm rounded"
+                placeholder="Pretraga po prezimenu"
+                value={searchLastName}
+                onChange={(e) => setSearchLastName(e.target.value) && filteredPatients}
+            />
+            <label>JBZO:</label>
+            <input
+                type="search"
+                className="form-control-sm rounded"
+                placeholder="Pretraga po JBZO"
+                value={searchJBZO}
+                onChange={(e) => setSearchJBZO(e.target.value) && filteredPatients}
             />
             <table className="table table-striped table border">
                 <thead>
@@ -98,8 +158,8 @@ const AllPacijents = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {filteredNames.map((patient, index) => (
-                    <PacijentTableRow key={index} patient={patient} patients={filteredNames} updatePatient={setPatients}/>
+                {filteredPatients.map((patient, index) => (
+                    <PacijentTableRow key={index} patient={patient} patients={filteredPatients} updatePatient={setPatients}/>
                 ))}
                 </tbody>
             </table>
