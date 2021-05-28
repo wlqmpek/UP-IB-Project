@@ -1,7 +1,6 @@
-package com.projekat.UPIB.controllers;
+package com.projekat.UPIB.web.controllers;
 
-import com.projekat.UPIB.dto.LekarDTO;
-import com.projekat.UPIB.dto.PregledDTO;
+import com.projekat.UPIB.web.dto.LekarDTO;
 import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.models.Lekar;
 import com.projekat.UPIB.models.Pregled;

@@ -1,6 +1,6 @@
 package com.projekat.UPIB.models;
 
-import com.projekat.UPIB.dto.LekarDTO;
+import com.projekat.UPIB.web.dto.LekarDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

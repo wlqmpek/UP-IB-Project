@@ -1,7 +1,6 @@
 package com.projekat.UPIB.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.projekat.UPIB.dto.PacijentRegisterDTO;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor

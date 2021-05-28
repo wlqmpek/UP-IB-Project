@@ -1,4 +1,4 @@
-package com.projekat.UPIB.dto;
+package com.projekat.UPIB.web.dto;
 
 import com.projekat.UPIB.models.Klinika;
 

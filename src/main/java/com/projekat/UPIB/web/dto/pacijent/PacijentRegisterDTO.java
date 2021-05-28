@@ -1,4 +1,4 @@
-package com.projekat.UPIB.dto;
+package com.projekat.UPIB.web.dto.pacijent;
 
 import java.io.Serializable;
 

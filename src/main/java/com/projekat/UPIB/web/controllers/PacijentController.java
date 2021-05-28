@@ -1,9 +1,8 @@
-package com.projekat.UPIB.controllers;
+package com.projekat.UPIB.web.controllers;
 
-import com.projekat.UPIB.dto.PacijentFrontDTO;
-import com.projekat.UPIB.dto.PacijentLoginDTO;
-import com.projekat.UPIB.dto.PacijentRegisterDTO;
-import com.projekat.UPIB.dto.PacijentRegisterDTO;
+import com.projekat.UPIB.web.dto.pacijent.PacijentFrontDTO;
+import com.projekat.UPIB.web.dto.pacijent.PacijentLoginDTO;
+import com.projekat.UPIB.web.dto.pacijent.PacijentRegisterDTO;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.models.ZdravstveniKarton;

@@ -1,6 +1,6 @@
-package com.projekat.UPIB.controllers;
+package com.projekat.UPIB.web.controllers;
 
-import com.projekat.UPIB.dto.MedicinskaSestraDTO;
+import com.projekat.UPIB.web.dto.MedicinskaSestraDTO;
 import com.projekat.UPIB.models.MedicinskaSestra;
 import com.projekat.UPIB.services.IKlinikaService;
 import com.projekat.UPIB.services.IMedicinskaSestraService;
