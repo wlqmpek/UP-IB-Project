@@ -5,41 +5,26 @@ const PrikazSvihPacijenata = (props) => {
 
     console.log("Print 2" + props.pacijenti);
 
-    if(props.pacijenti.length > 0) {
+    if (props.pacijenti.length > 0) {
         console.log("Print 3" + props.pacijenti);
         var pacijentiRedovi = props.pacijenti.map((pacijent) => {
-            return(
+            return (
                 <tr key={pacijent.idKorisnika}>
                     <td>{pacijent.idKorisnika}</td>
                     <td>{pacijent.imeKorisnika}</td>
                     <td>{pacijent.prezimeKorisnika}</td>
                     <td>{pacijent.emailKorisnika}</td>
                     <td>{pacijent.statusKorisnika}</td>
-                    <th><button>Blokiraj</button></th>
+                    <th>
+                        <button>Blokiraj</button>
+                    </th>
                 </tr>
             );
         });
-    
+
         return (
             <table className="table">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Ime</th>
-                        <th>Prezime</th>
-                        <th>Email</th>
-                        <th>StatusKorisnika</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {pacijentiRedovi}
-                </tbody>
-            </table>
-        )
-    } else {
-        return(<table className="table">
-            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Ime</th>
@@ -48,14 +33,31 @@ const PrikazSvihPacijenata = (props) => {
                     <th>StatusKorisnika</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
+                {pacijentiRedovi}
+                </tbody>
+            </table>
+        )
+    } else {
+        return (<table className="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Email</th>
+                    <th>StatusKorisnika</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <td>No data</td>
                 </tr>
-            </tbody>
-        </table>
-    );
+                </tbody>
+            </table>
+        );
     }
 }
 

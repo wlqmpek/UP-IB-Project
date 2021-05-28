@@ -1,40 +1,56 @@
 package com.projekat.UPIB.web.dto.pacijent;
 
 import java.io.Serializable;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.projekat.UPIB.enums.StatusKorisnika;
-import com.projekat.UPIB.models.Authority;
 import com.projekat.UPIB.models.Pacijent;
-import com.projekat.UPIB.services.implementation.AuthorityService;
-import lombok.ToString;
 
-@ToString
 public class PacijentRegisterDTO implements Serializable {
 
+    private long id;
     private String ime;
     private String prezime;
     private String email;
     private String lozinka;
-    private String ponovljenaLozinka;
-	@JsonProperty(value = "JBZO")
     private String JBZO;
-	private Long authorities = 4L;
+    private StatusKorisnika statusKorisnika;
     
 	public PacijentRegisterDTO() {
 		super();
-	}
+	}	
 
-	public PacijentRegisterDTO(String ime, String prezime, String email, String lozinka, String ponovljenaLozinka, String JBZO, int authorities) {
+	public PacijentRegisterDTO(long id, String ime, String prezime, String email, String lozinka, String jBZO,
+			 StatusKorisnika statusKorisnika) {
+		super();
+		this.id = id;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.email = email;
 		this.lozinka = lozinka;
-		this.ponovljenaLozinka = ponovljenaLozinka;
-		this.JBZO = JBZO;
+		this.JBZO = jBZO;
+		this.statusKorisnika = statusKorisnika;
 	}
 
+	public PacijentRegisterDTO(Pacijent pacijent) {
+		super();
+		this.id = pacijent.getIdKorisnika();
+		this.ime = pacijent.getImeKorisnika();
+		this.prezime = pacijent.getPrezimeKorisnika();
+		this.email = pacijent.getEmailKorisnika();
+		this.lozinka = pacijent.getLozinkaKorisnika();
+		this.JBZO = pacijent.getJBZO();
+		this.statusKorisnika = pacijent.getStatusKorisnika();
+	}
+
+	
+	
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	public String getIme() {
 		return ime;
@@ -76,19 +92,13 @@ public class PacijentRegisterDTO implements Serializable {
 		JBZO = jBZO;
 	}
 
-	public String getPonovljenaLozinka() {
-		return ponovljenaLozinka;
+	public StatusKorisnika getStatusKorisnika() {
+		return statusKorisnika;
 	}
 
-	public void setPonovljenaLozinka(String ponovljenaLozinka) {
-		this.ponovljenaLozinka = ponovljenaLozinka;
+	public void setStatusKorisnika(StatusKorisnika statusKorisnika) {
+		this.statusKorisnika = statusKorisnika;
 	}
+    
 
-	public Long getAuthorities() {
-		return authorities;
-	}
-
-	public void setAuthorities(Long authorities) {
-		this.authorities = authorities;
-	}
 }

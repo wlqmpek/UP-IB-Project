@@ -1,5 +1,6 @@
 package com.projekat.UPIB.web.controllers;
 
+import com.projekat.UPIB.web.dto.pacijent.PacijentRegisterDTO;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.services.implementation.PacijentService;
@@ -20,13 +21,14 @@ public class ZahteviZaRegistracijuController {
     private PacijentService pacijentService;
 
     @GetMapping
-    public ResponseEntity<List<Pacijent>> getPacijents(){
+    public ResponseEntity<List<PacijentRegisterDTO>> getPacijents(){
         List<Pacijent> pacijenti = pacijentService.findAll();
-        List<Pacijent> retVal = new ArrayList<>();
+        List<PacijentRegisterDTO> retVal = new ArrayList<>();
 
         for (Pacijent pacijent : pacijenti) {
             if(pacijent.getStatusKorisnika().equals(StatusKorisnika.NA_CEKANJU)){
-                retVal.add(pacijent);
+                PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(pacijent);
+                retVal.add(registerDTO);
             }
         }
 
@@ -34,7 +36,8 @@ public class ZahteviZaRegistracijuController {
     }
 
     @PutMapping(consumes = "application/json", value = "/{id}")
-    public ResponseEntity<Pacijent> getPacijent(@PathVariable("id") long id, @RequestBody Pacijent pacijent){
+    public ResponseEntity<PacijentRegisterDTO> getPacijent(@PathVariable("id") long id,
+                                                           @RequestBody PacijentRegisterDTO pacijent){
 
         Pacijent retVal = pacijentService.findOne(id);
         if(retVal == null){
@@ -44,6 +47,8 @@ public class ZahteviZaRegistracijuController {
         retVal.setStatusKorisnika(pacijent.getStatusKorisnika());
         retVal = pacijentService.save(retVal);
 
-        return new ResponseEntity<>(retVal, HttpStatus.ACCEPTED);
+        PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(retVal);
+
+        return new ResponseEntity<>(registerDTO, HttpStatus.ACCEPTED);
     }
 }

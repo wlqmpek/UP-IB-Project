@@ -22,7 +22,6 @@ public class Administrator extends Korisnik {
 //	@Column(name = "klinika", nullable = true, unique = false)
     @ManyToOne
     @JoinColumn(name = "id_klinike", referencedColumnName = "id_klinike", nullable = true)
-    @JsonIgnore
     private Klinika klinika;
 
     @Enumerated(EnumType.STRING)

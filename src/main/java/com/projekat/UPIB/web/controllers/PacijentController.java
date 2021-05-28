@@ -1,126 +1,126 @@
 package com.projekat.UPIB.web.controllers;
 
-import com.projekat.UPIB.models.Korisnik;
-import com.projekat.UPIB.models.RefreshToken;
-import com.projekat.UPIB.payload.request.TokenRefreshRequest;
-import com.projekat.UPIB.payload.response.JwtResponse;
-import com.projekat.UPIB.payload.response.TokenRefreshResponse;
-import com.projekat.UPIB.security.TokenUtils;
-import com.projekat.UPIB.services.implementation.RefreshTokenService;
-import com.projekat.UPIB.support.converters.PacijentEditDtoToPacijent;
-import com.projekat.UPIB.support.converters.PacijentRegisterDtoToPacijent;
-import com.projekat.UPIB.support.converters.PacijentToPacijentFrontDto;
-import com.projekat.UPIB.support.exceptions.TokenRefreshException;
 import com.projekat.UPIB.web.dto.pacijent.PacijentFrontDTO;
-import com.projekat.UPIB.web.dto.pacijent.PacijentEditDto;
 import com.projekat.UPIB.web.dto.pacijent.PacijentLoginDTO;
 import com.projekat.UPIB.web.dto.pacijent.PacijentRegisterDTO;
+import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
+import com.projekat.UPIB.models.ZdravstveniKarton;
 import com.projekat.UPIB.services.IPacijentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(value = "/pacijenti")
+@CrossOrigin
+@RequestMapping(value = "/Pacijenti")
 public class PacijentController {
 
     @Autowired
     private IPacijentService pacijentService;
 
-    @Autowired
-    private PacijentRegisterDtoToPacijent pacijentRegisterDtoToPacijent;
-
-    @Autowired
-    private PacijentEditDtoToPacijent pacijentEditDtoToPacijent;
-
-    @Autowired
-    private PacijentToPacijentFrontDto pacijentToPacijentFrontDto;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private TokenUtils tokenUtils;
-
-    @Autowired
-    private RefreshTokenService refreshTokenService;
-
     @GetMapping
-    public ResponseEntity<List<Pacijent>> findAll(){
+    public ResponseEntity<List<PacijentRegisterDTO>> findAll(){
 
+        List<PacijentRegisterDTO> retVal = new ArrayList<>();
         List<Pacijent> pacijenti = pacijentService.findAll();
-        return new ResponseEntity<List<Pacijent>>(pacijenti, HttpStatus.OK);
+        for (Pacijent pacijent : pacijenti) {
+            PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(pacijent);
+            retVal.add(registerDTO);
+        }
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<PacijentFrontDTO> findOne(@PathVariable(name = "id") Long id){
-        System.out.println("Get pogodjen " + id);
-        ResponseEntity responseEntity = null;
-        PacijentFrontDTO pacijentFrontDTO = pacijentToPacijentFrontDto.convert(pacijentService.findOne(id));
+    public ResponseEntity<PacijentRegisterDTO> findOne(@PathVariable(name = "id") Long id){
 
-        responseEntity = (pacijentFrontDTO == null) ?
-                new ResponseEntity(pacijentFrontDTO, HttpStatus.NOT_FOUND) : new ResponseEntity(pacijentFrontDTO, HttpStatus.OK);
+        Pacijent pacijent = pacijentService.findOne(id);
+        PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(pacijent);
+        if(pacijent == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return responseEntity;
+        return new ResponseEntity<>(registerDTO, HttpStatus.OK);
     }
 
-    //Ovo treba izmes
     @PostMapping(consumes = "application/json")
-    @PreAuthorize("permitAll()")
-    public ResponseEntity<Pacijent> savePacijent(@RequestBody PacijentRegisterDTO pacijentRegisterDTO){
-        System.out.println("Pacijent dto" + pacijentRegisterDTO);
-        ResponseEntity responseEntity = null;
-        Pacijent pacijent = pacijentRegisterDtoToPacijent.convert(pacijentRegisterDTO);
-        pacijent = pacijentService.save(pacijent);
+    public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent){
 
-        responseEntity = (pacijent == null) ?
-                new ResponseEntity(pacijent, HttpStatus.BAD_REQUEST) : new ResponseEntity(pacijent, HttpStatus.CREATED);
+        pacijent.setStatusKorisnika(StatusKorisnika.NA_CEKANJU);
+        Pacijent registered = new Pacijent();
 
-        return responseEntity;
+        registered.setImeKorisnika(pacijent.getIme());
+        registered.setPrezimeKorisnika(pacijent.getPrezime());
+        registered.setEmailKorisnika(pacijent.getEmail());
+        registered.setLozinkaKorisnika(pacijent.getLozinka());
+        registered.setJBZO(pacijent.getJBZO());
+        registered.setStatusKorisnika(pacijent.getStatusKorisnika());
+        registered.setZdravstveniKarton(new ZdravstveniKarton());
+        registered.getZdravstveniKarton().setPacijent(registered);
+
+        registered = pacijentService.save(registered);
+        pacijent = new PacijentRegisterDTO(registered);
+
+        return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }
 
-    //EDIT/UPDATE
-    //TODO: Umesto da radimo convertovanje iz DTO U Entity i obrnuto
-    //u kontroleru uraditi da se isto radi u konverteru primer se nalazi
-    //u IB Vezva 7 oko 32min
     @PutMapping(consumes = "application/json", value = "/{id}")
-    @PreAuthorize("hasRole('PACIJENT')")
-    public ResponseEntity<Pacijent> updatePacijent(@PathVariable(name = "id") Long id, @RequestBody PacijentEditDto pacijentEditDto, HttpServletRequest request) {
-        System.out.println("Request");
-        ResponseEntity responseEntity = null;
-        Pacijent pacijentOld = pacijentService.findOne(id);
-            pacijentOld = pacijentEditDtoToPacijent.convert(pacijentOld, pacijentEditDto);
-            pacijentOld = pacijentService.save(pacijentOld);
-            responseEntity = (pacijentOld == null) ?
-                    responseEntity = new ResponseEntity(pacijentOld, HttpStatus.BAD_REQUEST) : new ResponseEntity(pacijentOld, HttpStatus.OK);
+    public ResponseEntity<PacijentRegisterDTO> updatePacijent(@PathVariable(name = "id") Long id,
+                                                              @RequestBody PacijentRegisterDTO pacijent){
 
-            return responseEntity;
+        Pacijent pacijentOld = pacijentService.findOne(id);
+        if(pacijentOld == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        pacijentOld.setImeKorisnika(pacijent.getIme());
+        pacijentOld.setEmailKorisnika(pacijent.getEmail());
+        pacijentOld.setLozinkaKorisnika(pacijent.getLozinka());
+        pacijentOld.setPrezimeKorisnika(pacijent.getPrezime());
+        pacijentOld.setStatusKorisnika(pacijent.getStatusKorisnika());
+
+        pacijentOld = pacijentService.save(pacijentOld);
+        pacijent = new PacijentRegisterDTO(pacijentOld);
+
+        return new ResponseEntity<>(pacijent, HttpStatus.OK);
     }
 
-
-    //DELETE
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deletePacijent(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Void> deletePacijent(@PathVariable(name = "id") Long id){
+
         Pacijent pacijent = pacijentService.findOne(id);
         if(pacijent == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         pacijentService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+    @PostMapping(value = "/login", consumes = "application/json")
+    public ResponseEntity<PacijentFrontDTO> loginPacijent(@RequestBody PacijentLoginDTO pacijentLoginDTO) {
+
+        System.out.println("Pogodjeno!");
+        System.out.println("Email " + pacijentLoginDTO.getEmailKorisnika());
+        System.out.println("Lozinka " +pacijentLoginDTO.getLozinkaKorisnika());
+
+        Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(pacijentLoginDTO.getEmailKorisnika());
+
+        if(pacijent != null && pacijent.getLozinkaKorisnika().equals(pacijentLoginDTO.getLozinkaKorisnika())) {
+
+            PacijentFrontDTO pacijentFrontDTO = new PacijentFrontDTO(pacijent);
+
+            return new ResponseEntity<>(pacijentFrontDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    
     
 }
