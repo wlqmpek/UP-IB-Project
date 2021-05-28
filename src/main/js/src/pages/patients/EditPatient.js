@@ -50,9 +50,6 @@ const  EditPatientDetails = () => {
     };
 
     const update = async () => {
-        console.log("Role je " + AuthenticationService.getRole() + "!");
-        console.log("Did token expire " + TokenService.didAccessTokenExpire());
-        console.log("Role = role " + (AuthenticationService.getRole().localeCompare("ROLE_ADMINISTRATOR") ));
         if((!TokenService.didAccessTokenExpire()) && (AuthenticationService.getRole() == "ROLE_ADMINISTRATOR" || AuthenticationService.getRole() == "ROLE_PACIJENT")){
             // Radi se u slucaju da token nije isttekao i da je rola admin ili pacijent.
             console.log("Uspesno 1");

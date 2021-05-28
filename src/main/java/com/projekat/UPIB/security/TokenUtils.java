@@ -1,9 +1,13 @@
 package com.projekat.UPIB.security;
 
 import com.projekat.UPIB.models.Korisnik;
+import com.projekat.UPIB.models.RefreshToken;
+import com.projekat.UPIB.services.implementation.RefreshTokenService;
+import com.projekat.UPIB.support.exceptions.TokenRefreshException;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -13,6 +17,9 @@ import java.util.Date;
 public class TokenUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenUtils.class);
+
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
     // Izdavac tokena
     @Value("UP-IB-Project")
@@ -44,6 +51,20 @@ public class TokenUtils {
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .claim("roles", userPrincipal.getAuthorities().get(0).getImeAuthority())
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+
+    public String generateJwtToken(String refreshTokenString) {
+        RefreshToken refreshToken = refreshTokenService.findByToken(
+                refreshTokenString).orElseThrow(() -> new TokenRefreshException(refreshTokenString,
+                "Refresh token is not in database!"));
+        Korisnik korisnik = refreshToken.getKorisnik();
+        return Jwts.builder()
+                .setSubject((korisnik.getEmailKorisnika()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .claim("roles", korisnik.getAuthorities().get(0).getImeAuthority())
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }

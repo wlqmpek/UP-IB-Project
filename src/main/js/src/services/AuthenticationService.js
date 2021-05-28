@@ -12,7 +12,6 @@ export const AuthenticationService = {
 async function login(userCredentials) {
     TokenService.removeAccessToken()
     try {
-        window.alert(TokenService.getAccessToken());
         const response = await AxiosClient.post(
             "/korisnici/prijava",
             userCredentials
@@ -33,7 +32,7 @@ async function login(userCredentials) {
 }
 //DODATO NOVO???
 async function refresh() {
-    window.alert("Trazimo da se generise refresh token")
+    TokenService.removeAccessToken();
     try {
         const response = await AxiosClient.post(
             "korisnici/refreshtoken", {"refreshToken":TokenService.getRefreshToken()}

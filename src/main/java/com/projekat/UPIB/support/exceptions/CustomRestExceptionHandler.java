@@ -41,7 +41,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TokenRefreshException.class)
     public ResponseEntity<Object> handleTokenRefreshException(TokenRefreshException ex) {
-        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
+            ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
         apiError.setMessage(ex.getMessage());
         apiError.setTimestamp(LocalDateTime.now());
 
