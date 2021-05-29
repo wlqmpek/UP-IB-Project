@@ -1,81 +1,90 @@
 package com.projekat.UPIB.web.dto.pacijent;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.web.dto.ZdravstveniKartonDTO;
 
-
 public class PacijentFrontDTO {
 
-    private long idKorisnika;
-    private String imeKorisnika;
-    private String prezimeKorisnika;
-    private String emailKorisnika;
-    @JsonProperty(value = "JBZO")
+    private long id;
+    private String ime;
+    private String prezime;
+    private String email;
     private String JBZO;
-    @JsonIgnore
-    private ZdravstveniKartonDTO zdravstveniKarton;
-    private StatusKorisnika statusKorisnika;
+    private long idZdravstvenogKartona;
 
     public PacijentFrontDTO() {
         super();
     }
 
-    public long getIdKorisnika() {
-        return idKorisnika;
+    public PacijentFrontDTO(long id, String ime, String prezime, String email, String jBZO,
+                               long idZdravstvenogKartona) {
+        super();
+        this.id = id;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.email = email;
+        this.JBZO = jBZO;
+        this.idZdravstvenogKartona = idZdravstvenogKartona;
     }
 
-    public void setIdKorisnika(long idKorisnika) {
-        this.idKorisnika = idKorisnika;
+    public PacijentFrontDTO(Pacijent pacijent) {
+        super();
+        this.id = pacijent.getIdKorisnika();
+        this.ime = pacijent.getImeKorisnika();
+        this.prezime = pacijent.getPrezimeKorisnika();
+        this.email = pacijent.getEmailKorisnika();
+        this.JBZO = pacijent.getJBZO();
+        this.idZdravstvenogKartona = pacijent.getZdravstveniKarton().getIdZdravstvenogKartona();
     }
 
-    public String getImeKorisnika() {
-        return imeKorisnika;
+
+    public long getId() {
+        return id;
     }
 
-    public void setImeKorisnika(String imeKorisnika) {
-        this.imeKorisnika = imeKorisnika;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getPrezimeKorisnika() {
-        return prezimeKorisnika;
+    public String getIme() {
+        return ime;
     }
 
-    public void setPrezimeKorisnika(String prezimeKorisnika) {
-        this.prezimeKorisnika = prezimeKorisnika;
+    public void setIme(String ime) {
+        this.ime = ime;
     }
 
-    public String getEmailKorisnika() {
-        return emailKorisnika;
+    public String getPrezime() {
+        return prezime;
     }
 
-    public void setEmailKorisnika(String emailKorisnika) {
-        this.emailKorisnika = emailKorisnika;
+    public void setPrezime(String prezime) {
+        this.prezime = prezime;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getJBZO() {
         return JBZO;
     }
 
-    public void setJBZO(String JBZO) {
-        this.JBZO = JBZO;
+    public void setJBZO(String jBZO) {
+        JBZO = jBZO;
     }
 
-    public ZdravstveniKartonDTO getZdravstveniKarton() {
-        return zdravstveniKarton;
+    public long getIdZdravstvenogKartona() {
+        return idZdravstvenogKartona;
     }
 
-    public void setZdravstveniKarton(ZdravstveniKartonDTO zdravstveniKarton) {
-        this.zdravstveniKarton = zdravstveniKarton;
-    }
-
-    public StatusKorisnika getStatusKorisnika() {
-        return statusKorisnika;
-    }
-
-    public void setStatusKorisnika(StatusKorisnika statusKorisnika) {
-        this.statusKorisnika = statusKorisnika;
+    public void setIdZdravstvenogKartona(long idZdravstvenogKartona) {
+        this.idZdravstvenogKartona = idZdravstvenogKartona;
     }
 }

@@ -1,14 +1,14 @@
-import AxiousClient from "./clients/AxiosClient";
+import AxiosClient from "./clients/AxiosClient";
 
 export const RegistrationRequestService = {
     getRequests,
     editRequest
 }
 
-async function getRequests(){
-    return await AxiousClient.get("Zahtevi")
+async function getRequests() {
+    return await AxiosClient.get("Zahtevi")
 }
 
-async function editRequest(id, request){
-    return await AxiousClient.put(`Zahtevi/${id}`, request)
+async function editRequest(id, request) {
+    return await AxiosClient.put(`Zahtevi/${id}`, request)
 }

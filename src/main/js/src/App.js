@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import './App.css'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import PacijentRegistration from './components/pacijent/Registration'
 import RegistrationRequsets from './components/pacijent/RegistrationRequsets'
 import CreateClinicComponent from './components/klinika/Create';
@@ -30,6 +30,14 @@ import ViewWorkCalendar from './components/klinika/WorkCalendar';
 import ViewPregledComponent from './components/klinika/pregledi/ViewPregled';
 import FirstTimeLoginComponent from './components/administrator/FirstTimeLogin';
 import UpdateZKComponent from './components/klinika/zdravstveniKarton/Update';
+import AllPacijents from "./components/administrator/AllPacijents";
+import IzmenaPacijenta from "./components/pacijent/IzmenaPacijenta";
+import AllDoctors from "./components/administrator/AllDoctors";
+import AllMSestre from "./components/administrator/AllMSestre";
+import AddDoctor from "./components/lekar/AddDoctor";
+import EditDoctor from "./components/lekar/EditDoctor";
+import EditMedicinkaSestra from "./components/medicinska_sestra/EditMedicinkaSestra";
+import AddMedicinskaSestra from "./components/medicinska_sestra/AddMedicinskaSestra";
 
 function App() {
 
@@ -47,7 +55,7 @@ function App() {
                     </Switch>
                     <Switch>
                         <Route exact path="/klinike" component={ListClinicsComponent} ></Route>
-                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent} ></Route>  
+                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent} ></Route>
                         <Route exact path="/klinike/pregled/:id" component={ViewClinicComponent} ></Route>
                         <Route exact path="/klinike/izmeni/:id" component={UpdateClinicComponent} ></Route>
                         <Route exact path="/klinike/:id/dodajAdmina" component={AddAdminToClinicComponent} ></Route>
@@ -58,10 +66,24 @@ function App() {
                         <Route exact path="/admini/dodaj" component={AddAdminComponent} ></Route>
                         <Route exact path="/admini/izmeni/:id" component={UpdateAdminKCComponent} ></Route>
                         <Route exact path="/admini/:id/initial" component={FirstTimeLoginComponent} ></Route>
-                    </Switch>
 
+                    </Switch>
                     <Switch>
-                        <Route path="/" exact component={FrontPage}></Route>
+                        <Route path="/PrikazSvihPacijenata" component={GetPacijenti}></Route>
+                        <Route exact path="/pacijenti" component={AllPacijents}/>
+                        <Route exact path="/pacijenti/:id" component={IzmenaPacijenta}/>
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/medicinske-sestre" component={AllMSestre} />
+                        <Route exact path="/medicinske-sestre/dodaj" component={AddMedicinskaSestra} />
+                        <Route exact path="/medicinske-sestre/:id" component={EditMedicinkaSestra} />
+
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/lekari" component={AllDoctors}/>
+                        <Route exact path="/lekari/dodaj" component={AddDoctor}/>
+                        <Route exact path="/lekari/:id" component={EditDoctor}/>
+
                     </Switch>
 
                   <Switch>
@@ -83,7 +105,7 @@ function App() {
                         <Route exact path="/medicinskaSestra/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
                         <Route exact path="/medicinskaSestra/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
                   </Switch>
-                  
+
 	            </div>
             <FooterComponent />
         </Router>

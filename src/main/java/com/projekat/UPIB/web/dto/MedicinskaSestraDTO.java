@@ -1,5 +1,7 @@
 package com.projekat.UPIB.web.dto;
 
+import com.projekat.UPIB.models.MedicinskaSestra;
+
 import java.io.Serializable;
 
 public class MedicinskaSestraDTO implements Serializable{
@@ -9,7 +11,7 @@ public class MedicinskaSestraDTO implements Serializable{
     private String prezimeKorisnika;
     private String emailKorisnika;
     private String lozinkaKorisnika;
-    private KlinikaDTO klinika;
+    private long idKlinike;
     
     
     
@@ -25,7 +27,16 @@ public class MedicinskaSestraDTO implements Serializable{
 		this.prezimeKorisnika = prezimeKorisnika;
 		this.emailKorisnika = emailKorisnika;
 		this.lozinkaKorisnika = lozinkaKorisnika;
-		this.klinika = klinika;
+		this.idKlinike = klinika.getIdKlinike();
+	}
+
+	public MedicinskaSestraDTO(MedicinskaSestra medicinskaSestra){
+		this.idKorisnika = medicinskaSestra.getIdKorisnika();
+		this.imeKorisnika = medicinskaSestra.getImeKorisnika();
+		this.prezimeKorisnika = medicinskaSestra.getPrezimeKorisnika();
+		this.emailKorisnika = medicinskaSestra.getEmailKorisnika();
+		this.lozinkaKorisnika = medicinskaSestra.getLozinkaKorisnika();
+		this.idKlinike = medicinskaSestra.getKlinika().getIdKlinike();
 	}
 	
 	
@@ -71,12 +82,12 @@ public class MedicinskaSestraDTO implements Serializable{
 		this.lozinkaKorisnika = lozinkaKorisnika;
 	}
 
-	public KlinikaDTO getKlinika() {
-		return klinika;
+	public long getIdKlinike() {
+		return idKlinike;
 	}
 
-	public void setKlinika(KlinikaDTO klinika) {
-		this.klinika = klinika;
+	public void setIdKlinike(long idKlinike) {
+		this.idKlinike = idKlinike;
 	}
 	
 }

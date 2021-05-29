@@ -15,9 +15,9 @@ public class PacijentToPacijentFrontDto implements Converter<Pacijent, PacijentF
             //TODO: Baci exception
         } else {
             pacijentFrontDTO = new PacijentFrontDTO();
-            pacijentFrontDTO.setImeKorisnika(pacijent.getImeKorisnika());
-            pacijentFrontDTO.setPrezimeKorisnika(pacijent.getPrezimeKorisnika());
-            pacijentFrontDTO.setIdKorisnika(pacijent.getIdKorisnika());
+            pacijentFrontDTO.setIme(pacijent.getImeKorisnika());
+            pacijentFrontDTO.setPrezime(pacijent.getPrezimeKorisnika());
+            pacijentFrontDTO.setId(pacijent.getIdKorisnika());
         }
         return pacijentFrontDTO;
     }
