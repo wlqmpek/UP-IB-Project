@@ -7,7 +7,6 @@ import com.projekat.UPIB.models.Pacijent;
 
 public class PacijentRegisterDTO implements Serializable {
 
-    private long id;
     private String ime;
     private String prezime;
     private String email;
@@ -20,10 +19,9 @@ public class PacijentRegisterDTO implements Serializable {
 		super();
 	}	
 
-	public PacijentRegisterDTO(long id, String ime, String prezime, String email, String lozinka, String ponovljenaLozinka,
+	public PacijentRegisterDTO(String ime, String prezime, String email, String lozinka, String ponovljenaLozinka,
 							   String jBZO) {
 		super();
-		this.id = id;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.email = email;
@@ -34,7 +32,6 @@ public class PacijentRegisterDTO implements Serializable {
 
 	public PacijentRegisterDTO(Pacijent pacijent) {
 		super();
-		this.id = pacijent.getIdKorisnika();
 		this.ime = pacijent.getImeKorisnika();
 		this.prezime = pacijent.getPrezimeKorisnika();
 		this.email = pacijent.getEmailKorisnika();
@@ -42,15 +39,6 @@ public class PacijentRegisterDTO implements Serializable {
 		this.JBZO = pacijent.getJBZO();
 	}
 
-	
-	
-	public long getId() {
-		return id;
-	}
-	
-	public void setId(long id) {
-		this.id = id;
-	}
 	
 	public String getIme() {
 		return ime;
