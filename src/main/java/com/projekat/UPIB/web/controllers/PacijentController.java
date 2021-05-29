@@ -20,6 +20,8 @@ import java.util.List;
 @RequestMapping(value = "/Pacijenti")
 public class PacijentController {
 
+    private static final String SECRET = "DQ5vLW9QCh";
+
     @Autowired
     private IPacijentService pacijentService;
 
