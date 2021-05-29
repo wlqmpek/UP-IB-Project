@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 public class PacijentRegisterDTO implements Serializable {
 
+    private long id;
     private String ime;
     private String prezime;
     private String email;
@@ -20,13 +21,15 @@ public class PacijentRegisterDTO implements Serializable {
     private String ponovljenaLozinka;
 	@JsonProperty(value = "JBZO")
     private String JBZO;
-	private Long authorities = 4L;
+    private Long authorities = 4L;
     
 	public PacijentRegisterDTO() {
 		super();
-	}
+	}	
 
-	public PacijentRegisterDTO(String ime, String prezime, String email, String lozinka, String ponovljenaLozinka, String JBZO) {
+	public PacijentRegisterDTO(String ime, String prezime, String email, String lozinka, String ponovljenaLozinka,
+							   String JBZO) {
+		super();
 		this.ime = ime;
 		this.prezime = prezime;
 		this.email = email;
@@ -35,6 +38,25 @@ public class PacijentRegisterDTO implements Serializable {
 		this.JBZO = JBZO;
 	}
 
+	public PacijentRegisterDTO(Pacijent pacijent) {
+		super();
+		this.ime = pacijent.getImeKorisnika();
+		this.prezime = pacijent.getPrezimeKorisnika();
+		this.email = pacijent.getEmailKorisnika();
+		this.lozinka = pacijent.getLozinkaKorisnika();
+		this.JBZO = pacijent.getJBZO();
+		this.JBZO = JBZO;
+	}
+
+	
+	
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	public String getIme() {
 		return ime;
@@ -68,20 +90,20 @@ public class PacijentRegisterDTO implements Serializable {
 		this.lozinka = lozinka;
 	}
 
-	public String getJBZO() {
-		return JBZO;
-	}
-	
-	public void setJBZO(String jBZO) {
-		JBZO = jBZO;
-	}
-
 	public String getPonovljenaLozinka() {
 		return ponovljenaLozinka;
 	}
 
 	public void setPonovljenaLozinka(String ponovljenaLozinka) {
 		this.ponovljenaLozinka = ponovljenaLozinka;
+	}
+
+	public String getJBZO() {
+		return JBZO;
+	}
+	
+	public void setJBZO(String jBZO) {
+		JBZO = jBZO;
 	}
 
 	public Long getAuthorities() {

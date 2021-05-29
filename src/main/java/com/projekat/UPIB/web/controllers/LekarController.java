@@ -9,6 +9,7 @@ import com.projekat.UPIB.services.ILekarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public class LekarController {
     
     @Autowired
     private IKlinikaService klinikaService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<List<LekarFrontendDTO>> findAll(){
@@ -56,7 +60,7 @@ public class LekarController {
     	Lekar lekar = new Lekar();
     	lekar.setImeKorisnika(lekarInfo.getImeKorisnika());
     	lekar.setPrezimeKorisnika(lekarInfo.getPrezimeKorisnika());
-    	lekar.setLozinkaKorisnika(lekarInfo.getLozinkaKorisnika());
+    	lekar.setLozinkaKorisnika(passwordEncoder.encode(lekarInfo.getLozinkaKorisnika()));
     	lekar.setEmailKorisnika(lekarInfo.getEmailKorisnika());
     	
     	// bad request ukoliko id klinike nije prosledjen ili id nije ispravan
@@ -87,7 +91,7 @@ public class LekarController {
 
         lekarOld.setEmailKorisnika(lekarInfo.getEmailKorisnika());
         lekarOld.setImeKorisnika(lekarInfo.getImeKorisnika());
-        lekarOld.setLozinkaKorisnika(lekarInfo.getLozinkaKorisnika());
+        lekarOld.setLozinkaKorisnika(passwordEncoder.encode(lekarInfo.getLozinkaKorisnika()));
         lekarOld.setPrezimeKorisnika(lekarInfo.getPrezimeKorisnika());
         
         // potrebna for petlja da se za svaki ID iz pregledi HashSet-a

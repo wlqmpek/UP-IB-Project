@@ -1,9 +1,7 @@
 package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.services.IZdravstveniKarton;
-import com.projekat.UPIB.web.dto.pacijent.PacijentFrontDTO;
-import com.projekat.UPIB.web.dto.pacijent.PacijentLoginDTO;
-import com.projekat.UPIB.web.dto.pacijent.PacijentRegisterDTO;
+import com.projekat.UPIB.web.dto.pacijent.*;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.models.ZdravstveniKarton;
@@ -11,6 +9,7 @@ import com.projekat.UPIB.services.IPacijentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,6 +26,9 @@ public class PacijentController {
     @Autowired
     private IZdravstveniKarton zdravstveniKarton;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping
     public ResponseEntity<List<PacijentRegisterDTO>> findAll(){
 
@@ -40,15 +42,15 @@ public class PacijentController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<PacijentRegisterDTO> findOne(@PathVariable(name = "id") Long id){
+    public ResponseEntity<PacijentFrontDTO> findOne(@PathVariable(name = "id") Long id){
 
         Pacijent pacijent = pacijentService.findOne(id);
-        PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(pacijent);
+        PacijentFrontDTO frontDTO = new PacijentFrontDTO(pacijent);
         if(pacijent == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(registerDTO, HttpStatus.OK);
+        return new ResponseEntity<>(frontDTO, HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
@@ -60,7 +62,7 @@ public class PacijentController {
         registered.setImeKorisnika(pacijent.getIme());
         registered.setPrezimeKorisnika(pacijent.getPrezime());
         registered.setEmailKorisnika(pacijent.getEmail());
-        registered.setLozinkaKorisnika(pacijent.getLozinka());
+        registered.setLozinkaKorisnika(passwordEncoder.encode(pacijent.getLozinka()));
         registered.setJBZO(pacijent.getJBZO());
         registered.setZdravstveniKarton(new ZdravstveniKarton());
         registered.getZdravstveniKarton().setPacijent(registered);
@@ -72,8 +74,8 @@ public class PacijentController {
     }
 
     @PutMapping(consumes = "application/json", value = "/{id}")
-    public ResponseEntity<PacijentRegisterDTO> updatePacijent(@PathVariable(name = "id") Long id,
-                                                              @RequestBody PacijentRegisterDTO pacijent){
+    public ResponseEntity<PacijentAdminEditDTO> updatePacijent(@PathVariable(name = "id") Long id,
+                                                               @RequestBody PacijentAdminEditDTO pacijent){
 
         Pacijent pacijentOld = pacijentService.findOne(id);
         if(pacijentOld == null){
@@ -81,12 +83,11 @@ public class PacijentController {
         }
 
         pacijentOld.setImeKorisnika(pacijent.getIme());
-        pacijentOld.setEmailKorisnika(pacijent.getEmail());
-        pacijentOld.setLozinkaKorisnika(pacijent.getLozinka());
+        pacijentOld.setLozinkaKorisnika(passwordEncoder.encode(pacijent.getLozinka()));
         pacijentOld.setPrezimeKorisnika(pacijent.getPrezime());
 
         pacijentOld = pacijentService.save(pacijentOld);
-        pacijent = new PacijentRegisterDTO(pacijentOld);
+        pacijent = new PacijentAdminEditDTO(pacijentOld);
 
         return new ResponseEntity<>(pacijent, HttpStatus.OK);
     }
