@@ -26,7 +26,7 @@ public class PacijentRegisterDTO implements Serializable {
 		super();
 	}
 
-	public PacijentRegisterDTO(String ime, String prezime, String email, String lozinka, String ponovljenaLozinka, String JBZO, int authorities) {
+	public PacijentRegisterDTO(String ime, String prezime, String email, String lozinka, String ponovljenaLozinka, String JBZO) {
 		this.ime = ime;
 		this.prezime = prezime;
 		this.email = email;

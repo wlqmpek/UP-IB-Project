@@ -22,7 +22,6 @@ public class KorisnikService implements IKorisnikService {
     AdminRepozitorijum adminRepozitorijum;
 
     //TODO: Dodati za sestru <3 - WLQ
-
 //    @Autowired
 //    private AuthenticationManager authenticationManager;
 

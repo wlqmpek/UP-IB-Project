@@ -58,6 +58,7 @@ public class KorisnikController {
 
     //TODO: Dodati za medicinsku sestru. - WLQ
 
+
     // Prvi endpoint koji pogadja korisnik kada se loguje.
     // Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
     @PostMapping(value =  "/prijava", consumes = "application/json")
