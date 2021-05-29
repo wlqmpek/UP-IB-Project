@@ -43,8 +43,7 @@ public class ZahteviZaRegistracijuController {
         if(retVal == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        retVal.setStatusKorisnika(pacijent.getStatusKorisnika());
+        //TODO Namesti novi DTO za promenu statusa
         retVal = pacijentService.save(retVal);
 
         PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(retVal);

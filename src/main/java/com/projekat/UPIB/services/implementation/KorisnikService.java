@@ -3,6 +3,7 @@ package com.projekat.UPIB.services.implementation;
 import com.projekat.UPIB.models.Korisnik;
 import com.projekat.UPIB.repositories.AdminRepozitorijum;
 import com.projekat.UPIB.repositories.LekarRepozitorijum;
+import com.projekat.UPIB.repositories.MedicinskaSestraRepozitorijum;
 import com.projekat.UPIB.repositories.PacijentRepozitorijum;
 import com.projekat.UPIB.services.IKorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class KorisnikService implements IKorisnikService {
     @Autowired
     AdminRepozitorijum adminRepozitorijum;
 
+    @Autowired
+    MedicinskaSestraRepozitorijum medicinskaSestraRepozitorijum;
+
     //TODO: Dodati za sestru <3 - WLQ
 
 //    @Autowired
@@ -37,8 +41,8 @@ public class KorisnikService implements IKorisnikService {
             korisnik = lekarRepozitorijum.findLekarByEmailKorisnika(emailKorisnika);
         if(korisnik == null)
             korisnik = pacijentRepozitorijum.findPacijentByEmailKorisnika(emailKorisnika);
-//        if(korisnik == null)
-//            korisnik = medicinskaSestraRepozitorijum.findMedicinskaSestraByEmailKorisnika(emailKorisnika);
+        if(korisnik == null)
+            korisnik = medicinskaSestraRepozitorijum.findMedicinskaSestraByEmailKorisnika(emailKorisnika);
 
         System.out.println("Nadjen korisnik je " + korisnik);
 

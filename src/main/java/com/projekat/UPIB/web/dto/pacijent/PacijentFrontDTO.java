@@ -12,24 +12,21 @@ public class PacijentFrontDTO {
     private String prezime;
     private String email;
     private String JBZO;
-    @JsonIgnore
-    private ZdravstveniKartonDTO zdravstveniKarton;
-    private StatusKorisnika statusKorisnika;
+    private long idZdravstvenogKartona;
 
     public PacijentFrontDTO() {
         super();
     }
 
     public PacijentFrontDTO(long id, String ime, String prezime, String email, String jBZO,
-                               ZdravstveniKartonDTO zdravstveniKarton, StatusKorisnika statusKorisnika) {
+                               long idZdravstvenogKartona) {
         super();
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;
         this.JBZO = jBZO;
-        this.zdravstveniKarton = zdravstveniKarton;
-        this.statusKorisnika = statusKorisnika;
+        this.idZdravstvenogKartona = idZdravstvenogKartona;
     }
 
     public PacijentFrontDTO(Pacijent pacijent) {
@@ -39,8 +36,7 @@ public class PacijentFrontDTO {
         this.prezime = pacijent.getPrezimeKorisnika();
         this.email = pacijent.getEmailKorisnika();
         this.JBZO = pacijent.getJBZO();
-        this.zdravstveniKarton = new ZdravstveniKartonDTO();
-        this.statusKorisnika = pacijent.getStatusKorisnika();
+        this.idZdravstvenogKartona = pacijent.getZdravstveniKarton().getIdZdravstvenogKartona();
     }
 
 
@@ -84,20 +80,11 @@ public class PacijentFrontDTO {
         JBZO = jBZO;
     }
 
-    public ZdravstveniKartonDTO getZdravstveniKarton() {
-        return zdravstveniKarton;
+    public long getIdZdravstvenogKartona() {
+        return idZdravstvenogKartona;
     }
 
-    public void setZdravstveniKarton(ZdravstveniKartonDTO zdravstveniKarton) {
-        this.zdravstveniKarton = zdravstveniKarton;
+    public void setIdZdravstvenogKartona(long idZdravstvenogKartona) {
+        this.idZdravstvenogKartona = idZdravstvenogKartona;
     }
-
-    public StatusKorisnika getStatusKorisnika() {
-        return statusKorisnika;
-    }
-
-    public void setStatusKorisnika(StatusKorisnika statusKorisnika) {
-        this.statusKorisnika = statusKorisnika;
-    }
-
 }

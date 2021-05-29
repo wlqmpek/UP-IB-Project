@@ -1,5 +1,6 @@
 package com.projekat.UPIB.web.controllers;
 
+import com.projekat.UPIB.services.IZdravstveniKarton;
 import com.projekat.UPIB.web.dto.pacijent.PacijentFrontDTO;
 import com.projekat.UPIB.web.dto.pacijent.PacijentLoginDTO;
 import com.projekat.UPIB.web.dto.pacijent.PacijentRegisterDTO;
@@ -22,6 +23,9 @@ public class PacijentController {
 
     @Autowired
     private IPacijentService pacijentService;
+
+    @Autowired
+    private IZdravstveniKarton zdravstveniKarton;
 
     @GetMapping
     public ResponseEntity<List<PacijentRegisterDTO>> findAll(){
@@ -50,15 +54,14 @@ public class PacijentController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent){
 
-        pacijent.setStatusKorisnika(StatusKorisnika.NA_CEKANJU);
         Pacijent registered = new Pacijent();
+        registered.setStatusKorisnika(StatusKorisnika.NA_CEKANJU);
 
         registered.setImeKorisnika(pacijent.getIme());
         registered.setPrezimeKorisnika(pacijent.getPrezime());
         registered.setEmailKorisnika(pacijent.getEmail());
         registered.setLozinkaKorisnika(pacijent.getLozinka());
         registered.setJBZO(pacijent.getJBZO());
-        registered.setStatusKorisnika(pacijent.getStatusKorisnika());
         registered.setZdravstveniKarton(new ZdravstveniKarton());
         registered.getZdravstveniKarton().setPacijent(registered);
 
@@ -81,7 +84,6 @@ public class PacijentController {
         pacijentOld.setEmailKorisnika(pacijent.getEmail());
         pacijentOld.setLozinkaKorisnika(pacijent.getLozinka());
         pacijentOld.setPrezimeKorisnika(pacijent.getPrezime());
-        pacijentOld.setStatusKorisnika(pacijent.getStatusKorisnika());
 
         pacijentOld = pacijentService.save(pacijentOld);
         pacijent = new PacijentRegisterDTO(pacijentOld);
