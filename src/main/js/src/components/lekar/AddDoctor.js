@@ -7,6 +7,7 @@ import ClinicsService from "../../services/ClinicsService";
 
 const AddDoctor = () => {
 
+    const [selectedOption, setSelectedOption] = useState(null)
     const [doctor, setDoctor] = useState({
         imeKorisnika: "",
         prezimeKorisnika: "",
@@ -62,9 +63,10 @@ const AddDoctor = () => {
         setDoctor({...doctor, [name]: val })
     }
 
-    const changeIdKlinike = (clinic) => {
-        setDoctor({...doctor, ["idKlinike"]: clinic.id})
-    }
+    const handleChange = selectedOption => {
+        setSelectedOption({ selectedOption });
+        setDoctor({...doctor, ["idKlinike"]: selectedOption[0].value})
+    };
 
     return(
         <div className="container" style={{marginTop: "100px"}}>
@@ -94,7 +96,7 @@ const AddDoctor = () => {
                         </div>
                         <div className="form-group">
                             <label>Klinika: </label>
-                            <Select  options={clinics} onChange={(clinic)=>changeIdKlinike(clinic)}/>
+                            <Select  options={clinics} valueField={selectedOption} onChange={handleChange}/>
                         </div>
                         <button type='submit' className='btn btn-primary' onClick={onSubmit}>Dodaj</button>
                     </form>

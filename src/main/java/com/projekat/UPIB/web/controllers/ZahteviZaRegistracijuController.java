@@ -2,6 +2,7 @@ package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.mail.EmailService;
 import com.projekat.UPIB.web.dto.pacijent.PacijentFrontDTO;
+import com.projekat.UPIB.web.dto.pacijent.PacijentLinkDTO;
 import com.projekat.UPIB.web.dto.pacijent.PacijentRegisterDTO;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,11 +72,20 @@ public class ZahteviZaRegistracijuController {
     @GetMapping("/prihvati/{path}")
     public void succesRegistration(@PathVariable("path") String path){
         //TODO provera da li je link validan ako jeste posalji ga na login page
+
     }
 
-    private void createPath(Pacijent pacijent){
-        //TODO kreiranje linka za registraciju pacijenta
+    private String createPath(){
+        //TODO kreiranje linka za registraciju pacijenta, poterbno je da se taj path hashuje
 
+        LocalDateTime datumIsteka = LocalDateTime.now().plusHours(1);
+        PacijentLinkDTO linkDTO = new PacijentLinkDTO();
 
+        String path = "";
+        linkDTO.setDatumIsteka(datumIsteka);
+        linkDTO.setValid(true);
+        linkDTO.setPutanja(path);
+
+        return path;
     }
 }

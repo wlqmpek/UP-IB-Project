@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localohost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/MedicinskeSestre")
 public class MSestraController {
 
@@ -71,7 +71,7 @@ public class MSestraController {
 
         medicinskaSestra = sestraService.save(medicinskaSestra);
         medicinskaSestraDTO = new MedicinskaSestraDTO(medicinskaSestra);
-        return new ResponseEntity<>(medicinskaSestraDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(medicinskaSestraDTO, HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json", value = "/{id}")

@@ -3,18 +3,11 @@ package com.projekat.UPIB.web.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projekat.UPIB.web.dto.KlinikaListaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.projekat.UPIB.web.dto.KlinikaDTO;
 import com.projekat.UPIB.models.Administrator;
@@ -22,7 +15,7 @@ import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.services.IAdministratorService;
 import com.projekat.UPIB.services.IKlinikaService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST})
 @RestController
 @RequestMapping(value = "/Klinike")
 public class KlinikaController {
@@ -114,5 +107,17 @@ public class KlinikaController {
         klinikaService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-	
+
+    @GetMapping("/lista")
+    public ResponseEntity<List<KlinikaListaDTO>> getLista(){
+
+        List<Klinika> klinike = klinikaService.findAll();
+        List<KlinikaListaDTO> retVal = new ArrayList<>();
+
+        for(Klinika klinika : klinike){
+            retVal.add(new KlinikaListaDTO(klinika));
+        }
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
 }

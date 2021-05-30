@@ -8,6 +8,7 @@ import Select from "react-dropdown-select";
 
 const EditDoctor = () =>{
 
+    const [selectedOption, setSelectedOption] = useState(null)
     const [doctor, setDoctor] = useState({})
     const [clinics, setClinics] = useState([])
 
@@ -48,9 +49,11 @@ const EditDoctor = () =>{
         setDoctor({...doctor, [name]: val })
     }
 
-    const changeIdKlinike = (clinic) => {
-        setDoctor({...doctor, ["idKlinike"]: clinic.id})
-    }
+    const handleChange = selectedOption => {
+        setSelectedOption({ selectedOption });
+        setDoctor({...doctor, ["idKlinike"]: selectedOption[0].value})
+    };
+
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -95,7 +98,7 @@ const EditDoctor = () =>{
                         </div>
                         <div className="form-group">
                             <label>Klinika: </label>
-                            <Select  options={clinics} onChange={(clinic)=>changeIdKlinike(clinic)}/>
+                            <Select  options={clinics} valueField={selectedOption} onChange={handleChange}/>
                         </div>
                         <button type='submit' className='btn btn-primary' onClick={onSubmit}>Izmeni</button>
                     </form>
