@@ -39,7 +39,6 @@ public class PacijentService implements IPacijentService {
     @Override
     public Pacijent save(Pacijent pacijent) {
         System.out.println("Pokusavamo da sacuvamo " +pacijent.getImeKorisnika());
-        pacijent.setLozinkaKorisnika(passwordEncoder.encode(pacijent.getPassword()));
         return pacijentRepozitorijum.save(pacijent);
     }
 

@@ -15,10 +15,8 @@ import ViewClinicComponent from './components/klinika/ViewClinic';
 import HeaderComponent from './components/Header';
 import FrontPage from './components/FrontPage'
 import FooterComponent from './components/Footer';
-import GetPacijenti from './services/pacijent/GetPacijenti';
 import Login from "./pages/Login";
 import PatientProfile from "./pages/patients/EditPatient";
-import PacijentLogin from "./components/pacijent/Login";
 import AddAdminToClinicComponent from "./components/klinika/admin/AddAdmin";
 import UpdateAdminComponent from "./components/klinika/admin/UpdateAdmin";
 import ListAdminsComponent from "./components/administrator/ListAdmins";
@@ -38,7 +36,6 @@ import AddDoctor from "./components/lekar/AddDoctor";
 import EditDoctor from "./components/lekar/EditDoctor";
 import EditMedicinkaSestra from "./components/medicinska_sestra/EditMedicinkaSestra";
 import AddMedicinskaSestra from "./components/medicinska_sestra/AddMedicinskaSestra";
-import PatientHomePage from "./pages/patients/PatientHomePage";
 import AfterAcceptRegistration from "./components/pacijent/AfterAcceptRegistration";
 
 function App() {
@@ -72,7 +69,6 @@ function App() {
 
                     </Switch>
                     <Switch>
-                        <Route path="/PrikazSvihPacijenata" component={GetPacijenti}></Route>
                         <Route exact path="/pacijenti" component={AllPacijents}/>
                         <Route exact path="/pacijenti/:id" component={IzmenaPacijenta}/>
                     </Switch>
@@ -100,7 +96,6 @@ function App() {
                         <Route exact path="/:idKorisnika/radniKalendar/:idKlinike" component={ViewWorkCalendar}></Route>
                     </Switch>
                     <Switch>
-                        <Route exact path="/pacijenti" component={GetPacijenti} ></Route>
                         <Route exact path="/pacijenti/profil/:id" component={PatientProfile} ></Route>
                     </Switch>
                     <Switch>

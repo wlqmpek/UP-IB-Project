@@ -68,18 +68,21 @@ public class PacijentController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent){
 
+        String hash = passwordEncoder.encode(pacijent.getLozinka());
+
         Pacijent registered = new Pacijent();
         registered.setStatusKorisnika(StatusKorisnika.NA_CEKANJU);
 
         registered.setImeKorisnika(pacijent.getIme());
         registered.setPrezimeKorisnika(pacijent.getPrezime());
         registered.setEmailKorisnika(pacijent.getEmail());
-        registered.setLozinkaKorisnika(passwordEncoder.encode(pacijent.getLozinka()));
+        registered.setLozinkaKorisnika(hash);
         registered.setJBZO(pacijent.getJBZO());
         registered.setZdravstveniKarton(new ZdravstveniKarton());
         registered.getZdravstveniKarton().setPacijent(registered);
 
         registered = pacijentService.save(registered);
+        String proba = registered.getLozinkaKorisnika();
         pacijent = new PacijentRegisterDTO(registered);
 
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
