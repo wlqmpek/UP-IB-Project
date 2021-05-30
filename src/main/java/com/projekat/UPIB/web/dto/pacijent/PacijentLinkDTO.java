@@ -1,5 +1,8 @@
 package com.projekat.UPIB.web.dto.pacijent;
 
+import com.projekat.UPIB.models.Pacijent;
+import com.projekat.UPIB.models.PacijentLink;
+
 import java.time.LocalDateTime;
 
 public class PacijentLinkDTO {
@@ -14,6 +17,12 @@ public class PacijentLinkDTO {
         this.putanja = putanja;
         this.valid = valid;
         this.datumIsteka = datumIsteka;
+    }
+
+    public PacijentLinkDTO(PacijentLink pacijentLink){
+        this.putanja = pacijentLink.getPutanja();
+        this.valid = pacijentLink.isValid();
+        this.datumIsteka = pacijentLink.getDatumIsteka();
     }
 
     public String getPutanja() {

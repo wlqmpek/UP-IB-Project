@@ -32,13 +32,13 @@ public class PacijentController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping
-    public ResponseEntity<List<PacijentRegisterDTO>> findAll(){
+    public ResponseEntity<List<PacijentFrontDTO>> findAll(){
 
-        List<PacijentRegisterDTO> retVal = new ArrayList<>();
+        List<PacijentFrontDTO> retVal = new ArrayList<>();
         List<Pacijent> pacijenti = pacijentService.findAll();
         for (Pacijent pacijent : pacijenti) {
-            PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(pacijent);
-            retVal.add(registerDTO);
+            PacijentFrontDTO frontDTO = new PacijentFrontDTO(pacijent);
+            retVal.add(frontDTO);
         }
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
