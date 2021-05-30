@@ -38,7 +38,7 @@ AxiosClient.interceptors.response.use(
             if (error.response && error.response.status === 403) {
                 window.alert("Failed response status code = 403, need to log out.")
                 AuthenticationService.logout();
-
+                window.location("/prijava");
             } else if (error.response && error.response.status === 401) {
                 console.log("Korisnik ide na reautentifikaciju.")
                 await AuthenticationService.refresh();

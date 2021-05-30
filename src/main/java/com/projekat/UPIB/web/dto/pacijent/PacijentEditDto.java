@@ -8,13 +8,13 @@ import java.io.Serializable;
 @ToString
 public class PacijentEditDto implements Serializable {
 
-    @JsonProperty(value = "imeKorisnika")
+//    @JsonProperty(value = "imeKorisnika")
     private String ime;
-    @JsonProperty(value = "prezimeKorisnika")
+//    @JsonProperty(value = "prezimeKorisnika")
     private String prezime;
-    @JsonProperty(value = "lozinkaKorisnika")
+//    @JsonProperty(value = "lozinkaKorisnika")
     private String lozinka;
-    @JsonProperty(value = "ponovljenaLozinkaKorisnika")
+//    @JsonProperty(value = "ponovljenaLozinkaKorisnika")
     private String ponovljenaLozinka;
 
     public PacijentEditDto() { super(); }

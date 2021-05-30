@@ -10,9 +10,9 @@ export const PatientService = {
 }
 
 async function getPatient(id) {
-    return await AxiosClient.get(`pacijenti/${id}`);
+    return await AxiosClient.get(`Pacijenti/${id}`);
 }
 
 async function editPatient(id, patient) {
-    return await AxiosClient.put(`pacijenti/${id}`, patient);
+    return await AxiosClient.put(`Pacijenti/izmeni/${id}`, patient);
 }

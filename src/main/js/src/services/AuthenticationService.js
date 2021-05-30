@@ -19,6 +19,7 @@ async function login(userCredentials) {
         const decoded_token = TokenService.decodeAccessToken(response.data.token);
         console.log("Decoded " + decoded_token);
         if(decoded_token) {
+            // TokenService.setId(response.data.id);
             TokenService.setAccessToken(response.data.token);
             TokenService.setRefreshToken(response.data.refreshToken)
             window.location.assign("/");
@@ -70,6 +71,8 @@ function getRole() {
         return null;
     }
 }
+
+
 
 function getEmail() {
     const token = TokenService.getAccessToken();

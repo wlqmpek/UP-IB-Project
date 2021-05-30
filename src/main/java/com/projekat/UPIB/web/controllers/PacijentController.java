@@ -1,6 +1,8 @@
 package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.services.IZdravstveniKarton;
+import com.projekat.UPIB.support.converters.PacijentEditDtoToPacijent;
+import com.projekat.UPIB.support.converters.PacijentToPacijentFrontDto;
 import com.projekat.UPIB.web.dto.pacijent.*;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
@@ -9,14 +11,16 @@ import com.projekat.UPIB.services.IPacijentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "/Pacijenti")
 public class PacijentController {
 
@@ -28,6 +32,12 @@ public class PacijentController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PacijentEditDtoToPacijent pacijentEditDtoToPacijent;
+
+    @Autowired
+    private PacijentToPacijentFrontDto pacijentToPacijentFrontDto;
 
     @GetMapping
     public ResponseEntity<List<PacijentRegisterDTO>> findAll(){
@@ -91,6 +101,22 @@ public class PacijentController {
 
         return new ResponseEntity<>(pacijent, HttpStatus.OK);
     }
+
+    //Ova metoda je moja i koristi se da pacijent menja svoje podatke! - WLQ
+    @PreAuthorize("hasRole('PACIJENT')")
+    @PutMapping(consumes = "application/json", value = "/izmeni/{id}")
+    public ResponseEntity<PacijentFrontDTO> izmeniPacijent(@PathVariable(name = "id") Long id,
+                                                        @RequestBody PacijentEditDto pacijentNew){
+        ResponseEntity responseEntity = null;
+        Pacijent pacijentOld = pacijentService.findOne(id);
+        Pacijent pacijent = pacijentEditDtoToPacijent.convert(pacijentOld, pacijentNew);
+
+        pacijent = pacijentService.save(pacijentOld);
+
+        responseEntity = (pacijent == null) ? new ResponseEntity(pacijent, HttpStatus.NOT_FOUND) : new ResponseEntity(pacijent, HttpStatus.OK);
+        return responseEntity;
+    }
+
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePacijent(@PathVariable(name = "id") Long id){

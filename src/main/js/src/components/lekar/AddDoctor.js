@@ -29,8 +29,9 @@ const AddDoctor = () => {
 
     async function fetchClinics(){
         try {
-            const response = await ClinicsService.getClinicsList()
+            const response = await ClinicsService.getClinics()
             setClinics(response.data)
+            console.log(clinics)
         }catch (error){
             console.error(error)
         }
