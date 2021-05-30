@@ -6,7 +6,8 @@ export const ClinicsService = {
     getClinicById,
     createClinic,
     updateClinic,
-    deleteClinic
+    deleteClinic,
+    getClinicsList
 }
 
 async function getClinics() {
@@ -27,6 +28,10 @@ async function updateClinic(clinic, clinicId) {
 
 async function deleteClinic(clinicId) {
     return await AxiousClient.delete(`Klinike/${clinicId}`)
+}
+
+async function getClinicsList(){
+    return await AxiousClient.get("Klinike/lista");
 }
 
 export default ClinicsService;

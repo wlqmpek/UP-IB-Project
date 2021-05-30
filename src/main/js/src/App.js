@@ -39,6 +39,7 @@ import EditDoctor from "./components/lekar/EditDoctor";
 import EditMedicinkaSestra from "./components/medicinska_sestra/EditMedicinkaSestra";
 import AddMedicinskaSestra from "./components/medicinska_sestra/AddMedicinskaSestra";
 import PatientHomePage from "./pages/patients/PatientHomePage";
+import AfterAcceptRegistration from "./components/pacijent/AfterAcceptRegistration";
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
                     </Switch>
                     <Switch>
                       <Route exact path='/registracija/zahtevi' component={RegistrationRequsets}></Route>
+                      <Route exact path="/registracija/prihvati/:path" component={AfterAcceptRegistration}/>
                     </Switch>
                     <Switch>
                         <Route exact path="/klinike" component={ListClinicsComponent} ></Route>
@@ -70,6 +72,7 @@ function App() {
 
                     </Switch>
                     <Switch>
+                        <Route path="/PrikazSvihPacijenata" component={GetPacijenti}></Route>
                         <Route exact path="/pacijenti" component={AllPacijents}/>
                         <Route exact path="/pacijenti/:id" component={IzmenaPacijenta}/>
                     </Switch>
@@ -102,7 +105,6 @@ function App() {
                     </Switch>
                     <Switch>
                         <Route path="/" exact component={FrontPage}></Route>
-                        <Route exact path="/patientHomePage/:id" exact component={PatientHomePage}></Route>
                         <Route exact path="/medicinskaSestra/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
                         <Route exact path="/medicinskaSestra/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
                   </Switch>

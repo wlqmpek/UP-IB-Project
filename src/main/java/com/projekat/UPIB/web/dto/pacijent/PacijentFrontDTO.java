@@ -12,13 +12,14 @@ public class PacijentFrontDTO {
     private String prezime;
     private String email;
     private String JBZO;
+    private StatusKorisnika statusKorisnika;
     private long idZdravstvenogKartona;
 
     public PacijentFrontDTO() {
         super();
     }
 
-    public PacijentFrontDTO(long id, String ime, String prezime, String email, String jBZO,
+    public PacijentFrontDTO(long id, String ime, String prezime, String email, String jBZO, StatusKorisnika statusKorisnika,
                                long idZdravstvenogKartona) {
         super();
         this.id = id;
@@ -26,6 +27,7 @@ public class PacijentFrontDTO {
         this.prezime = prezime;
         this.email = email;
         this.JBZO = jBZO;
+        this.statusKorisnika = statusKorisnika;
         this.idZdravstvenogKartona = idZdravstvenogKartona;
     }
 
@@ -36,6 +38,7 @@ public class PacijentFrontDTO {
         this.prezime = pacijent.getPrezimeKorisnika();
         this.email = pacijent.getEmailKorisnika();
         this.JBZO = pacijent.getJBZO();
+        this.statusKorisnika = pacijent.getStatusKorisnika();
         this.idZdravstvenogKartona = pacijent.getZdravstveniKarton().getIdZdravstvenogKartona();
     }
 
@@ -78,6 +81,14 @@ public class PacijentFrontDTO {
 
     public void setJBZO(String jBZO) {
         JBZO = jBZO;
+    }
+
+    public StatusKorisnika getStatusKorisnika() {
+        return statusKorisnika;
+    }
+
+    public void setStatusKorisnika(StatusKorisnika statusKorisnika) {
+        this.statusKorisnika = statusKorisnika;
     }
 
     public long getIdZdravstvenogKartona() {

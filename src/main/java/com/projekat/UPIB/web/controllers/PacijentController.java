@@ -24,6 +24,8 @@ import java.util.List;
 @RequestMapping(value = "/Pacijenti")
 public class PacijentController {
 
+    private static final String SECRET = "DQ5vLW9QCh";
+
     @Autowired
     private IPacijentService pacijentService;
 
@@ -40,13 +42,13 @@ public class PacijentController {
     private PacijentToPacijentFrontDto pacijentToPacijentFrontDto;
 
     @GetMapping
-    public ResponseEntity<List<PacijentRegisterDTO>> findAll(){
+    public ResponseEntity<List<PacijentFrontDTO>> findAll(){
 
-        List<PacijentRegisterDTO> retVal = new ArrayList<>();
+        List<PacijentFrontDTO> retVal = new ArrayList<>();
         List<Pacijent> pacijenti = pacijentService.findAll();
         for (Pacijent pacijent : pacijenti) {
-            PacijentRegisterDTO registerDTO = new PacijentRegisterDTO(pacijent);
-            retVal.add(registerDTO);
+            PacijentFrontDTO frontDTO = new PacijentFrontDTO(pacijent);
+            retVal.add(frontDTO);
         }
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }

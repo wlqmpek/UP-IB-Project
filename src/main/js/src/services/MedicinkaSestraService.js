@@ -10,7 +10,7 @@ export const MedicinkaSestraService = {
 }
 
 async function getMSestre() {
-    return await AxiosClient.get("MedicinkseSestre")
+    return await AxiosClient.get("MedicinskeSestre")
 }
 
 async function getMSestra(id) {

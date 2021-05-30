@@ -41,7 +41,7 @@ const MedicinskaSestraTableRow = ({msestra, msestre, updateMSestre}) => {
     }
 
     const update = (id) =>{
-        history.push("/medicinske-sestre"+ msestra.idKorisnika)
+        history.push("/medicinske-sestre/"+ msestra.idKorisnika)
     }
 
     const deleteMS = (id) => {

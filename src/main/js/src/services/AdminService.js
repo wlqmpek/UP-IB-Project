@@ -9,19 +9,19 @@ export const AdminService = {
 }
 
 async function getAdmini() {
-    return await AxiosClient.get("Admini")
+    return await AxiosClient.get("Administratori")
 }
 
 async function getAdmin(id) {
-    return await AxiosClient.get(`Admini/${id}`)
+    return await AxiosClient.get(`Administratori/${id}`)
 }
 
 async function createAdmin(admin) {
-    return await AxiosClient.post("Admini", admin)
+    return await AxiosClient.post("Administratori", admin)
 }
 
 async function editAdmin(id, admin) {
-    return await AxiosClient.put(`Admini/${id}`, admin)
+    return await AxiosClient.put(`Administratori/${id}`, admin)
 }
 
 async function deleteAdmin(id) {
