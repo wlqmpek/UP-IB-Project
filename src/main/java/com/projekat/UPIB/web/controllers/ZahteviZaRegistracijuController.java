@@ -104,6 +104,8 @@ public class ZahteviZaRegistracijuController {
         Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(pacijentLink.getEmail());
         pacijent.setStatusKorisnika(StatusKorisnika.PRIHVACEN);
         pacijentService.save(pacijent);
+        pacijentLink.setValid(false);
+        pacijentLinkService.save(pacijentLink);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
