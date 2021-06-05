@@ -60,4 +60,5 @@ const MedicinskaSestraTableRow = ({msestra, msestre, updateMSestre}) => {
         </tr>
     )
 }
+
 export default MedicinskaSestraTableRow
