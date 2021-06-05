@@ -30,4 +30,8 @@ async function deleteClinic(clinicId) {
     return await AxiosClient.delete(`Klinike/${clinicId}`)
 }
 
+async function getClinicsList(){
+    return await AxiousClient.get("Klinike/lista");
+}
+
 export default ClinicsService;
