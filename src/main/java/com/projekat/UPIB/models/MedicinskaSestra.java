@@ -22,7 +22,6 @@ public class MedicinskaSestra extends MedicinskoOsoblje {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "medicinskaSestra")
     private Set<Pregled> pregledi = new HashSet<>();
 
-    // Odavde pa na dole je sve za potrebe UserDetails Interfejsa. - WLQ
 
     @Override
     public boolean isAccountNonExpired() {

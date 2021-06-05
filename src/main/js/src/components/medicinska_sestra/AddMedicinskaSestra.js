@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import ClinicsService from "../../services/ClinicsService";
-import {MedicinkaSestraService} from "../../services/MedicinkaSestraService";
+import { MedicinskaSestraService } from "../../services/MedicinskaSestraService";
 import validator from "validator";
 import Select from "react-dropdown-select";
 
 
 const AddMedicinskaSestra = () =>{
+
+    const [selectedOption, setSelectedOption] = useState(null)
 
     const [msestra, setMSestra] = useState({
         imeKorisnika: "",
@@ -22,7 +24,7 @@ const AddMedicinskaSestra = () =>{
 
     async function addMSestra(){
         try {
-            await MedicinkaSestraService.createMSestra(msestra)
+            await MedicinskaSestraService.createMSestra(msestra)
         }catch (error){
             console.error(error)
         }
@@ -64,9 +66,10 @@ const AddMedicinskaSestra = () =>{
         setMSestra({...msestra, [name]: val })
     }
 
-    const changeIdKlinike = (clinic) => {
-        setMSestra({...msestra, ["idKlinike"]: clinic.id})
-    }
+    const handleChange = selectedOption => {
+        setSelectedOption({ selectedOption });
+        setMSestra({...msestra, ["idKlinike"]: selectedOption[0].value})
+    };
 
     return(
         <div className="container" style={{marginTop: "100px"}}>
@@ -96,7 +99,7 @@ const AddMedicinskaSestra = () =>{
                         </div>
                         <div className="form-group">
                             <label>Klinika: </label>
-                            <Select options={clinics} onChange={(clinic)=>changeIdKlinike(clinic)}/>
+                            <Select options={clinics} valueField={selectedOption} onChange={handleChange}/>
                         </div>
                         <button type='submit' className='btn btn-primary' onClick={onSubmit}>Dodaj</button>
                     </form>

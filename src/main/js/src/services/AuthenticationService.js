@@ -1,5 +1,8 @@
 import AxiosClient from "./clients/AxiosClient";
 import { TokenService } from "./TokenService";
+import { MedicinskaSestraService } from "./MedicinskaSestraService";
+import LekarService from "./LekarService";
+
 
 export const AuthenticationService = {
     login,
@@ -12,17 +15,33 @@ export const AuthenticationService = {
 async function login(userCredentials) {
     TokenService.removeAccessToken()
     try {
-        window.alert(TokenService.getAccessToken());
         const response = await AxiosClient.post(
             "/korisnici/prijava",
             userCredentials
         );
         const decoded_token = TokenService.decodeAccessToken(response.data.token);
         console.log("Decoded " + decoded_token);
-        if(decoded_token) {
+        if (decoded_token) {
+            TokenService.setId(response.data.id);
             TokenService.setAccessToken(response.data.token);
-            TokenService.setRefreshToken(response.data.refreshToken)
-            window.location.assign("/");
+            TokenService.setRefreshToken(response.data.refreshToken);
+
+            // ukoliko je ulogovana medicinska sestra preusmjerava se na njenu stranicu
+            if (this.getRole().includes("ROLE_MEDICINSKA_SESTRA")) {
+                const idMedSestre = response.data.id;
+                MedicinskaSestraService.getMSestra(idMedSestre).then(res => {
+                    window.location.assign(`/medicinske-sestre/${idMedSestre}/klinika/${res.data.idKlinike}`);
+                });
+            }
+            else if (this.getRole().includes("ROLE_LEKAR")) {
+                const idLekara = response.data.id;
+                LekarService.getLekar(idLekara).then(res => {
+                    window.location.assign(`/${idLekara}/radniKalendar/${res.data.idKlinike}`);
+                });
+            }
+            else {
+                window.location.assign("/");
+            }
         } else {
             console.log("NOPEEE");
             console.log("Invalid token");
@@ -33,7 +52,7 @@ async function login(userCredentials) {
 }
 //DODATO NOVO???
 async function refresh() {
-    window.alert("Trazimo da se generise refresh token")
+    TokenService.removeAccessToken();
     try {
         const response = await AxiosClient.post(
             "korisnici/refreshtoken", {"refreshToken":TokenService.getRefreshToken()}
@@ -72,6 +91,8 @@ function getRole() {
     }
 }
 
+
+
 function getEmail() {
     const token = TokenService.getAccessToken();
     const decoded_token = token ? TokenService.decodeAccessToken(token) : null;
@@ -81,3 +102,4 @@ function getEmail() {
         return null;
     }
 }
+

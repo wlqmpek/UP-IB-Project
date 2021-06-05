@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useHistory} from "react-router"
-import {MedicinkaSestraService} from "../../services/MedicinkaSestraService";
+import { MedicinskaSestraService } from "../../services/MedicinskaSestraService";
 import ClinicsService from "../../services/ClinicsService";
 
 
@@ -15,7 +15,7 @@ const MedicinskaSestraTableRow = ({msestra, msestre, updateMSestre}) => {
 
     async function editMSestra(id){
         try {
-            await MedicinkaSestraService.editMSestra(id, msestra)
+            await MedicinskaSestraService.editMSestra(id, msestra)
             updateMSestre((msestra) => msestre.filter((msestra) => msestra.idKorisnika !== id))
         } catch (error){
             console.error(error)
@@ -24,7 +24,7 @@ const MedicinskaSestraTableRow = ({msestra, msestre, updateMSestre}) => {
 
     async function deleteMSestra(id){
         try {
-            await MedicinkaSestraService.deleteMSestra(id)
+            await MedicinskaSestraService.deleteMSestra(id)
             updateMSestre((msestra) => msestre.filter((msestra) => msestra.idKorisnika !== id))
         } catch (error){
             console.error(error)
@@ -41,7 +41,7 @@ const MedicinskaSestraTableRow = ({msestra, msestre, updateMSestre}) => {
     }
 
     const update = (id) =>{
-        history.push("/medicinske-sestre"+ msestra.idKorisnika)
+        history.push("/medicinske-sestre/"+ msestra.idKorisnika)
     }
 
     const deleteMS = (id) => {
