@@ -34,8 +34,8 @@ public class PregledFrontendDTO implements Serializable{
 		this.idPregleda = pregled.getIdPregleda();
 		this.dijagnoza = pregled.getDijagnoza();
 		this.opis = pregled.getOpis();
-		//this.idLekara =  pregled.getLekar().getIdKorisnika();
-		//this.idMedicinskeSestre = pregled.getMedicinskaSestra().getIdKorisnika();
+		this.idLekara =  pregled.getLekar().getIdKorisnika();
+		this.idMedicinskeSestre = pregled.getMedicinskaSestra().getIdKorisnika();
 		this.pocetakTermina = pregled.getPocetakTermina();
 		this.krajTermina = pregled.getKrajTermima();
 		this.cena = pregled.getCena();

@@ -1,4 +1,4 @@
-import {MedicinkaSestraService} from "../../services/MedicinkaSestraService";
+import {MedicinskaSestraService} from "../../services/MedicinskaSestraService";
 import {useEffect, useState} from "react";
 import MedicinskaSestraTableRow from "../medicinska_sestra/MedicinskaSestraTableRow";
 import {Link, Redirect, useHistory} from "react-router-dom";
@@ -34,7 +34,7 @@ const AllMSestre = () => {
     
     async function fetchMSestre(){
         try {
-            const response = await MedicinkaSestraService.getMSestre()
+            const response = await MedicinskaSestraService.getMSestre()
             setMSestre(response.data)
         } catch (error){
             console.error(error)

@@ -1,17 +1,25 @@
 package com.projekat.UPIB.web.dto.pacijent;
 
 import java.io.Serializable;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.projekat.UPIB.enums.StatusKorisnika;
+import com.projekat.UPIB.models.Authority;
 import com.projekat.UPIB.models.Pacijent;
+import com.projekat.UPIB.services.implementation.AuthorityService;
+import lombok.ToString;
 
+@ToString
 public class PacijentRegisterDTO implements Serializable {
 
+    private long id;
     private String ime;
     private String prezime;
     private String email;
     private String lozinka;
     private String ponovljenaLozinka;
+	@JsonProperty(value = "JBZO")
     private String JBZO;
     private Long authorities = 4L;
     
@@ -20,14 +28,14 @@ public class PacijentRegisterDTO implements Serializable {
 	}	
 
 	public PacijentRegisterDTO(String ime, String prezime, String email, String lozinka, String ponovljenaLozinka,
-							   String jBZO) {
+							   String JBZO) {
 		super();
 		this.ime = ime;
 		this.prezime = prezime;
 		this.email = email;
 		this.lozinka = lozinka;
 		this.ponovljenaLozinka = ponovljenaLozinka;
-		this.JBZO = jBZO;
+		this.JBZO = JBZO;
 	}
 
 	public PacijentRegisterDTO(Pacijent pacijent) {
@@ -37,8 +45,18 @@ public class PacijentRegisterDTO implements Serializable {
 		this.email = pacijent.getEmailKorisnika();
 		this.lozinka = pacijent.getLozinkaKorisnika();
 		this.JBZO = pacijent.getJBZO();
+		this.JBZO = JBZO;
 	}
 
+	
+	
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	public String getIme() {
 		return ime;

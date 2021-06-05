@@ -7,10 +7,14 @@ import { useParams } from "react-router";
 
 const  EditPatientDetails = () => {
     const [patientDetails, setPatientDetails] = useState({
-        imeKorisnika: "",
-        prezimeKorisnika: "",
-        lozinkaKorisnika: "",
-        ponovljenaLozinkaKorisnika: ""
+        id: "",
+        ime: "",
+        prezime: "",
+        email: "",
+        idZdravstvenogKartona: "",
+        jbzo: "",
+        lozinka: "",
+        ponovljenaLozinka: ""
     });
 
     const[showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -28,7 +32,7 @@ const  EditPatientDetails = () => {
         console.log("Fetchovanje pacijenata");
         try {
             const response = await PatientService.getPatient(id);
-            console.log("Fetch Patient " + response.data)
+            console.log("Fetch Patient " + JSON.stringify(response.data))
             setPatientDetails(response.data)
         } catch (error) {
             console.log(`Greška prilikom dobavljanja pacijenta`)
@@ -50,9 +54,6 @@ const  EditPatientDetails = () => {
     };
 
     const update = async () => {
-        console.log("Role je " + AuthenticationService.getRole() + "!");
-        console.log("Did token expire " + TokenService.didAccessTokenExpire());
-        console.log("Role = role " + (AuthenticationService.getRole().localeCompare("ROLE_ADMINISTRATOR") ));
         if((!TokenService.didAccessTokenExpire()) && (AuthenticationService.getRole() == "ROLE_ADMINISTRATOR" || AuthenticationService.getRole() == "ROLE_PACIJENT")){
             // Radi se u slucaju da token nije isttekao i da je rola admin ili pacijent.
             console.log("Uspesno 1");
@@ -72,36 +73,36 @@ const  EditPatientDetails = () => {
                             <Form.Label>Ime</Form.Label>
                             <Form.Control
                             type="text"
-                            name="imeKorisnika"
-                            value={patientDetails.imeKorisnika}
-                            onChange={handleFormInputChange("imeKorisnika")}>
+                            name="ime"
+                            value={patientDetails.ime || ""}
+                            onChange={handleFormInputChange("ime")}>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Prezime</Form.Label>
                             <Form.Control
                                 type="text"
-                                name="prezimeKorisnika"
-                                value={patientDetails.prezimeKorisnika}
-                                onChange={handleFormInputChange("prezimeKorisnika")}>
+                                name="prezime"
+                                value={patientDetails.prezime || ""}
+                                onChange={handleFormInputChange("prezime")}>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Lozinka</Form.Label>
                             <Form.Control
                                 type="password"
-                                name="lozinkaKorisnika"
-                                value={patientDetails.lozinkaKorisnika || ""}
-                                onChange={handleFormInputChange("lozinkaKorisnika")}>
+                                name="lozinka"
+                                value={patientDetails.lozinka || ""}
+                                onChange={handleFormInputChange("lozinka")}>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Pon.Lozinka</Form.Label>
                             <Form.Control
                                 type="password"
-                                name="ponovljenaLozinkaKorisnika"
-                                value={patientDetails.ponovljenaLozinkaKorisnika || ""}
-                                onChange={handleFormInputChange("ponovljenaLozinkaKorisnika")}>
+                                name="ponovljenaLozinka"
+                                value={patientDetails.ponovljenaLozinka || ""}
+                                onChange={handleFormInputChange("ponovljenaLozinka")}>
                             </Form.Control>
                         </Form.Group>
                         <Button variant="success" onClick={update}>Update</Button>

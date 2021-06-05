@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import ReceiptsService from "../../../services/ReceiptsService";
 import PreglediService from "../../../services/PreglediService";
+import { AuthenticationService } from "../../../services/AuthenticationService";
+
 
 class ViewPregledComponent extends Component {
 
@@ -60,18 +62,25 @@ class ViewPregledComponent extends Component {
                 pocetakTermina: this.state.pregled.pocetakTermina,
                 cena: this.state.pregled.cena,
                 popust: this.state.pregled.popust,
+                idLekara: this.state.pregled.idLekara,
+                idMedicinskeSestre: this.state.pregled.idMedicinskeSestre,
                 idZdravstvenogKartona: this.state.pregled.idZdravstvenogKartona,
                 idKlinike: this.state.pregled.idKlinike
             }
         }
         else {
+            var date = new Date();
+            date.setHours(date.getHours() + 4);
+            console.log(date.toISOString().substring(0, 19));
             pregled = {
                 dijagnoza: this.state.dijagnoza,
                 opis: this.state.opis,
                 pocetakTermina: this.state.pregled.pocetakTermina,
-                krajTermina: new Date().toISOString().substring(0,19),
+                krajTermina: date.toISOString().substring(0, 19),
                 cena: this.state.pregled.cena,
                 popust: this.state.pregled.popust,
+                idLekara: this.state.pregled.idLekara,
+                idMedicinskeSestre: this.state.pregled.idMedicinskeSestre,
                 idZdravstvenogKartona: this.state.pregled.idZdravstvenogKartona,
                 idKlinike: this.state.pregled.idKlinike
             }
@@ -79,7 +88,7 @@ class ViewPregledComponent extends Component {
         console.log(pregled);
 
         PreglediService.editPregled(this.state.id, pregled).then(response => {
-            this.props.history.push(`/${this.state.pregled.idKorisnika}/radniKalendar/${this.state.pregled.idKlinike}`)
+            this.props.history.push(`/${this.state.pregled.idLekara}/radniKalendar/${this.state.pregled.idKlinike}`)
         });
 
     }
@@ -120,9 +129,8 @@ class ViewPregledComponent extends Component {
     }
 
     cancel() {
-        this.props.history.push(`/${this.state.pregled.idKorisnika}/radniKalendar/${this.state.pregled.idKlinike}`)
+        this.props.history.push(`/${this.state.pregled.idLekara}/radniKalendar/${this.state.pregled.idKlinike}`)
     }
-
     render() {
         if (this.state.pregled.krajTermina !== null) {
             return (

@@ -30,6 +30,7 @@ class ListReceiptsComponent extends Component {
 			this.setState({
 				receipts: this.state.receipts.filter(recept => recept.overen == 0)
 			})
+			this.forceUpdate();
 		});	
 	}
 
@@ -76,8 +77,8 @@ class ListReceiptsComponent extends Component {
 			this.setState({
 				receipts: receipts.filter(recept => recept.overen == 0)
 			})
+			this.forceUpdate();
 		});
-		
 
 		
 		

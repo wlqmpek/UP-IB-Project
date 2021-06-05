@@ -21,6 +21,8 @@ AxiosClient.interceptors.request.use(function success(config) {
         config.headers["Authorization"] = "Bearer " + token;
     }
     return config;
+}, error => {
+    Promise.reject(error);
 });
 
 // U slucaju da se sa backenda vrati forbidden, token je istekao te izloguj korisnika.
@@ -28,15 +30,19 @@ AxiosClient.interceptors.response.use(
     function success(response) {
         return response;
     },
-    function failure(error) {
+    async function failure(error) {
+        const orginalRequest = error.config;
+
         const token = TokenService.getAccessToken();
         if (token) {
-
             if (error.response && error.response.status === 403) {
-                // AuthenticationService.logout();
+                window.alert("Failed response status code = 403, need to log out.")
+                AuthenticationService.logout();
+                window.location("/prijava");
             } else if (error.response && error.response.status === 401) {
                 console.log("Korisnik ide na reautentifikaciju.")
-                AuthenticationService.refresh()
+                await AuthenticationService.refresh();
+                return AxiosClient(orginalRequest);
             }
         }
         throw error;
