@@ -1,6 +1,6 @@
 import AxiosClient from "./clients/AxiosClient";
 
-export const MedicinkaSestraService = {
+export const MedicinskaSestraService = {
 
     getMSestre,
     getMSestra,
