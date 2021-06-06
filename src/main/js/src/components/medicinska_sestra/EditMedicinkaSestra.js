@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router";
-import {MedicinkaSestraService} from "../../services/MedicinkaSestraService";
+import { MedicinskaSestraService } from "../../services/MedicinskaSestraService";
 import ClinicsService from "../../services/ClinicsService";
 import validator from "validator";
 import Select from "react-dropdown-select";
@@ -21,7 +21,7 @@ const EditMedicinkaSestra = () =>{
     
     async function fetchMSestra(id){
         try {
-            const response = await MedicinkaSestraService.getMSestra(id)
+            const response = await MedicinskaSestraService.getMSestra(id)
             setMSestra(response.data)
         } catch (error){
             console.error(error)
@@ -39,7 +39,7 @@ const EditMedicinkaSestra = () =>{
     
     async function updateMSestra(){
         try {
-            await MedicinkaSestraService.editMSestra(msestra.idKorisnika, msestra)
+            await MedicinskaSestraService.editMSestra(msestra.idKorisnika, msestra)
         }catch (error){
             console.error(error)
         }
@@ -107,4 +107,5 @@ const EditMedicinkaSestra = () =>{
         </div>
     )
 }
+
 export default EditMedicinkaSestra

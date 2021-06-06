@@ -1,5 +1,8 @@
 import AxiosClient from "./clients/AxiosClient";
 import { TokenService } from "./TokenService";
+import { MedicinskaSestraService } from "./MedicinskaSestraService";
+import LekarService from "./LekarService";
+
 
 export const AuthenticationService = {
     login,
@@ -18,11 +21,31 @@ async function login(userCredentials) {
         );
         const decoded_token = TokenService.decodeAccessToken(response.data.token);
         console.log("Decoded " + decoded_token);
-        if(decoded_token) {
+        if (decoded_token) {
+            TokenService.setId(response.data.id);
+            // TokenService.setId(response.data.id);
+            // TokenService.setId(response.data.id);
+            // TokenService.setId(response.data.id);
             // TokenService.setId(response.data.id);
             TokenService.setAccessToken(response.data.token);
-            TokenService.setRefreshToken(response.data.refreshToken)
-            window.location.assign("/");
+            TokenService.setRefreshToken(response.data.refreshToken);
+
+            // ukoliko je ulogovana medicinska sestra preusmjerava se na njenu stranicu
+            if (this.getRole().includes("ROLE_MEDICINSKA_SESTRA")) {
+                const idMedSestre = response.data.id;
+                MedicinskaSestraService.getMSestra(idMedSestre).then(res => {
+                    window.location.assign(`/medicinske-sestre/${idMedSestre}/klinika/${res.data.idKlinike}`);
+                });
+            }
+            else if (this.getRole().includes("ROLE_LEKAR")) {
+                const idLekara = response.data.id;
+                LekarService.getLekar(idLekara).then(res => {
+                    window.location.assign(`/${idLekara}/radniKalendar/${res.data.idKlinike}`);
+                });
+            }
+            else {
+                window.location.assign("/");
+            }
         } else {
             console.log("NOPEEE");
             console.log("Invalid token");
@@ -83,3 +106,4 @@ function getEmail() {
         return null;
     }
 }
+

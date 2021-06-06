@@ -7,7 +7,7 @@ const Registration = () => {
     const [imeKorisnika, setIme] = useState('')
     const [prezimeKorisnika, setPrezime] = useState('')
     const [emailKorisnika, setEmail] = useState('')
-    const [lozinkaKorisnika, setLozinka] = useState('')
+    const [lozinka, setLozinka] = useState('')
     const [ponovljenaLozinka, setPonovljena] = useState('')
     const [jbzo, setJbzo] = useState('')
     const [pacijenti, setPacijenti] = useState([])
@@ -16,7 +16,7 @@ const Registration = () => {
         ime: imeKorisnika,
         prezime: prezimeKorisnika,
         email: emailKorisnika,
-        lozinka: lozinkaKorisnika,
+        lozinka: lozinka,
         jbzo: jbzo
     }
 
@@ -41,12 +41,12 @@ const Registration = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (!imeKorisnika || !prezimeKorisnika || !emailKorisnika || !lozinkaKorisnika || !jbzo || !ponovljenaLozinka) {
+        if (!imeKorisnika || !prezimeKorisnika || !emailKorisnika || !lozinka || !jbzo || !ponovljenaLozinka) {
             alert('Sva polja su obavezna.')
             return
         }
 
-        if (lozinkaKorisnika.valueOf() !== ponovljenaLozinka.valueOf()) {
+        if (lozinka.valueOf() !== ponovljenaLozinka.valueOf()) {
             alert('Ponovljena lozinka nije ista kao uneta lozinka')
             return
         }
@@ -95,7 +95,7 @@ const Registration = () => {
                         </div>
                         <div className='form-group'>
                             <label>Lozinka: </label>
-                            <input type='password' value={lozinkaKorisnika} onChange={e => setLozinka(e.target.value)}
+                            <input type='password' value={lozinka} onChange={e => setLozinka(e.target.value)}
                                    placeholder='Lozinka' className='form-control'/>
                         </div>
                         <div className='form-group'>

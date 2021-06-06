@@ -2,8 +2,10 @@
 import ClinicsService from "../../services/ClinicsService";
 import PreglediService from "../../services/PreglediService";
 import LekarService from "../../services/LekarService";
-import MedSestraService from "../../services/MedSestraService";
+import { MedicinskaSestraService } from "../../services/MedicinskaSestraService";
+import { PacientService } from "../../services/PacientService";
 import Calendar from 'react-calendar';
+import { AuthenticationService } from "../../services/AuthenticationService";
 import 'react-calendar/dist/Calendar.css';
 
 class ViewWorkCalendar extends Component {
@@ -29,20 +31,22 @@ class ViewWorkCalendar extends Component {
     }
 
     componentDidMount() {
-        /*if (this.state.tipKorisnika === "MEDICINSKA_SESTRA") {
-            MedSestraService.getMedSestra(this.state.idKorisnika).then(response => {
+        if (AuthenticationService.getRole().includes("ROLE_MEDICINSKA_SESTRA")) {
+            MedicinskaSestraService.getMSestra(this.state.idKorisnika).then(response => {
                 this.setState({
-                    korisnik: response.data
+                    korisnik: response.data,
+                    tipKorisnika: "MEDICINSKA_SESTRA"
                 })
             }).catch(err => {
                 return;
             })
         }
         
-        else if (this.state.tipKorisnika === "LEKAR") {
+        else if (AuthenticationService.getRole().includes("ROLE_LEKAR")) {
             LekarService.getLekar(this.state.idKorisnika).then(response => {
                 this.setState({
-                    korisnik: response.data
+                    korisnik: response.data,
+                    tipKorisnika: "LEKAR"
                 })
             }).catch(err => {
                 return;
@@ -53,7 +57,7 @@ class ViewWorkCalendar extends Component {
             // ako nije ni medicinska sestra ni lekar onda ne treba da se prikazuje radni kalendar
             // jer se ne radi o medicinskom osoblju
             return;
-        }*/
+        }
 
         ClinicsService.getClinicById(this.state.idKlinike).then(response => {
             this.setState({ clinic: response.data });
@@ -62,20 +66,48 @@ class ViewWorkCalendar extends Component {
         })
 
         PreglediService.getPregledi().then(response => {
-            var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike);//&& pregled.idMedicinskeSestre == this.state.idKorisnika);
-            //var pregledi = response.data;
+            if (this.state.tipKorisnika === "MEDICINSKA_SESTRA") {
+                var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike && pregled.idMedicinskeSestre == this.state.idKorisnika);
+            }
+            else if (this.state.tipKorisnika === "LEKAR") {
+                var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike && pregled.idLekara == this.state.idKorisnika);
+            }
+            else {
+                var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike);
+            }
 
             var datumi = []
-            pregledi.forEach(pregled => {
-                var datum = new Date(pregled.pocetakTermina);
-                datumi.push(datum);
-            });
+            PacientService.getPacients().then(res => {
+                var pacijenti = res.data;
+                pregledi.forEach(pregled => {
+                    var imePacijenta = ""
+                    var prezimePacijenta = ""
+                    pacijenti.forEach(pacijent => {
+                        if (pacijent.idZdravstvenogKartona == pregled.idZdravstvenogKartona) {
+                            console.log("POKLOP");
+                            imePacijenta = pacijent.ime;
+                            prezimePacijenta = pacijent.prezime;
+                        }
+                    })
+                    pregled['imePacijenta'] = imePacijenta;
+                    pregled['prezimePacijenta'] = prezimePacijenta;
+
+                    this.forceUpdate();
+                    var datum = new Date(pregled.pocetakTermina);
+                    datumi.push(datum);
+                });
+            }).catch(err => {
+                return;
+            })
+            
             
             this.setState({
                 sviPregledi: pregledi,
                 preglediZaDatum: pregledi,
-                sviDatumi: datumi
+                sviDatumi: datumi,
             });
+
+            this.forceUpdate();
 
         });
         
@@ -104,7 +136,7 @@ class ViewWorkCalendar extends Component {
                 dayClicked: false,
                 selektovaniDatum: new Date(selektovaniDatum).toDateString()
             })
-
+            this.forceUpdate();
         }
         
     }
@@ -222,23 +254,23 @@ class ViewWorkCalendar extends Component {
                                                         }
                                                         {
                                                             // ako kraj termina nije definisan a pregled je poceo
-                                                            pregled.krajTermina === null && new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() ?
+                                                            pregled.krajTermina === null && new Date(pregled.pocetakTermina).getTime() < new Date().getTime() ?
                                                                 (<span>Pregled je u toku</span>)
                                                                 : false
                                                         }
                                                         {
                                                             // ako kraj termina nije definisan a pregled je u buducnosti
-                                                            pregled.krajTermina === null && new Date(pregled.pocetakTermina).getTime() > new Date().getTime() ?
+                                                            pregled.krajTermina === null && new Date(pregled.pocetakTermina).getTime() >= new Date().getTime() ?
                                                                 (<span>Pregled nije počeo</span>)
                                                                 : false
                                                         }
 
                                                         
                                                     </td>
-                                                    <td style={{ verticalAlign: 'middle', fontSize: '20px' }}></td>
-                                                    <td style={{ verticalAlign: 'middle', fontSize: '20px' }}></td>
+                                                    <td style={{ verticalAlign: 'middle', fontSize: '20px' }}>{pregled.imePacijenta}</td>
+                                                    <td style={{ verticalAlign: 'middle', fontSize: '20px' }}>{pregled.prezimePacijenta}</td>
                                                     
-                                                        {new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() ? ( // && this.state.tipKorisnika === "LEKAR"? (
+                                                        {new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() && this.state.tipKorisnika === "LEKAR" ? (
                                                             <td style={{ width: '20%' }}>    
                                                                 <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updatePregled(pregled.idPregleda)} className="btn btn-info">Detaljnije o pregledu</button>
                                                                 <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updateZK(pregled.idZdravstvenogKartona)} className="btn btn-success">Zdravstveni karton</button>

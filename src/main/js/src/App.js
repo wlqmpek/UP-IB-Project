@@ -17,7 +17,6 @@ import FrontPage from './components/FrontPage'
 import FooterComponent from './components/Footer';
 import Login from "./pages/Login";
 import PatientProfile from "./pages/patients/EditPatient";
-import PacijentLogin from "./components/pacijent/Login";
 import AddAdminToClinicComponent from "./components/klinika/admin/AddAdmin";
 import UpdateAdminComponent from "./components/klinika/admin/UpdateAdmin";
 import ListAdminsComponent from "./components/administrator/ListAdmins";
@@ -38,6 +37,7 @@ import EditDoctor from "./components/lekar/EditDoctor";
 import EditMedicinkaSestra from "./components/medicinska_sestra/EditMedicinkaSestra";
 import AddMedicinskaSestra from "./components/medicinska_sestra/AddMedicinskaSestra";
 import PatientHomePage from "./pages/patients/PatientHomePage";
+import AfterAcceptRegistration from "./components/pacijent/AfterAcceptRegistration";
 
 function App() {
 

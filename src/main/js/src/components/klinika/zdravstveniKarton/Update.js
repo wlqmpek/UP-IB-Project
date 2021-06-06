@@ -3,6 +3,7 @@ import ReceiptsService from "../../../services/ReceiptsService";
 import PreglediService from "../../../services/PreglediService";
 import { PacientService } from "../../../services/PacientService";
 import ZdravstveniKartonService from "../../../services/ZdravstveniKartonService";
+import {AuthenticationService} from "../../../services/AuthenticationService"
 
 class UpdateZKComponent extends Component {
 
@@ -98,7 +99,7 @@ class UpdateZKComponent extends Component {
         PreglediService.editPregled(this.state.pregled.idPregleda, this.state.pregled);
 
         ZdravstveniKartonService.editZdravstveniKarton(this.state.id, ZK).then(response => {
-            this.props.history.push(`/${this.state.pregled.idKorisnika}/radniKalendar/${this.state.pregled.idKlinike}`)
+            this.props.history.push(`/${this.state.pregled.idLekara}/radniKalendar/${this.state.pregled.idKlinike}`)
         });
 
         
@@ -129,7 +130,7 @@ class UpdateZKComponent extends Component {
     }
 
     cancel() {
-        this.props.history.push(`/${this.state.pregled.idKorisnika}/radniKalendar/${this.state.pregled.idKlinike}`)
+        this.props.history.push(`/${this.state.pregled.idLekara}/radniKalendar/${this.state.pregled.idKlinike}`)
     }
 
     render() {
