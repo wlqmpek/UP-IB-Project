@@ -39,13 +39,25 @@ const Login = () => {
 
     const emailLoginRequest = async () => {
         try {
-            await AuthenticationService.emailLoginRequest(credentials);
+            if (credentials.emailKorisnika === "") {
+                setGreska("Unestie mejl adresu!");
+            }
+            else if (credentials.emailKorisnika.includes("@gmail.com") != true) {
+                setGreska("Unestie validnu mejl adresu!");
+            }
+            else {
+                await AuthenticationService.emailLoginRequest(credentials);
+                setGreska("Zahtev je uspesno poslat!");
+            }
         } catch (error) {
             console.log("Greska")
             console.log(error)
-            if (error.response.status === 403)
-                console.log(error.response.status);
-            setGreska("Neispravni podaci!");
+            
+            if (error.response.status === 404)
+                setGreska("Nepostojeca mejl adresa!");
+            else {
+                setGreska("Neispravni podaci!");
+            }
             throw error;
         }
     };

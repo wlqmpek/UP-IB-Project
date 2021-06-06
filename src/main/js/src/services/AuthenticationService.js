@@ -79,17 +79,16 @@ async function emailLogin(token) {
         if (decoded_token) {
             TokenService.setId(response.data.id);
             TokenService.setAccessToken(response.data.token);
-            console.log("AAAAAAAA"+TokenService.getAccessToken());
             TokenService.setRefreshToken(response.data.refreshToken);
             TokenService.setRoles(response.data.roles);
             // ukoliko je ulogovana medicinska sestra preusmjerava se na njenu stranicu
-            if (response.data.roles.includes("ROLE_MEDICINSKA_SESTRA")) {
+            if (this.getRole().includes("ROLE_MEDICINSKA_SESTRA")) {
                 const idMedSestre = response.data.id;
                 MedicinskaSestraService.getMSestra(idMedSestre).then(res => {
                     window.location.assign(`/medicinske-sestre/${idMedSestre}/klinika/${res.data.idKlinike}`);
                 });
             }
-            else if (response.data.roles.includes("ROLE_LEKAR")) {
+            else if (this.getRole().includes("ROLE_LEKAR")) {
                 const idLekara = response.data.id;
                 LekarService.getLekar(idLekara).then(res => {
                     window.location.assign(`/${idLekara}/radniKalendar/${res.data.idKlinike}`);

@@ -30,8 +30,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.Mac;
@@ -59,7 +61,10 @@ public class KorisnikController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsService userDetailsService;
+    
+    @Autowired
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Autowired
     private TokenUtils tokenUtils;
@@ -173,38 +178,32 @@ public class KorisnikController {
         }
         pacijentLinkService.remove(email);
         
-        Korisnik userDetails = (Korisnik) userDetailsService.loadUserByUsername(email);
-        
-        if (userDetails != null) {        	
-        	System.out.println("Zahtev za passwordless login korisnika: " + userDetails);
-            //Kreiraj token za tog korisnika
-            String jwt = tokenUtils.generateTokenFromEmail(userDetails.getEmailKorisnika());
+    	UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+    	
+    	if (userDetails != null) {
+	        UsernamePasswordAuthenticationToken authentication =
+	                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+	
+	        // Ubaci korisnika u trenutni context
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	
+	        Korisnik user = (Korisnik) userDetailsServiceImpl.loadUserByUsername(email);
+	
+	        System.out.println("Ulogovan korisnik je " + user.getUsername());
+	
+	        //Kreiraj token za tog korisnika
+	        String jwt = tokenUtils.generateJwtToken(authentication);
+	
+	        String roles = user.getAuthoritiesAsString();
+	
+	        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getIdKorisnika());
+	
+	        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), user.getIdKorisnika(), user.getEmailKorisnika(), roles));
+    	}
+	    else {
+	    	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
 
-            String roles = userDetails.getAuthoritiesAsString();
-            System.out.println("Uloge:"+roles);
-            RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getIdKorisnika());
-
-            return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getIdKorisnika(), userDetails.getEmailKorisnika(), roles));
-        }
-        else {
-        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        /*
-        // Ubaci korisnika u trenutni context
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        Korisnik userDetails = (Korisnik) authentication.getPrincipal();
-
-        System.out.println("Zahtev za passwordless login korisnika: " + userDetails);
-        //Kreiraj token za tog korisnika
-        String jwt = tokenUtils.generateJwtToken(authentication);
-
-        String roles = userDetails.getAuthoritiesAsString();
-
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getIdKorisnika());
-
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getIdKorisnika(), userDetails.getEmailKorisnika(), roles));*/
     }
 
 
@@ -216,16 +215,11 @@ public class KorisnikController {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getKorisnik)
                 .map(korisnik -> {
-                    String token = tokenUtils.generateJwtToken(authenticationManager.authenticate(
-                            new UsernamePasswordAuthenticationToken(
-                                    refreshTokenService.findByToken(request.getRefreshToken()).get().getKorisnik().getEmailKorisnika(),
-                                    //Ovo nema svrhe uopste ali dobroDD
-                                    "123"
-                    )));
+                    String token = tokenUtils.generateJwtToken(requestRefreshToken);
                     return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
-                        "Refresh token is not in database!"));
+                        "Refresh token is not in database!!"));
     }
 
 }
