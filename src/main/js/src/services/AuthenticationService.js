@@ -81,7 +81,7 @@ async function emailLogin(token) {
             TokenService.setAccessToken(response.data.token);
             console.log("AAAAAAAA"+TokenService.getAccessToken());
             TokenService.setRefreshToken(response.data.refreshToken);
-
+            TokenService.setRoles(response.data.roles);
             // ukoliko je ulogovana medicinska sestra preusmjerava se na njenu stranicu
             if (response.data.roles.includes("ROLE_MEDICINSKA_SESTRA")) {
                 const idMedSestre = response.data.id;

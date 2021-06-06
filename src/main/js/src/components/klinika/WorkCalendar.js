@@ -7,6 +7,7 @@ import { PacientService } from "../../services/PacientService";
 import Calendar from 'react-calendar';
 import { AuthenticationService } from "../../services/AuthenticationService";
 import 'react-calendar/dist/Calendar.css';
+import { TokenService } from "../../services/TokenService";
 
 class ViewWorkCalendar extends Component {
 
@@ -31,7 +32,7 @@ class ViewWorkCalendar extends Component {
     }
 
     componentDidMount() {
-        if (AuthenticationService.getRole().includes("ROLE_MEDICINSKA_SESTRA")) {
+        if (TokenService.getRoles().includes("ROLE_MEDICINSKA_SESTRA")) {
             MedicinskaSestraService.getMSestra(this.state.idKorisnika).then(response => {
                 this.setState({
                     korisnik: response.data,
@@ -42,7 +43,7 @@ class ViewWorkCalendar extends Component {
             })
         }
         
-        else if (AuthenticationService.getRole().includes("ROLE_LEKAR")) {
+        else if (TokenService.getRoles().includes("ROLE_LEKAR")) {
             LekarService.getLekar(this.state.idKorisnika).then(response => {
                 this.setState({
                     korisnik: response.data,

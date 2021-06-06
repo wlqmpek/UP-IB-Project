@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 // Fajl sluzi za rad sa tokenom iz lokalnog skladista. - WLQ
 export const TokenService = {
     // Sve funkcije koje ovde nisu navedene smatraju se privatnim, dok su navedene funkcije javne. - WLQ
-    getRoles, getAccessToken, setAccessToken, removeAccessToken, decodeAccessToken, didAccessTokenExpire, getRefreshToken, setRefreshToken, removeRefreshToken, setId, getId, removeId
+    getRoles, setRoles, getAccessToken, setAccessToken, removeAccessToken, decodeAccessToken, didAccessTokenExpire, getRefreshToken, setRefreshToken, removeRefreshToken, setId, getId, removeId
 };
 
 function getAccessToken() {
@@ -12,6 +12,10 @@ function getAccessToken() {
 
 function getRoles() {
     return localStorage.getItem("roles");
+}
+
+function setRoles(value) {
+    localStorage.setItem("roles", value);
 }
 
 function getRefreshToken() {
