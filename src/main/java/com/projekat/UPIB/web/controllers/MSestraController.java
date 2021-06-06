@@ -67,7 +67,7 @@ public class MSestraController {
         medicinskaSestra.setEmailKorisnika(medicinskaSestraDTO.getEmailKorisnika());
         medicinskaSestra.setLozinkaKorisnika(passwordEncoder.encode(medicinskaSestraDTO.getLozinkaKorisnika()));
         medicinskaSestra.setKlinika(klinika);
-        medicinskaSestra.setPregledi(new HashSet<>());
+        //medicinskaSestra.setPregledi(new HashSet<>());
 
         medicinskaSestra = sestraService.save(medicinskaSestra);
         medicinskaSestraDTO = new MedicinskaSestraDTO(medicinskaSestra);
