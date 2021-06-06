@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +57,7 @@ public class PregledController {
     private IReceptService receptService;
 	
 	
-
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<PregledFrontendDTO>> findAll(){
 
@@ -71,6 +72,7 @@ public class PregledController {
         return new ResponseEntity<List<PregledFrontendDTO>>(preglediFrontendDTO, HttpStatus.OK);
     }
 
+	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR','MEDICINSKA_SESTRA','PACIJENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<PregledFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -83,6 +85,7 @@ public class PregledController {
         return new ResponseEntity<PregledFrontendDTO>(pregledFrontendDTO, HttpStatus.OK);
     }
 
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Pregled> savePregled(@RequestBody PregledBackendDTO pregledBackendDTO){
 
@@ -103,6 +106,7 @@ public class PregledController {
         return new ResponseEntity<>(pregled, HttpStatus.CREATED);
     }
 
+	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Pregled> updatePregled(@PathVariable(name = "id") Long id, @RequestBody PregledBackendDTO pregledBackendDTO){
 
@@ -127,7 +131,7 @@ public class PregledController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
-    
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePregled(@PathVariable(name = "id") Long id){
 

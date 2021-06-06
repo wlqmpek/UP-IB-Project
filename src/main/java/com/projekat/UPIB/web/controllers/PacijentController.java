@@ -41,6 +41,7 @@ public class PacijentController {
     @Autowired
     private PacijentToPacijentFrontDto pacijentToPacijentFrontDto;
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<PacijentFrontDTO>> findAll(){
 
@@ -53,6 +54,7 @@ public class PacijentController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR','PACIJENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<PacijentFrontDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -65,6 +67,7 @@ public class PacijentController {
         return new ResponseEntity<>(frontDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent){
 
@@ -88,6 +91,7 @@ public class PacijentController {
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<PacijentAdminEditDTO> updatePacijent(@PathVariable(name = "id") Long id,
                                                                @RequestBody PacijentAdminEditDTO pacijent){
@@ -122,7 +126,7 @@ public class PacijentController {
         return responseEntity;
     }
 
-
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePacijent(@PathVariable(name = "id") Long id){
 
@@ -134,6 +138,7 @@ public class PacijentController {
         pacijentService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
     
     @PostMapping(value = "/login", consumes = "application/json")
     public ResponseEntity<PacijentFrontDTO> loginPacijent(@RequestBody PacijentLoginDTO pacijentLoginDTO) {

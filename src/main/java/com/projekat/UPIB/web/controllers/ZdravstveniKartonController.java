@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +38,7 @@ public class ZdravstveniKartonController {
 	@Autowired
     private IZdravstveniKarton zdravstveniKartonService;
 	
-	
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<ZdravstveniKartonFrontendDTO>> findAll(){
 
@@ -52,6 +53,7 @@ public class ZdravstveniKartonController {
         return new ResponseEntity<List<ZdravstveniKartonFrontendDTO>>(zdravstveniKartoniFrontendDTO, HttpStatus.OK);
     }
 
+	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR','PACIJENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<ZdravstveniKartonFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -64,6 +66,7 @@ public class ZdravstveniKartonController {
         return new ResponseEntity<ZdravstveniKartonFrontendDTO>(zdravstveniKartonFrontendDTO, HttpStatus.OK);
     }
 
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ZdravstveniKartonFrontendDTO> saveZdravstveniKarton(@RequestBody ZdravstveniKartonBackendDTO zdravstveniKartonBackendDTO){
 
@@ -81,7 +84,7 @@ public class ZdravstveniKartonController {
         return new ResponseEntity<ZdravstveniKartonFrontendDTO>(zdravstveniKartonFrontendDTO,HttpStatus.CREATED);
     }
     
-    
+	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Recept> updateZdravstveniKarton(@PathVariable(name = "id") Long id, @RequestBody ZdravstveniKartonBackendDTO zdravstveniKartonBackendDTO){
 
@@ -101,7 +104,7 @@ public class ZdravstveniKartonController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
-    
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteZdravstveniKarton(@PathVariable(name = "id") Long id){
 

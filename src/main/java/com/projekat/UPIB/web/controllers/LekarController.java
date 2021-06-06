@@ -9,6 +9,7 @@ import com.projekat.UPIB.services.ILekarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class LekarController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<LekarFrontendDTO>> findAll(){
 
@@ -42,6 +44,7 @@ public class LekarController {
         return new ResponseEntity<>(lekariFrontendDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<LekarFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -55,6 +58,7 @@ public class LekarController {
         return  new ResponseEntity<>(lekarFrontendDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Lekar> saveLekar(@RequestBody LekarBackendDTO lekarInfo){
 
@@ -82,6 +86,7 @@ public class LekarController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Lekar> updateLekar(@PathVariable(name = "id") Long id, @RequestBody LekarBackendDTO lekarInfo){
 
@@ -119,6 +124,7 @@ public class LekarController {
         return new ResponseEntity<>(lekarOld, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteLekar(@PathVariable(name = "id") Long id){
 
