@@ -98,12 +98,7 @@ public class KorisnikController {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getKorisnik)
                 .map(korisnik -> {
-                    String token = tokenUtils.generateJwtToken(authenticationManager.authenticate(
-                            new UsernamePasswordAuthenticationToken(
-                                    refreshTokenService.findByToken(request.getRefreshToken()).get().getKorisnik().getEmailKorisnika(),
-                                    //Ovo nema svrhe uopste ali dobroDD
-                                    "123"
-                    )));
+                    String token = tokenUtils.generateJwtToken(requestRefreshToken);
                     return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,

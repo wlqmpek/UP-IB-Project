@@ -79,7 +79,7 @@ public class MSestraController {
                                                            @RequestBody MedicinskaSestraDTO medicinskaSestraDTO){
 
         MedicinskaSestra medicinskaSestra = sestraService.findOne(id);
-        if(medicinskaSestra == null){
+        if(medicinskaSestra == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

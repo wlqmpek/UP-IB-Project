@@ -30,7 +30,7 @@ public class TokenUtils {
     private String jwtSecret;
 
     // Period vazenja
-    @Value("60000")
+    @Value("6000")
     private Long jwtExpirationMs;
 
     // Naziv headera kroz koji ce se prosledjivati JWT u komunikaciji server-klijent
