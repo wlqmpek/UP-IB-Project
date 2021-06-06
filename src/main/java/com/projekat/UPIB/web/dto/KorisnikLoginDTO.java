@@ -9,11 +9,14 @@ public class KorisnikLoginDTO {
 
     @NotEmpty
     private String emailKorisnika;
-    @NotEmpty
     private String lozinkaKorisnika;
 
     public KorisnikLoginDTO() { super(); }
 
+    public KorisnikLoginDTO(String emailKorisnika) {
+        this.emailKorisnika = emailKorisnika;
+    }
+    
     public KorisnikLoginDTO(String emailKorisnika, String lozinkaKorisnika) {
         this.emailKorisnika = emailKorisnika;
         this.lozinkaKorisnika = lozinkaKorisnika;

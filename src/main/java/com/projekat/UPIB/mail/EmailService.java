@@ -24,6 +24,9 @@ public class EmailService implements IEmailService{
             mailMessage.setSubject(subject);
             mailMessage.setText(text);
 
+            System.out.println(to);
+            System.out.println(subject);
+            System.out.println(text);
             mailSender.send(mailMessage);
         }catch (MailException e){
             e.printStackTrace();

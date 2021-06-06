@@ -11,16 +11,17 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Data
 //END OF LOMBOK
 @Entity
 @Table(name = "lekar")
 public class Lekar extends MedicinskoOsoblje {
 
+	/*
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "lekar")
-    private Set<Pregled> pregledi = new HashSet<>();
+    private Set<Pregled> pregledi = new HashSet<>();*/
 
     // Odavde pa na dole je sve iz interfejsa UserDetails. - WLQ
 

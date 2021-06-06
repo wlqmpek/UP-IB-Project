@@ -37,6 +37,19 @@ const Login = () => {
         }
     };
 
+    const emailLoginRequest = async () => {
+        try {
+            await AuthenticationService.emailLoginRequest(credentials);
+        } catch (error) {
+            console.log("Greska")
+            console.log(error)
+            if (error.response.status === 403)
+                console.log(error.response.status);
+            setGreska("Neispravni podaci!");
+            throw error;
+        }
+    };
+
     // Return vraća JSX (JavaScript XML) - notaciju kroz koju je moguće elemente unutar React-a
     // Ovi elementi ujedno mogu da sadrže deklaraciju UI komponeti i poslovnu logiku
     // JSX je samo notacije te komponente koje se vraćaju ne moraju da budu samo vezane za HTML tagove
@@ -69,6 +82,7 @@ const Login = () => {
                             </Form.Control>
                         </Form.Group>
                         <Button variant="success" onClick={login}>Log in</Button>
+                        <Button variant="btn-info" onClick={emailLoginRequest}>Log in via email</Button>
                     </Form>
                 </Col>
             </Row>

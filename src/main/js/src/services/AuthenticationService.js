@@ -6,6 +6,8 @@ import LekarService from "./LekarService";
 
 export const AuthenticationService = {
     login,
+    emailLogin,
+    emailLoginRequest,
     refresh,
     logout,
     getRole,
@@ -23,10 +25,6 @@ async function login(userCredentials) {
         console.log("Decoded " + decoded_token);
         if (decoded_token) {
             TokenService.setId(response.data.id);
-            // TokenService.setId(response.data.id);
-            // TokenService.setId(response.data.id);
-            // TokenService.setId(response.data.id);
-            // TokenService.setId(response.data.id);
             TokenService.setAccessToken(response.data.token);
             TokenService.setRefreshToken(response.data.refreshToken);
 
@@ -54,6 +52,62 @@ async function login(userCredentials) {
         throw error;
     }
 }
+
+
+async function emailLoginRequest(userCredentials) {
+    TokenService.removeAccessToken()
+    try {
+        const response = await AxiosClient.post(
+            "/korisnici/emailPrijavaZahtev",
+            userCredentials
+        );
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function emailLogin(token) {
+    TokenService.removeAccessToken()
+    try {
+        const response = await AxiosClient.get(
+            `/korisnici/emailPrijava/${token}`
+        );
+
+        const decoded_token = TokenService.decodeAccessToken(response.data.token);
+        console.log("Decoded " + decoded_token);
+        if (decoded_token) {
+            TokenService.setId(response.data.id);
+            TokenService.setAccessToken(response.data.token);
+            console.log("AAAAAAAA"+TokenService.getAccessToken());
+            TokenService.setRefreshToken(response.data.refreshToken);
+
+            // ukoliko je ulogovana medicinska sestra preusmjerava se na njenu stranicu
+            if (response.data.roles.includes("ROLE_MEDICINSKA_SESTRA")) {
+                const idMedSestre = response.data.id;
+                MedicinskaSestraService.getMSestra(idMedSestre).then(res => {
+                    window.location.assign(`/medicinske-sestre/${idMedSestre}/klinika/${res.data.idKlinike}`);
+                });
+            }
+            else if (response.data.roles.includes("ROLE_LEKAR")) {
+                const idLekara = response.data.id;
+                LekarService.getLekar(idLekara).then(res => {
+                    window.location.assign(`/${idLekara}/radniKalendar/${res.data.idKlinike}`);
+                });
+            }
+            else {
+                window.location.assign("/");
+            }
+        }
+        else {
+            console.log("NOPEEE");
+            console.log("Invalid token");
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
 //DODATO NOVO???
 async function refresh() {
     TokenService.removeAccessToken();

@@ -1,5 +1,6 @@
 package com.projekat.UPIB.services.implementation;
 
+import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.models.PacijentLink;
 import com.projekat.UPIB.repositories.PacijentLinkRepozitorijum;
 import com.projekat.UPIB.services.IPacijentLinkService;
@@ -19,6 +20,11 @@ public class PacijentLinkService implements IPacijentLinkService {
         return pacijentLinkRepozitorijum.getOne(email);
     }
 
+    @Override
+    public PacijentLink findPacijentLinkByEmail(String email) {
+        return pacijentLinkRepozitorijum.findPacijentLinkByEmail(email);
+    }
+    
     @Override
     public PacijentLink findByPutanja(String putanja) {
         return pacijentLinkRepozitorijum.findByPutanja(putanja);

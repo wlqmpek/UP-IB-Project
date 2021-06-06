@@ -74,6 +74,12 @@ public class TokenUtils {
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
+    
+    public String generateTokenFromEmail(String email, int duration) {
+        return Jwts.builder().setSubject(email).setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + (jwtExpirationMs*duration))).signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
 
     public String getEmailFromToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();

@@ -7,6 +7,8 @@ import java.util.List;
 public interface IPacijentLinkService {
 
     PacijentLink findOne(String email);
+    
+    PacijentLink findPacijentLinkByEmail(String email);
 
     PacijentLink findByPutanja(String putanja);
 

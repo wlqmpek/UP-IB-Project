@@ -1,5 +1,6 @@
 package com.projekat.UPIB.services.implementation;
 
+import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.models.MedicinskaSestra;
 import com.projekat.UPIB.repositories.MedicinskaSestraRepozitorijum;
 import com.projekat.UPIB.services.IMedicinskaSestraService;
@@ -19,6 +20,11 @@ public class MedicinskaSestraService implements IMedicinskaSestraService {
         return medicinskaSestraRepozitorijum.getOne(id);
     }
 
+    @Override
+    public MedicinskaSestra findMedicinskaSestraByEmailKorisnika(String email) {
+        return medicinskaSestraRepozitorijum.findMedicinskaSestraByEmailKorisnika(email);
+    }
+    
     @Override
     public List<MedicinskaSestra> findAll() {
         return medicinskaSestraRepozitorijum.findAll();

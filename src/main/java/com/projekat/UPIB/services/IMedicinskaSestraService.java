@@ -1,5 +1,6 @@
 package com.projekat.UPIB.services;
 
+import com.projekat.UPIB.models.Lekar;
 import com.projekat.UPIB.models.MedicinskaSestra;
 
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 public interface IMedicinskaSestraService {
 
     MedicinskaSestra findOne(Long id);
+    
+    MedicinskaSestra findMedicinskaSestraByEmailKorisnika(String email);
 
     List<MedicinskaSestra> findAll();
 
