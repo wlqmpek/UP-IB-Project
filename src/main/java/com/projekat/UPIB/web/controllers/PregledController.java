@@ -33,7 +33,7 @@ import com.projekat.UPIB.services.implementation.ReceptService;
 
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://localhost:3000")
 @RestController
 @RequestMapping(value = "/Pregledi")
 public class PregledController {
