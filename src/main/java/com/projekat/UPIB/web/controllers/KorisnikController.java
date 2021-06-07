@@ -152,7 +152,7 @@ public class KorisnikController {
         pacijentLink.setPutanja(" ");
         pacijentLinkService.save(pacijentLink);
 
-        emailService.sendMessage(email, "Email prijava", "http://localhost:3000/email-prijava/"+jwt);
+        emailService.sendMessage(email, "Email prijava", "https://localhost:3000/email-prijava/"+jwt);
         
         return new ResponseEntity<>(HttpStatus.OK);
     }
