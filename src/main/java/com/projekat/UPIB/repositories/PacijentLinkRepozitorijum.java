@@ -6,4 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PacijentLinkRepozitorijum extends JpaRepository<PacijentLink, String> {
 
     PacijentLink findByPutanja(String putanja);
+    
+    PacijentLink findPacijentLinkByEmail(String email);
+    
 }
