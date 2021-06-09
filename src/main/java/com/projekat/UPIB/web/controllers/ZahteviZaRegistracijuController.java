@@ -30,7 +30,7 @@ import java.util.Base64;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "https://localhost:3000")
 @RequestMapping(value = "/Zahtevi")
 public class ZahteviZaRegistracijuController {
 

@@ -1,6 +1,6 @@
 import AxiosClient from "./clients/AxiosClient";
 
-export const MedicinkaSestraService = {
+export const MedicinskaSestraService = {
 
     getMSestre,
     getMSestra,
@@ -10,7 +10,7 @@ export const MedicinkaSestraService = {
 }
 
 async function getMSestre() {
-    return await AxiosClient.get("MedicinskeSestre")
+    return await AxiosClient.get("MedicinkseSestre")
 }
 
 async function getMSestra(id) {

@@ -20,6 +20,11 @@ public class PacijentLinkService implements IPacijentLinkService {
     }
 
     @Override
+    public PacijentLink findPacijentLinkByEmail(String email) {
+        return pacijentLinkRepozitorijum.findPacijentLinkByEmail(email);
+    }
+    
+    @Override
     public PacijentLink findByPutanja(String putanja) {
         return pacijentLinkRepozitorijum.findByPutanja(putanja);
     }

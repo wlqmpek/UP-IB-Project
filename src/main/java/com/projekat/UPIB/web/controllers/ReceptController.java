@@ -25,7 +25,7 @@ import com.projekat.UPIB.web.dto.ReceptBackendDTO;
 import com.projekat.UPIB.web.dto.ReceptFrontendDTO;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://localhost:3000")
 @RestController
 @RequestMapping(value = "/Recepti")
 public class ReceptController {

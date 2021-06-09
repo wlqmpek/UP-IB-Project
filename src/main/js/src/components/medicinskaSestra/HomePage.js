@@ -75,11 +75,11 @@ class MSHomePageComponent extends Component {
     }
 
     viewMedSestra() {
-        this.props.history.push(`/medicinskaSestra/pregled/${this.state.id}`);
+        this.props.history.push(`/medicinske-sestre/${this.state.id}`);
     }
 
     viewReceipts() {
-        this.props.history.push(`/medicinskaSestra/${this.state.id}/klinika/${this.state.idKlinike}/recepti`);
+        this.props.history.push(`/medicinske-sestre/${this.state.id}/klinika/${this.state.idKlinike}/recepti`);
     }
 
     viewWorkCalendar() {
@@ -97,7 +97,7 @@ class MSHomePageComponent extends Component {
                 return 0;
             });
             // reverse jer se jbzo obrnuto sortira
-            this.state.patients.reverse();
+            //this.state.patients.reverse();
         }
         else if (param === "ime") {
             this.state.patients.sort(function (a, b) {
@@ -132,8 +132,9 @@ class MSHomePageComponent extends Component {
             });
 
             // reverse jer se id obrnuto sortira
-            this.state.patients.reverse();
+            //this.state.patients.reverse();
         }
+        this.state.patients.reverse();
 
         if (this.state.sortType === 'Rastuce') {
             this.state.patients.reverse();

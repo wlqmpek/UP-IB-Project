@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://localhost:3000")
 @RequestMapping("/MedicinskeSestre")
 public class MSestraController {
 
@@ -67,7 +67,7 @@ public class MSestraController {
         medicinskaSestra.setEmailKorisnika(medicinskaSestraDTO.getEmailKorisnika());
         medicinskaSestra.setLozinkaKorisnika(passwordEncoder.encode(medicinskaSestraDTO.getLozinka()));
         medicinskaSestra.setKlinika(klinika);
-        medicinskaSestra.setPregledi(new HashSet<>());
+        //medicinskaSestra.setPregledi(new HashSet<>());
 
         medicinskaSestra = sestraService.save(medicinskaSestra);
         medicinskaSestraDTO = new MedicinskaSestraDTO(medicinskaSestra);
@@ -79,7 +79,7 @@ public class MSestraController {
                                                            @RequestBody MedicinskaSestraDTO medicinskaSestraDTO){
 
         MedicinskaSestra medicinskaSestra = sestraService.findOne(id);
-        if(medicinskaSestra == null){
+        if(medicinskaSestra == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

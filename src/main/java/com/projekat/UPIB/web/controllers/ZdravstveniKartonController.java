@@ -29,7 +29,7 @@ import com.projekat.UPIB.web.dto.ZdravstveniKartonBackendDTO;
 import com.projekat.UPIB.web.dto.ZdravstveniKartonFrontendDTO;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://localhost:3000")
 @RestController
 @RequestMapping(value = "/ZdravstveniKartoni")
 public class ZdravstveniKartonController {

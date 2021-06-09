@@ -15,7 +15,7 @@ import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.services.IAdministratorService;
 import com.projekat.UPIB.services.IKlinikaService;
 
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins = "https://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST})
 @RestController
 @RequestMapping(value = "/Klinike")
 public class KlinikaController {

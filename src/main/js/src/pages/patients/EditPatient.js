@@ -23,6 +23,9 @@ const  EditPatientDetails = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        if(AuthenticationService.getRole() !== "ROLE_PACIJENT") {
+            window.location.assign("/prijava");
+        }
         fetchPatient(id);
     }, [id]);
 

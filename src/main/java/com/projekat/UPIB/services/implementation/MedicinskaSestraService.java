@@ -20,6 +20,11 @@ public class MedicinskaSestraService implements IMedicinskaSestraService {
     }
 
     @Override
+    public MedicinskaSestra findMedicinskaSestraByEmailKorisnika(String email) {
+        return medicinskaSestraRepozitorijum.findMedicinskaSestraByEmailKorisnika(email);
+    }
+    
+    @Override
     public List<MedicinskaSestra> findAll() {
         return medicinskaSestraRepozitorijum.findAll();
     }

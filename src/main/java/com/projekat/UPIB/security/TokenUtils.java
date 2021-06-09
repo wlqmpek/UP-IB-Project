@@ -30,7 +30,7 @@ public class TokenUtils {
     private String jwtSecret;
 
     // Period vazenja
-    @Value("60000")
+    @Value("6000")
     private Long jwtExpirationMs;
 
     // Naziv headera kroz koji ce se prosledjivati JWT u komunikaciji server-klijent
@@ -72,6 +72,12 @@ public class TokenUtils {
     public String generateTokenFromEmail(String email) {
         return Jwts.builder().setSubject(email).setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+    
+    public String generateTokenFromEmail(String email, int duration) {
+        return Jwts.builder().setSubject(email).setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + (jwtExpirationMs*duration))).signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 

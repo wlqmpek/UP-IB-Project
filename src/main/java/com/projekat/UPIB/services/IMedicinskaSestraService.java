@@ -7,6 +7,8 @@ import java.util.List;
 public interface IMedicinskaSestraService {
 
     MedicinskaSestra findOne(Long id);
+    
+    MedicinskaSestra findMedicinskaSestraByEmailKorisnika(String email);
 
     List<MedicinskaSestra> findAll();
 

@@ -25,13 +25,15 @@ import com.projekat.UPIB.models.Pregled;
 import com.projekat.UPIB.models.Recept;
 import com.projekat.UPIB.services.IKlinikaService;
 import com.projekat.UPIB.services.ILekarService;
+import com.projekat.UPIB.services.IMedicinskaSestraService;
 import com.projekat.UPIB.services.IPregledService;
 import com.projekat.UPIB.services.IReceptService;
+import com.projekat.UPIB.services.IZdravstveniKarton;
 import com.projekat.UPIB.services.implementation.ReceptService;
 
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://localhost:3000")
 @RestController
 @RequestMapping(value = "/Pregledi")
 public class PregledController {
@@ -43,6 +45,12 @@ public class PregledController {
 	
 	@Autowired
     private ILekarService lekarService;
+	
+	@Autowired
+	private IMedicinskaSestraService medSestraService;
+	
+	@Autowired
+	private IZdravstveniKarton zdravstveniKartonService;
 	
 	@Autowired
     private IReceptService receptService;
@@ -83,12 +91,12 @@ public class PregledController {
         pregled.setDijagnoza(pregledBackendDTO.getDijagnoza());
         pregled.setKlinika(klinikaService.findOne(pregledBackendDTO.getIdKlinike()));
         pregled.setLekar(lekarService.findOne(pregledBackendDTO.getIdLekara()));
-        pregled.setMedicinskaSestra(null);
+        pregled.setMedicinskaSestra(medSestraService.findOne(pregledBackendDTO.getIdMedicinskeSestre()));
         pregled.setOpis(pregledBackendDTO.getOpis());
         pregled.setPocetakTermina(pregledBackendDTO.getPocetakTermina());
         pregled.setKrajTermima(pregledBackendDTO.getKrajTermina());
         pregled.setPopust(pregledBackendDTO.getPopust());
-        pregled.setZdravstveniKarton(null);
+        pregled.setZdravstveniKarton(zdravstveniKartonService.findOne(pregledBackendDTO.getIdZdravstvenogKartona()));
     	
     	
     	pregledService.save(pregled);
@@ -106,16 +114,13 @@ public class PregledController {
         pregled.setCena(pregledBackendDTO.getCena());
         pregled.setDijagnoza(pregledBackendDTO.getDijagnoza());
         pregled.setKlinika(klinikaService.findOne(pregledBackendDTO.getIdKlinike()));
-        //pregled.setLekar(lekarService.findOne(pregledBackendDTO.getIdLekara()));
-        pregled.setMedicinskaSestra(null);
+        pregled.setLekar(lekarService.findOne(pregledBackendDTO.getIdLekara()));
+        pregled.setMedicinskaSestra(medSestraService.findOne(pregledBackendDTO.getIdMedicinskeSestre()));
         pregled.setOpis(pregledBackendDTO.getOpis());
         pregled.setPocetakTermina(pregledBackendDTO.getPocetakTermina());
         pregled.setKrajTermima(pregledBackendDTO.getKrajTermina());
-        System.out.println(pregledBackendDTO.getKrajTermina());
         pregled.setPopust(pregledBackendDTO.getPopust());
-        
-        
-        //pregled.setZdravstveniKarton(pregledBackendDTO.getIdZdravstvenogKartona());
+        pregled.setZdravstveniKarton(zdravstveniKartonService.findOne(pregledBackendDTO.getIdZdravstvenogKartona()));
 
         pregled = pregledService.save(pregled);
 
