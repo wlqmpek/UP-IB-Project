@@ -6,8 +6,10 @@ const AfterAcceptRegistration = () => {
     const [pacijentLink, setPacijentLink] = useState({})
 
     const url = window.location.href
-    const parsedPath = url.split("/")
-    const path = parsedPath[5]
+    const parsedPath = url.slice(44, url.length)
+    const path = parsedPath
+    console.log(url)
+    console.log(path)
 
     useEffect( ()=>{
         fetchLink()

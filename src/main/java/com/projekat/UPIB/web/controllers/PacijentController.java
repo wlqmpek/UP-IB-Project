@@ -1,6 +1,7 @@
 package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.services.IZdravstveniKarton;
+import com.projekat.UPIB.services.implementation.AuthorityService;
 import com.projekat.UPIB.support.converters.PacijentEditDtoToPacijent;
 import com.projekat.UPIB.support.converters.PacijentToPacijentFrontDto;
 import com.projekat.UPIB.web.dto.pacijent.*;
@@ -34,6 +35,10 @@ public class PacijentController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthorityService authorityService;
+
 
     @Autowired
     private PacijentEditDtoToPacijent pacijentEditDtoToPacijent;
@@ -80,6 +85,7 @@ public class PacijentController {
         registered.setJBZO(pacijent.getJBZO());
         registered.setZdravstveniKarton(new ZdravstveniKarton());
         registered.getZdravstveniKarton().setPacijent(registered);
+        registered.setAuthorities(authorityService.findByIdAuthority(pacijent.getAuthorities()));
 
         registered = pacijentService.save(registered);
         String proba = registered.getLozinkaKorisnika();
@@ -88,6 +94,7 @@ public class PacijentController {
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<PacijentAdminEditDTO> updatePacijent(@PathVariable(name = "id") Long id,
                                                                @RequestBody PacijentAdminEditDTO pacijent){

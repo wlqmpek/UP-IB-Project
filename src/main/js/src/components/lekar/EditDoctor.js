@@ -58,7 +58,7 @@ const EditDoctor = () =>{
     const onSubmit = (e) => {
         e.preventDefault()
 
-        if(!doctor.imeKorisnika || !doctor.prezimeKorisnika || !doctor.emailKorisnika || !doctor.lozinkaKorisnika){
+        if(!doctor.imeKorisnika || !doctor.prezimeKorisnika || !doctor.emailKorisnika){
             alert("Sva polja su obavezna")
             return
         }
@@ -91,11 +91,11 @@ const EditDoctor = () =>{
                             <input type='email' value={doctor.emailKorisnika} onChange={handleFormInputChange("emailKorisnika")}
                                    className='form-control'/>
                         </div>
-                        <div className='form-group'>
+{/*                        <div className='form-group'>
                             <label>Lozinka: </label>
                             <input type='password' disabled value={doctor.lozinkaKorisnika} onChange={handleFormInputChange("lozinkaKorisnika")}
                                    className='form-control'/>
-                        </div>
+                        </div>*/}
                         <div className="form-group">
                             <label>Klinika: </label>
                             <Select  options={clinics} valueField={selectedOption} onChange={handleChange}/>

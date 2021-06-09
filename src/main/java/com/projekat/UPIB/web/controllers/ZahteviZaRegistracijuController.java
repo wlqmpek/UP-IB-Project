@@ -1,7 +1,9 @@
 package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.mail.EmailService;
+import com.projekat.UPIB.models.Authority;
 import com.projekat.UPIB.models.PacijentLink;
+import com.projekat.UPIB.services.implementation.AuthorityService;
 import com.projekat.UPIB.services.implementation.PacijentLinkService;
 import com.projekat.UPIB.web.dto.pacijent.PacijentFrontDTO;
 import com.projekat.UPIB.web.dto.pacijent.PacijentLinkDTO;
@@ -41,6 +43,9 @@ public class ZahteviZaRegistracijuController {
 
     @Autowired
     private PacijentLinkService pacijentLinkService;
+
+    @Autowired
+    private AuthorityService authorityService;
 
     @GetMapping
     public ResponseEntity<List<PacijentFrontDTO>> getPacijents(){

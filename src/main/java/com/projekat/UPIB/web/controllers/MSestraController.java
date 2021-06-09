@@ -65,7 +65,7 @@ public class MSestraController {
         medicinskaSestra.setImeKorisnika(medicinskaSestraDTO.getImeKorisnika());
         medicinskaSestra.setPrezimeKorisnika(medicinskaSestraDTO.getPrezimeKorisnika());
         medicinskaSestra.setEmailKorisnika(medicinskaSestraDTO.getEmailKorisnika());
-        medicinskaSestra.setLozinkaKorisnika(passwordEncoder.encode(medicinskaSestraDTO.getLozinkaKorisnika()));
+        medicinskaSestra.setLozinkaKorisnika(passwordEncoder.encode(medicinskaSestraDTO.getLozinka()));
         medicinskaSestra.setKlinika(klinika);
         medicinskaSestra.setPregledi(new HashSet<>());
 
@@ -86,7 +86,7 @@ public class MSestraController {
         medicinskaSestra.setImeKorisnika(medicinskaSestraDTO.getImeKorisnika());
         medicinskaSestra.setPrezimeKorisnika(medicinskaSestraDTO.getPrezimeKorisnika());
         medicinskaSestra.setEmailKorisnika(medicinskaSestraDTO.getEmailKorisnika());
-        medicinskaSestra.setLozinkaKorisnika(passwordEncoder.encode(medicinskaSestraDTO.getLozinkaKorisnika()));
+//        medicinskaSestra.setLozinkaKorisnika(passwordEncoder.encode(medicinskaSestraDTO.getLozinkaKorisnika()));
         medicinskaSestra.setKlinika(klinikaService.findOne(medicinskaSestraDTO.getIdKlinike()));
 
         medicinskaSestra = sestraService.save(medicinskaSestra);

@@ -30,7 +30,7 @@ const AddDoctor = () => {
 
     async function fetchClinics(){
         try {
-            const response = await ClinicsService.getClinics()
+            const response = await ClinicsService.getClinicsList()
             setClinics(response.data)
             console.log(clinics)
         }catch (error){

@@ -91,11 +91,6 @@ const EditMedicinkaSestra = () =>{
                             <input type='email' value={msestra.emailKorisnika} onChange={handleFormInputChange("emailKorisnika")}
                                    className='form-control'/>
                         </div>
-                        <div className='form-group'>
-                            <label>Lozinka: </label>
-                            <input type='password' disabled value={msestra.lozinkaKorisnika} onChange={handleFormInputChange("lozinkaKorisnika")}
-                                   className='form-control'/>
-                        </div>
                         <div className="form-group">
                             <label>Klinika: </label>
                             <Select  options={clinics} valueField={selectedOption} onChange={handleChange}/>

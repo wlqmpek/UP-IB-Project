@@ -10,7 +10,7 @@ public class MedicinskaSestraDTO implements Serializable{
     private String imeKorisnika;
     private String prezimeKorisnika;
     private String emailKorisnika;
-    private String lozinkaKorisnika;
+    private String lozinka;
     private long idKlinike;
     
     
@@ -20,13 +20,12 @@ public class MedicinskaSestraDTO implements Serializable{
 	}
 
 	public MedicinskaSestraDTO(long idKorisnika, String imeKorisnika, String prezimeKorisnika, String emailKorisnika,
-			String lozinkaKorisnika, KlinikaDTO klinika) {
+			KlinikaDTO klinika) {
 		super();
 		this.idKorisnika = idKorisnika;
 		this.imeKorisnika = imeKorisnika;
 		this.prezimeKorisnika = prezimeKorisnika;
 		this.emailKorisnika = emailKorisnika;
-		this.lozinkaKorisnika = lozinkaKorisnika;
 		this.idKlinike = klinika.getIdKlinike();
 	}
 
@@ -35,7 +34,6 @@ public class MedicinskaSestraDTO implements Serializable{
 		this.imeKorisnika = medicinskaSestra.getImeKorisnika();
 		this.prezimeKorisnika = medicinskaSestra.getPrezimeKorisnika();
 		this.emailKorisnika = medicinskaSestra.getEmailKorisnika();
-		this.lozinkaKorisnika = medicinskaSestra.getLozinkaKorisnika();
 		this.idKlinike = medicinskaSestra.getKlinika().getIdKlinike();
 	}
 	
@@ -74,12 +72,12 @@ public class MedicinskaSestraDTO implements Serializable{
 		this.emailKorisnika = emailKorisnika;
 	}
 
-	public String getLozinkaKorisnika() {
-		return lozinkaKorisnika;
+	public String getLozinka() {
+		return lozinka;
 	}
 
-	public void setLozinkaKorisnika(String lozinkaKorisnika) {
-		this.lozinkaKorisnika = lozinkaKorisnika;
+	public void setLozinka(String lozinka) {
+		this.lozinka = lozinka;
 	}
 
 	public long getIdKlinike() {

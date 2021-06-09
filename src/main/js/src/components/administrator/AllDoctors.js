@@ -22,7 +22,7 @@ const AllDoctors = () => {
 
     const history = useHistory()
     const redirect = () => {
-        return history.push("/medicinske-sestre/dodaj")
+        return history.push("/lekari/dodaj")
     }
 
     const {items, requestSort, sortConfig} = useSortableData(doctors)
@@ -35,7 +35,7 @@ const AllDoctors = () => {
 
     async function fetchDoctors(){
         try {
-            const response = await LekarService.getLekars()
+            const response = await LekarService.getLekari()
             setDoctors(response.data)
         } catch (error){
             console.error(error)

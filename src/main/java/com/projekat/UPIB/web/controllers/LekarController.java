@@ -92,7 +92,7 @@ public class LekarController {
 
         lekarOld.setEmailKorisnika(lekarInfo.getEmailKorisnika());
         lekarOld.setImeKorisnika(lekarInfo.getImeKorisnika());
-        lekarOld.setLozinkaKorisnika(passwordEncoder.encode(lekarInfo.getLozinkaKorisnika()));
+//        lekarOld.setLozinkaKorisnika(passwordEncoder.encode(lekarInfo.getLozinkaKorisnika()));
         lekarOld.setPrezimeKorisnika(lekarInfo.getPrezimeKorisnika());
         
         // potrebna for petlja da se za svaki ID iz pregledi HashSet-a
