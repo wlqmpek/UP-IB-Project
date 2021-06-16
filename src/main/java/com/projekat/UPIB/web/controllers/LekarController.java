@@ -1,5 +1,6 @@
 package com.projekat.UPIB.web.controllers;
 
+import com.projekat.UPIB.services.IAuthorityService;
 import com.projekat.UPIB.web.dto.LekarBackendDTO;
 import com.projekat.UPIB.web.dto.LekarFrontendDTO;
 import com.projekat.UPIB.models.Klinika;
@@ -20,11 +21,16 @@ import java.util.List;
 @RequestMapping(value = "/Lekari")
 public class LekarController {
 
+    private static final Long ROLE_LEKAR = 2L;
+
     @Autowired
     private ILekarService lekarService;
     
     @Autowired
     private IKlinikaService klinikaService;
+
+    @Autowired
+    private IAuthorityService authorityService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -63,6 +69,7 @@ public class LekarController {
     	lekar.setPrezimeKorisnika(lekarInfo.getPrezimeKorisnika());
     	lekar.setLozinkaKorisnika(passwordEncoder.encode(lekarInfo.getLozinkaKorisnika()));
     	lekar.setEmailKorisnika(lekarInfo.getEmailKorisnika());
+    	lekar.setAuthorities(authorityService.findByIdAuthority(ROLE_LEKAR));
     	
     	// bad request ukoliko id klinike nije prosledjen ili id nije ispravan
     	if (lekarInfo.getIdKlinike() != null) {
@@ -129,5 +136,16 @@ public class LekarController {
 
         lekarService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/nadji/{email}")
+    public ResponseEntity<LekarFrontendDTO> getLekarByEmail(@PathVariable(name = "email") String email){
+
+        Lekar lekar = lekarService.findLekarByEmailKorisnika(email);
+        if(lekar == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new LekarFrontendDTO(lekar), HttpStatus.OK);
     }
 }

@@ -1,6 +1,7 @@
 package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.models.Klinika;
+import com.projekat.UPIB.services.IAuthorityService;
 import com.projekat.UPIB.web.dto.MedicinskaSestraDTO;
 import com.projekat.UPIB.models.MedicinskaSestra;
 import com.projekat.UPIB.services.IKlinikaService;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequestMapping("/MedicinskeSestre")
 public class MSestraController {
 
+    private static final Long ROLE_M_SESTRA = 3L;
     @Autowired
     private IMedicinskaSestraService sestraService;
 
@@ -28,6 +30,9 @@ public class MSestraController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private IAuthorityService authorityService;
 
     @GetMapping
     public ResponseEntity<List<MedicinskaSestraDTO>> getAll(){
@@ -67,6 +72,7 @@ public class MSestraController {
         medicinskaSestra.setEmailKorisnika(medicinskaSestraDTO.getEmailKorisnika());
         medicinskaSestra.setLozinkaKorisnika(passwordEncoder.encode(medicinskaSestraDTO.getLozinka()));
         medicinskaSestra.setKlinika(klinika);
+        medicinskaSestra.setAuthorities(authorityService.findByIdAuthority(ROLE_M_SESTRA));
         //medicinskaSestra.setPregledi(new HashSet<>());
 
         medicinskaSestra = sestraService.save(medicinskaSestra);

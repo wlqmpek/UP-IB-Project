@@ -1,10 +1,51 @@
-﻿import React from 'react'
-import Registration from './pacijent/Registration'
-import { MDBIcon } from 'mdbreact'
+﻿import React, {useEffect, useState} from 'react'
 import { Link } from 'react-router-dom';
+import LoginRegisterBT from "./LoginRegisterBT";
+import Logout from "./Logout";
+import {AuthenticationService} from "../services/AuthenticationService";
+import HeaderLekar from "./lekar/HeaderLekar";
+import HeaderPacijent from "./pacijent/HeaderPacijent";
+import HeaderGuest from "./HeaderGuest";
 
-class HeaderComponent extends React.Component {
-    render() {
+const HeaderComponent = () => {
+
+    const [role, setRole] = useState("")
+
+    const jwt = localStorage.getItem("accessToken");
+
+    useEffect(()=>{
+        getRoleFromToken()
+    })
+
+    const logout = () => {
+        if(jwt === null){
+            return <LoginRegisterBT/>
+        }else{
+            return <Logout/>
+        }
+    }
+
+    function getRoleFromToken() {
+        if(AuthenticationService.getRole() !== null){
+            setRole(AuthenticationService.getRole)
+        }
+    }
+    const usersHeader = () => {
+
+        console.log(role)
+        if(role === "ROLE_LEKAR"){
+           return <HeaderLekar/>
+        }else if(role === "ROLE_ADMINISTRATOR"){
+
+        }else if(role === "ROLE_MEDICINKSA_SESTRA"){
+
+        }else if(role === "ROLE_PACIJENT"){
+            return <HeaderPacijent/>
+        }else if (role === ""){
+            return <HeaderGuest/>
+        }
+    }
+
         return (
                 <header>
                     <nav className="navbar navbar-expand-lg navbar-dark bg-primary sticky-top" id="navbar_header">
@@ -16,21 +57,12 @@ class HeaderComponent extends React.Component {
                                 <span className="navbar-toggler-icon"></span>
                             </button>
                             <div className="collapse navbar-collapse" id="navbarNav">
-                                <ul className="nav navbar-nav">
-                                    <li className="nav-item"><Link className="nav-link" to="/">Početna</Link></li>
-                                    <li className="nav-item"><Link className="nav-link" to="/klinike">Klinike</Link></li>
-                                    <li className="nav-item"><Link className="nav-link" to="/">Cenovnik</Link></li>
-                                    <li className="nav-item"><Link className="nav-link" to="/admini">Administratori</Link></li>
-                                </ul>
-                                <ul className="navbar-nav">
-                                    <li className="nav-item"><Link className="nav-link" to="/registracija"><MDBIcon icon="user-plus" />Registracija</Link></li>
-                                    <li className="nav-item"><Link className="nav-link" to="/prijava"><MDBIcon icon="sign-in-alt" />Prijava</Link></li>
-                                </ul>
+                                {usersHeader()}
+                                {logout()}
                             </div>
                         </div>
                     </nav>
                 </header>
         )
-    }
 }
 export default HeaderComponent

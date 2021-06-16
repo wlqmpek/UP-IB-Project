@@ -3,6 +3,7 @@ import AxiosClient from "./clients/AxiosClient"
 export const LekarService = {
     getLekari,
     getLekar,
+    getLekarByEmail,
     createLekar,
     editLekar,
     deleteLekar
@@ -16,6 +17,9 @@ async function getLekar(id) {
     return await AxiosClient.get(`Lekari/${id}`)
 }
 
+async function getLekarByEmail(email){
+    return await AxiosClient.get(`Lekari/nadji/${email}`)
+}
 async function createLekar(lekar) {
     return await AxiosClient.post("Lekari", lekar)
 }

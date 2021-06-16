@@ -1,45 +1,32 @@
-import React, {useEffect, useState} from "react";
-import {useHistory, useParams} from "react-router";
-import {LekarService} from "../../services/LekarService";
-import ClinicsService from "../../services/ClinicsService";
-import validator from "validator";
 import Select from "react-dropdown-select";
+import React, {useEffect, useState} from "react";
+import validator from "validator";
+import {LekarService} from "../../services/LekarService";
+import {AuthenticationService} from "../../services/AuthenticationService";
+import {useHistory} from "react-router";
 
+const EditLoggedDoctor = () => {
 
-const EditDoctor = () =>{
-
-    const [selectedOption, setSelectedOption] = useState(null)
     const [doctor, setDoctor] = useState({})
-    const [clinics, setClinics] = useState([])
+    const email = AuthenticationService.getEmail()
     const history = useHistory()
 
-    const {id} = useParams()
-
     useEffect(()=>{
-        fetchDoctor(id)
-        fetchClinics()
-    }, [id])
-    async function fetchDoctor(id){
-        try {
-            const response = await LekarService.getLekar(id)
-            setDoctor(response.data)
-        } catch (error){
-            console.error(error)
-        }
-    }
-
-    async function fetchClinics(){
-        try {
-            const response = await ClinicsService.getClinicsList()
-            setClinics(response.data)
-        } catch (error){
-            console.error(error)
-        }
-    }
+        fetchDoctor(email)
+    }, [email])
 
     async function updateDoctor(){
         try {
             await LekarService.editLekar(doctor.idKorisnika, doctor)
+        } catch (error){
+            console.error(error)
+        }
+    }
+
+    async function fetchDoctor(email){
+        try {
+            const response = await LekarService.getLekarByEmail(email)
+            setDoctor(response.data)
         } catch (error){
             console.error(error)
         }
@@ -50,13 +37,7 @@ const EditDoctor = () =>{
         setDoctor({...doctor, [name]: val })
     }
 
-    const handleChange = selectedOption => {
-        setSelectedOption({ selectedOption });
-        setDoctor({...doctor, ["idKlinike"]: selectedOption[0].value})
-    };
-
-
-    const onSubmit = (e) => {
+    const onSend = (e) => {
         e.preventDefault()
 
         if(!doctor.imeKorisnika || !doctor.prezimeKorisnika || !doctor.emailKorisnika){
@@ -69,14 +50,14 @@ const EditDoctor = () =>{
             return
         }
         updateDoctor()
-        history.push("/lekari")
+        history.push("/lekar-pocetna")
     }
 
     return(
         <div className="container" style={{marginTop: "100px"}}>
             <div className="row">
                 <div className="col-md-6 offset-md-3 offset-md-3">
-                    <h3 className="text-center">Izmena doktora</h3>
+                    <h3 className="text-center">Izmena podataka</h3>
                     <form>
                         <div className='form-group'>
                             <label>Ime: </label>
@@ -93,16 +74,7 @@ const EditDoctor = () =>{
                             <input type='email' value={doctor.emailKorisnika} onChange={handleFormInputChange("emailKorisnika")}
                                    className='form-control'/>
                         </div>
-{/*                        <div className='form-group'>
-                            <label>Lozinka: </label>
-                            <input type='password' disabled value={doctor.lozinkaKorisnika} onChange={handleFormInputChange("lozinkaKorisnika")}
-                                   className='form-control'/>
-                        </div>*/}
-                        <div className="form-group">
-                            <label>Klinika: </label>
-                            <Select  options={clinics} valueField={selectedOption} onChange={handleChange}/>
-                        </div>
-                        <button type='submit' className='btn btn-primary' onClick={onSubmit}>Izmeni</button>
+                        <button type='submit' className='btn btn-primary' onClick={onSend}>Izmeni</button>
                     </form>
                 </div>
             </div>
@@ -110,4 +82,4 @@ const EditDoctor = () =>{
     )
 }
 
-export default EditDoctor
+export default EditLoggedDoctor

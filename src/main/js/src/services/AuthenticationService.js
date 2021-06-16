@@ -36,10 +36,11 @@ async function login(userCredentials) {
                 });
             }
             else if (this.getRole().includes("ROLE_LEKAR")) {
-                const idLekara = response.data.id;
+                window.location.assign("/lekar-pocetna")
+/*                const idLekara = response.data.id;
                 LekarService.getLekar(idLekara).then(res => {
                     window.location.assign(`/${idLekara}/radniKalendar/${res.data.idKlinike}`);
-                });
+                });*/
             }
             else {
                 window.location.assign("/");
@@ -139,7 +140,7 @@ function getRole() {
     const token = TokenService.getAccessToken();
     console.log(console.log("object: %O", token));
     const decoded_token = token ? TokenService.decodeAccessToken(token) : null;
-    console.log("Decoded token roles " + decoded_token.roles);
+    //console.log("Decoded token roles " + decoded_token.roles);
     if (decoded_token) {
         return decoded_token.roles;
     } else {

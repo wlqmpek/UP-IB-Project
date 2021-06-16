@@ -14,6 +14,7 @@ import UpdateClinicComponent from './components/klinika/Update';
 import ViewClinicComponent from './components/klinika/ViewClinic';
 import HeaderComponent from './components/Header';
 import FrontPage from './components/FrontPage'
+import FrontPageLekar from "./pages/lekar/FrontPageLekar";
 import FooterComponent from './components/Footer';
 import Login from "./pages/Login";
 import PatientProfile from "./pages/patients/EditPatient";
@@ -38,6 +39,7 @@ import EditMedicinkaSestra from "./components/medicinska_sestra/EditMedicinkaSes
 import AddMedicinskaSestra from "./components/medicinska_sestra/AddMedicinskaSestra";
 import AfterAcceptRegistration from "./components/pacijent/AfterAcceptRegistration";
 import EmailLogin from './pages/EmailLogin';
+import EditLoggedDoctor from "./pages/lekar/EditLoggedDoctor";
 
 function App() {
 
@@ -81,12 +83,12 @@ function App() {
 
                     </Switch>
                     <Switch>
+                        <Route exact path="/lekar-pocetna" component={FrontPageLekar}/>
                         <Route exact path="/lekari" component={AllDoctors}/>
                         <Route exact path="/lekari/dodaj" component={AddDoctor}/>
                         <Route exact path="/lekari/:id" component={EditDoctor}/>
-
+                        <Route exact path="/lekar/izmena/:email" component={EditLoggedDoctor}/>
                     </Switch>
-
                   <Switch>
                       <Route exact path="/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent}></Route>
                   </Switch>
