@@ -41,6 +41,7 @@ public class KlinikaController {
 	@Autowired
     private IOceneKlinikeService oceneKlinikeService;
 
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<KlinikaDTO>> findAll(){
 
@@ -55,6 +56,7 @@ public class KlinikaController {
         return new ResponseEntity<List<KlinikaDTO>>(klinikeFrontendDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<KlinikaDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -67,6 +69,7 @@ public class KlinikaController {
         return new ResponseEntity<KlinikaDTO>(klinikaFrontendDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Klinika> saveKlinika(@RequestBody Klinika klinika){
 
@@ -74,6 +77,7 @@ public class KlinikaController {
         return new ResponseEntity<>(klinika, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Klinika> updateKlinika(@PathVariable(name = "id") Long id, @RequestBody Klinika klinika){
 
@@ -93,6 +97,7 @@ public class KlinikaController {
         return new ResponseEntity<>(klinikaOld, HttpStatus.OK);
     }
     
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(value = "/{idKlinike}/dodajAdmina/{idAdmina}", consumes = "application/json")
     public  ResponseEntity<Administrator> dodajAdminaUKliniku(@PathVariable(name = "idKlinike") Long idKlinike,
     		@PathVariable(name = "idAdmina") Long idAdmina){
@@ -111,6 +116,7 @@ public class KlinikaController {
         return new ResponseEntity<Administrator>(admin, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteKlinika(@PathVariable(name = "id") Long id){
 
@@ -123,6 +129,7 @@ public class KlinikaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/lista")
     public ResponseEntity<List<KlinikaListaDTO>> getLista(){
 

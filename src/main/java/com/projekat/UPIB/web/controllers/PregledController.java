@@ -56,7 +56,7 @@ public class PregledController {
     private IAdministratorService iAdministratorService;
 	
 	
-
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<PregledFrontendDTO>> findAll(){
 
@@ -71,6 +71,7 @@ public class PregledController {
         return new ResponseEntity<List<PregledFrontendDTO>>(preglediFrontendDTO, HttpStatus.OK);
     }
 
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','MEDICINSKA_SESTRA','PACIJENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<PregledFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -83,6 +84,7 @@ public class PregledController {
         return new ResponseEntity<PregledFrontendDTO>(pregledFrontendDTO, HttpStatus.OK);
     }
 
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Pregled> savePregled(@RequestBody PregledBackendDTO pregledBackendDTO){
 
@@ -103,6 +105,7 @@ public class PregledController {
         return new ResponseEntity<>(pregled, HttpStatus.CREATED);
     }
 
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Pregled> updatePregled(@PathVariable(name = "id") Long id, @RequestBody PregledBackendDTO pregledBackendDTO){
 
@@ -127,7 +130,7 @@ public class PregledController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
-    
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePregled(@PathVariable(name = "id") Long id){
 

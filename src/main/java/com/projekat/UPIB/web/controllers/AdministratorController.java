@@ -6,6 +6,7 @@ import com.projekat.UPIB.web.dto.administrator.AdministratorFrontendDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -19,6 +20,7 @@ public class AdministratorController {
     @Autowired
     private IAdministratorService administratorService;
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<Administrator>> allAdministrators(){
 
@@ -26,6 +28,7 @@ public class AdministratorController {
         return new ResponseEntity<List<Administrator>>(administrators,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<Administrator> findAdministrator(@PathVariable(name = "id") Long id){
 
@@ -33,12 +36,14 @@ public class AdministratorController {
         return new ResponseEntity<Administrator>(administrator, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Administrator> saveAdministrator(@RequestBody Administrator administrator){
         administratorService.save(administrator);
         return new ResponseEntity<Administrator>(administrator, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','KLINICKI_ADMINISTRATOR')")
     @PutMapping(value = "/{id}", consumes = "application/json")
     public  ResponseEntity<Administrator> updateAdministrator(@PathVariable(name = "id") Long id,@RequestBody Administrator administrator){
 
@@ -57,6 +62,7 @@ public class AdministratorController {
         return new ResponseEntity<Administrator>(admin, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteAdministrator(@PathVariable(name = "id") Long id){
 
