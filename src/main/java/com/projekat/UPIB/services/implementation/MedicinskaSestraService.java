@@ -38,4 +38,9 @@ public class MedicinskaSestraService implements IMedicinskaSestraService {
     public void remove(Long id) {
         medicinskaSestraRepozitorijum.deleteById(id);
     }
+
+    @Override
+    public List<MedicinskaSestra> getAllForList(Long id) {
+        return medicinskaSestraRepozitorijum.findByKlinikaIdKlinike(id);
+    }
 }

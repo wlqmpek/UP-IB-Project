@@ -17,7 +17,6 @@ const useSortableData = (items, config = null) => {
                 return 0
             })
         }
-        console.log(sortableItems)
         return sortableItems
     }, [items,sortConfig])
 

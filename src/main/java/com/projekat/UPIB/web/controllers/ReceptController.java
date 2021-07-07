@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projekat.UPIB.models.Administrator;
-import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.models.Recept;
 import com.projekat.UPIB.services.IPregledService;
 import com.projekat.UPIB.services.IReceptService;
-import com.projekat.UPIB.web.dto.ReceptBackendDTO;
-import com.projekat.UPIB.web.dto.ReceptFrontendDTO;
+import com.projekat.UPIB.web.dto.recept.ReceptBackendDTO;
+import com.projekat.UPIB.web.dto.recept.ReceptFrontendDTO;
 
 
 @CrossOrigin(origins = "https://localhost:3000")

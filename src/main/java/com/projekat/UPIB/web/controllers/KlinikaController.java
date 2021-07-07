@@ -3,18 +3,26 @@ package com.projekat.UPIB.web.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.projekat.UPIB.web.dto.KlinikaListaDTO;
+import com.projekat.UPIB.models.OceneKlinike;
+import com.projekat.UPIB.models.Pacijent;
+import com.projekat.UPIB.services.IOceneKlinikeService;
+import com.projekat.UPIB.services.IPacijentService;
+import com.projekat.UPIB.web.dto.klinika.AvgOcenaKlinikeDTO;
+import com.projekat.UPIB.web.dto.klinika.KlinikaListaDTO;
+import com.projekat.UPIB.web.dto.klinika.OcenaKlinikeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.projekat.UPIB.web.dto.KlinikaDTO;
+import com.projekat.UPIB.web.dto.klinika.KlinikaDTO;
 import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.services.IAdministratorService;
 import com.projekat.UPIB.services.IKlinikaService;
+
+import javax.annotation.security.PermitAll;
 
 @CrossOrigin(origins = "https://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST})
 @RestController
@@ -26,6 +34,12 @@ public class KlinikaController {
 	
 	@Autowired
     private IAdministratorService administratorService;
+
+	@Autowired
+    private IPacijentService pacijentService;
+
+	@Autowired
+    private IOceneKlinikeService oceneKlinikeService;
 
 	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
@@ -127,5 +141,48 @@ public class KlinikaController {
         }
 
         return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
+    @PermitAll
+    @GetMapping("/ocene/{id}")
+    public ResponseEntity<AvgOcenaKlinikeDTO> prosecnaOcena(@PathVariable Long id){
+
+        AvgOcenaKlinikeDTO ocenaKlinikeDTO = new AvgOcenaKlinikeDTO();
+        Klinika klinika = klinikaService.findOne(id);
+        Double ocena = oceneKlinikeService.avgOcena(id);
+        if(klinika == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        ocenaKlinikeDTO.setOcena(ocena);
+
+        if(ocena == null){
+            ocenaKlinikeDTO.setOcena(0.0);
+        }
+
+        ocenaKlinikeDTO.setNaziv(klinika.getNaziv());
+
+        return new ResponseEntity<>(ocenaKlinikeDTO, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @PostMapping("/ocene/oceni")
+    public ResponseEntity<Void> oceniKliniku(@RequestBody OcenaKlinikeDTO ocenaKlinikeDTO){
+
+        OceneKlinike oceneKlinike = new OceneKlinike();
+        Klinika klinika = klinikaService.findOne(ocenaKlinikeDTO.getIdKlinike());
+        Pacijent pacijent = pacijentService.findOne(ocenaKlinikeDTO.getIdPacijenta());
+
+        if(ocenaKlinikeDTO == null && klinika == null && pacijent == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        oceneKlinike.setKlinika(klinika);
+        oceneKlinike.setOcena(ocenaKlinikeDTO.getOcena());
+        oceneKlinike.setPacijent(pacijent);
+
+        oceneKlinikeService.save(oceneKlinike);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

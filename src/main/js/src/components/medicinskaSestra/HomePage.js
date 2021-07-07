@@ -24,6 +24,7 @@ class MSHomePageComponent extends Component {
         this.viewWorkCalendar = this.viewWorkCalendar.bind(this);
         this.sort = this.sort.bind(this);
         this.changeSortTypeHandler = this.changeSortTypeHandler.bind(this);
+        this.changePassword = this.changePassword.bind(this)
     }
 
     changeSortTypeHandler = (event) => {
@@ -75,7 +76,7 @@ class MSHomePageComponent extends Component {
     }
 
     viewMedSestra() {
-        this.props.history.push(`/medicinske-sestre/${this.state.id}`);
+        this.props.history.push(`/medicinske-sestre/izmeni`);
     }
 
     viewReceipts() {
@@ -84,6 +85,10 @@ class MSHomePageComponent extends Component {
 
     viewWorkCalendar() {
         this.props.history.push(`/${this.state.id}/radniKalendar/${this.state.clinic.idKlinike}`);
+    }
+
+    changePassword(){
+        this.props.history.push("/korisnik/promena-lozinke")
     }
 
     sort(param) {
@@ -158,6 +163,9 @@ class MSHomePageComponent extends Component {
 				    </div>
 				    <div className="row">
 					    <button className="btn btn-primary" onClick={this.viewReceipts}> Overa recepata </button>
+                    </div>
+                    <div className="row">
+                        <button className="btn btn-primary" onClick={this.changePassword}> Promena lozinke </button>
                     </div>
                 </div>
 

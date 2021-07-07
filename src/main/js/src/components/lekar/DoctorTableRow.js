@@ -12,15 +12,6 @@ const DoctorTableRow = ({doctor, doctors, updateDoctor}) =>{
         fetchClinic()
     },[])
 
-    async function editDoctor(id){
-        try {
-            await LekarService.editLekar(doctor.idKorisnika, doctor)
-            updateDoctor((doctor) => doctors.filter((doctor) => doctor.idKorisnika !== id))
-        } catch (error){
-            console.error(error)
-        }
-    }
-
     async function deleteDoctor(id){
         try {
             await LekarService.deleteLekar(doctor.idKorisnika)

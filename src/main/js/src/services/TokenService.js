@@ -7,7 +7,12 @@ export const TokenService = {
 };
 
 function getAccessToken() {
-    return localStorage.getItem("accessToken");
+    try {
+        return localStorage.getItem("accessToken");
+    }catch {
+        return ""
+    }
+
 }
 
 function getRefreshToken() {

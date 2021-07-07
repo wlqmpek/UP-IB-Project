@@ -55,7 +55,7 @@ public abstract class Korisnik implements UserDetails {
     @JsonIgnore
     public String getAuthoritiesAsString() {
         StringBuilder sb = new StringBuilder();
-        for (Authority authority : this.authorities) {
+        for (Authority authority : getAuthorities()) {
             sb.append(authority.getImeAuthority());
         }
         return sb.toString();

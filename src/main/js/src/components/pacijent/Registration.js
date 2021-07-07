@@ -4,6 +4,7 @@ import validator from 'validator'
 
 const Registration = () => {
 
+    const [warning, setWarning] = useState("")
     const [imeKorisnika, setIme] = useState('')
     const [prezimeKorisnika, setPrezime] = useState('')
     const [emailKorisnika, setEmail] = useState('')
@@ -42,22 +43,22 @@ const Registration = () => {
         e.preventDefault();
 
         if (!imeKorisnika || !prezimeKorisnika || !emailKorisnika || !lozinka || !jbzo || !ponovljenaLozinka) {
-            alert('Sva polja su obavezna.')
+            setWarning('Sva polja su obavezna.')
             return
         }
 
         if (lozinka.valueOf() !== ponovljenaLozinka.valueOf()) {
-            alert('Ponovljena lozinka nije ista kao uneta lozinka')
+            setWarning('Ponovljena lozinka nije ista kao uneta lozinka')
             return
         }
 
         if (isNaN(jbzo)) {
-            alert('Jbzo mora sadrzat samo cifre')
+            setWarning('Jbzo mora sadrzat samo cifre')
             return
         }
 
         if (!validator.isEmail(emailKorisnika)) {
-            alert('Email nije validan')
+            setWarning('Email nije validan')
             return
         }
 
@@ -109,6 +110,7 @@ const Registration = () => {
                             <input type='text' value={jbzo} onChange={e => setJbzo(e.target.value)} placeholder='JBZO'
                                    className='form-control'></input>
                         </div>
+                        <p className="text-danger">{warning}</p>
                         <button type='submit' className='btn btn-primary' onClick={onSubmit}>Registruj se</button>
                     </form>
                 </div>

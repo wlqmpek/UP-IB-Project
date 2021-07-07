@@ -36,10 +36,9 @@ async function login(userCredentials) {
                 });
             }
             else if (this.getRole().includes("ROLE_LEKAR")) {
-                const idLekara = response.data.id;
-                LekarService.getLekar(idLekara).then(res => {
-                    window.location.assign(`/${idLekara}/radniKalendar/${res.data.idKlinike}`);
-                });
+                window.location.assign("/lekar-pocetna")
+            }else if(this.getRole().includes("ROLE_KLINICKI_ADMINISTRATOR")){
+                window.location.assign("/klinicki-administrator")
             }
             else {
                 window.location.assign("/");

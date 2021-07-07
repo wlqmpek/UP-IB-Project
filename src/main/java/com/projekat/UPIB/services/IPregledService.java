@@ -13,4 +13,6 @@ public interface IPregledService {
     Pregled save(Pregled pregled);
 
     void remove(Long id);
+
+    List<Pregled> findAllByKlinika(Long id);
 }

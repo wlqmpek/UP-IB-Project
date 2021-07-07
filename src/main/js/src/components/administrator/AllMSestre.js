@@ -1,6 +1,6 @@
 import {MedicinskaSestraService} from "../../services/MedicinskaSestraService";
 import {useEffect, useState} from "react";
-import MedicinskaSestraTableRow from "../medicinska_sestra/MedicinskaSestraTableRow";
+import MedicinskaSestraTableRow from "../medicinskaSestra/MedicinskaSestraTableRow";
 import {Link, Redirect, useHistory} from "react-router-dom";
 import useSortableData from "../SortTable";
 

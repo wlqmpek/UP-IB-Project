@@ -15,4 +15,6 @@ public interface IMedicinskaSestraService {
     MedicinskaSestra save(MedicinskaSestra medicinskaSestra);
 
     void remove(Long id);
+
+    List<MedicinskaSestra> getAllForList(Long id);
 }

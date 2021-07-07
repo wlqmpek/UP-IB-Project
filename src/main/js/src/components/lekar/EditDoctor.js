@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import {LekarService} from "../../services/LekarService";
 import ClinicsService from "../../services/ClinicsService";
 import validator from "validator";
@@ -11,6 +11,7 @@ const EditDoctor = () =>{
     const [selectedOption, setSelectedOption] = useState(null)
     const [doctor, setDoctor] = useState({})
     const [clinics, setClinics] = useState([])
+    const history = useHistory()
 
     const {id} = useParams()
 
@@ -68,6 +69,7 @@ const EditDoctor = () =>{
             return
         }
         updateDoctor()
+        history.push("/lekari")
     }
 
     return(

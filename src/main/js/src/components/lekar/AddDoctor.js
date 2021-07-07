@@ -3,6 +3,7 @@ import {LekarService} from "../../services/LekarService";
 import validator from "validator";
 import Select from "react-dropdown-select";
 import ClinicsService from "../../services/ClinicsService";
+import {useHistory} from "react-router";
 
 
 const AddDoctor = () => {
@@ -15,6 +16,7 @@ const AddDoctor = () => {
         lozinkaKorisnika: "",
         idKlinike: ""
     })
+    const history = useHistory()
     const [clinics, setClinics] = useState([])
 
     useEffect(()=>{
@@ -57,6 +59,7 @@ const AddDoctor = () => {
             lozinkaKorisnika: "",
             idKlinike: ""
         })
+        history.push("/lekari")
     }
 
     const handleFormInputChange = (name) => (event) =>{

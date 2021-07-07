@@ -1,9 +1,7 @@
 package com.projekat.UPIB.web.dto.pacijent;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
-import com.projekat.UPIB.web.dto.ZdravstveniKartonDTO;
 
 public class PacijentFrontDTO {
 

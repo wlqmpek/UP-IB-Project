@@ -55,7 +55,7 @@ public class Pregled {
     private int popust;
 
     @ManyToOne
-    @JoinColumn(name = "id_zdravstvenog_kartona", referencedColumnName = "id_zdravstvenog_kartona", nullable = false)
+    @JoinColumn(name = "id_zdravstvenog_kartona", referencedColumnName = "id_zdravstvenog_kartona", nullable = true)
     private ZdravstveniKarton zdravstveniKarton;
     
     @ManyToOne

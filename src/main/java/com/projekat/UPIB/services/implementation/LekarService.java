@@ -43,4 +43,8 @@ public class LekarService implements ILekarService {
         lekarRepozitorijum.delete(lekar);
     }
 
+    @Override
+    public List<Lekar> findLekarByKlinika(Long id) {
+        return lekarRepozitorijum.findLekarByKlinikaIdKlinike(id);
+    }
 }

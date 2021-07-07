@@ -5,7 +5,8 @@ export const AdminService = {
     getAdmin,
     createAdmin,
     editAdmin,
-    deleteAdmin
+    deleteAdmin,
+    getLoggedAdmin
 }
 
 async function getAdmini() {
@@ -28,4 +29,7 @@ async function deleteAdmin(id) {
     return await AxiosClient.delete(`Admini/${id}`)
 }
 
+async function getLoggedAdmin() {
+    return await AxiosClient.get("Administratori/prijavljeni")
+}
 export default AdminService;

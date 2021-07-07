@@ -15,4 +15,6 @@ public interface ILekarService {
     Lekar save(Lekar lekar);
 
     void remove(Long id);
+
+    List<Lekar> findLekarByKlinika(Long id);
 }
