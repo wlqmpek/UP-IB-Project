@@ -39,7 +39,17 @@ import EditMedicinkaSestra from "./components/medicinskaSestra/EditMedicinkaSest
 import AddMedicinskaSestra from "./components/medicinskaSestra/AddMedicinskaSestra";
 import AfterAcceptRegistration from "./components/pacijent/AfterAcceptRegistration";
 import EmailLogin from './pages/EmailLogin';
-import EditLoggedDoctor from "./pages/lekar/EditLoggedDoctor";
+import EditLoggedUser from "./pages/EditLoggedUser";
+import PasswordChange from "./pages/PasswordChange";
+import CreateFreeAppointment from "./pages/lekar/CreateFreeAppointment";
+import AddAppointment from "./pages/klinicki_administrator/AddAppointment";
+import LekariKlinike from "./pages/klinicki_administrator/LekariKlinike";
+import CAHomePage from "./pages/klinicki_administrator/CAHomePage";
+import AddLekar from "./pages/klinicki_administrator/AddLekar";
+import AllAppointments from "./pages/klinicki_administrator/AllAppointments";
+import PriceList from "./pages/klinicki_administrator/PriceList";
+import AddPriceList from "./pages/klinicki_administrator/AddPriceList";
+import EditAppointment from "./pages/klinicki_administrator/EditAppointment";
 
 function App() {
 
@@ -70,7 +80,8 @@ function App() {
                         <Route exact path="/admini/dodaj" component={AddAdminComponent} ></Route>
                         <Route exact path="/admini/izmeni/:id" component={UpdateAdminKCComponent} ></Route>
                         <Route exact path="/admini/:id/initial" component={FirstTimeLoginComponent} ></Route>
-
+                        <Route exact path="/admini/pregledi/dodaj" component={AddAppointment}/>
+                        <Route exact path="/pregled/izmeni/:id" component={EditAppointment}/>
                     </Switch>
                     <Switch>
                         <Route exact path="/pacijenti" component={AllPacijents}/>
@@ -79,15 +90,18 @@ function App() {
                     <Switch>
                         <Route exact path="/medicinske-sestre" component={AllMSestre} />
                         <Route exact path="/medicinske-sestre/dodaj" component={AddMedicinskaSestra} />
+                        <Route exact path="/medicinske-sestre/izmeni" component={EditLoggedUser}/>
                         <Route exact path="/medicinske-sestre/:id" component={EditMedicinkaSestra} />
-
+                        <Route exact path="/medicinske-sestre/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
+                        <Route exact path="/medicinske-sestre/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
                     </Switch>
                     <Switch>
                         <Route exact path="/lekar-pocetna" component={FrontPageLekar}/>
                         <Route exact path="/lekari" component={AllDoctors}/>
                         <Route exact path="/lekari/dodaj" component={AddDoctor}/>
+                        <Route exact path="/lekari/klinika" component={LekariKlinike}/>
                         <Route exact path="/lekari/:id" component={EditDoctor}/>
-                        <Route exact path="/lekar/izmena/:email" component={EditLoggedDoctor}/>
+                        <Route exact path="/lekar/pregledi/dodaj" component={CreateFreeAppointment}/>
                     </Switch>
                   <Switch>
                       <Route exact path="/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent}></Route>
@@ -103,11 +117,18 @@ function App() {
                         <Route exact path="/pacijenti/profil/:id" component={PatientProfile} ></Route>
                     </Switch>
                     <Switch>
+                        <Route exact path="/klinicki-administrator" component={CAHomePage}/>
+                        <Route exact path="/klinika/lekar" component={AddLekar}/>
+                        <Route exact path="/klinika/pregledi" component={AllAppointments}/>
+                        <Route exact path="/cenovnik" component={PriceList}/>
+                        <Route exact path="/cenovnik/dodaj" component={AddPriceList}/>
+                        {/*<Route exact path="/cenovnik/:id" component={}/>*/}
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/korisnik/promena-lozinke" component={PasswordChange}/>
+                        <Route exact path="/korisnik/izmena" component={EditLoggedUser}/>
                         <Route path="/" exact component={FrontPage}></Route>
-                        <Route exact path="/medicinske-sestre/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
-                        <Route exact path="/medicinske-sestre/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
                   </Switch>
-
 	            </div>
             <FooterComponent />
         </Router>

@@ -1,18 +1,19 @@
 package com.projekat.UPIB.web.controllers;
 
-import com.projekat.UPIB.services.IAuthorityService;
-import com.projekat.UPIB.web.dto.LekarBackendDTO;
-import com.projekat.UPIB.web.dto.LekarFrontendDTO;
-import com.projekat.UPIB.models.Klinika;
-import com.projekat.UPIB.models.Lekar;
-import com.projekat.UPIB.services.IKlinikaService;
-import com.projekat.UPIB.services.ILekarService;
+import com.projekat.UPIB.models.*;
+import com.projekat.UPIB.services.*;
+import com.projekat.UPIB.web.dto.lekar.*;
+import com.projekat.UPIB.web.dto.korisnik.PasswordChangeDTO;
+import com.projekat.UPIB.web.dto.pregled.PregledKreiranjeLekarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,15 @@ public class LekarController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private IOceneLekaraService oceneLekaraService;
+
+    @Autowired
+    private IPacijentService pacijentService;
+
+    @Autowired
+    private IAdministratorService administratorService;
 
     @GetMapping
     public ResponseEntity<List<LekarFrontendDTO>> findAll(){
@@ -138,6 +148,7 @@ public class LekarController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('LEKAR')")
     @GetMapping(value = "/nadji/{email}")
     public ResponseEntity<LekarFrontendDTO> getLekarByEmail(@PathVariable(name = "email") String email){
 
@@ -147,5 +158,89 @@ public class LekarController {
         }
 
         return new ResponseEntity<>(new LekarFrontendDTO(lekar), HttpStatus.OK);
+    }
+
+    @PermitAll
+    @GetMapping("/ocene/{id}")
+    public ResponseEntity<AvgOcenaLekaraDTO> prosecnaOcena(@PathVariable Long id){
+
+        AvgOcenaLekaraDTO ocenaLekaraDTO = new AvgOcenaLekaraDTO();
+        Lekar lekar = lekarService.findOne(id);
+        Double ocena = oceneLekaraService.avgOcena(id);
+
+        if(lekar == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        ocenaLekaraDTO.setIme(lekar.getImeKorisnika());
+        ocenaLekaraDTO.setPrezime(lekar.getPrezimeKorisnika());
+        ocenaLekaraDTO.setOcena(ocena);
+        if(ocena == null){
+            ocenaLekaraDTO.setOcena(0.0);
+        }
+
+        return new ResponseEntity<>(ocenaLekaraDTO, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @PostMapping("/ocene/oceni")
+    public ResponseEntity<Void> oceni(@RequestBody OcenaLekaraDTO ocenaLekaraDTO){
+
+        OceneDoktora oceneDoktora = new OceneDoktora();
+        Pacijent pacijent = pacijentService.findOne(ocenaLekaraDTO.getIdPacijenta());
+        Lekar lekar = lekarService.findOne(ocenaLekaraDTO.getIdLekara());
+
+        if(lekar == null || pacijent == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        oceneDoktora.setLekar(lekar);
+        oceneDoktora.setOcena(ocenaLekaraDTO.getOcena());
+        oceneDoktora.setPacijent(pacijent);
+
+        oceneLekaraService.save(oceneDoktora);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
+    @GetMapping("/lista")
+    public ResponseEntity<List<LekarListaDTO>> getLekariLista(Principal principal){
+
+        LekarListaDTO lekarListaDTO;
+        List<Lekar> lekari = lekarService.findAll();
+        Administrator administrator = administratorService.findAdministratorByEmailKorisnika(principal.getName());
+
+        List<LekarListaDTO> retVal = new ArrayList<>();
+
+        for (Lekar lekar : lekari){
+            if(lekar.getKlinika().getIdKlinike() == administrator.getKlinika().getIdKlinike()){
+                lekarListaDTO = new LekarListaDTO();
+                lekarListaDTO.setLabel(lekar.getImeKorisnika() + " " + lekar.getPrezimeKorisnika());
+                lekarListaDTO.setValue(lekar.getEmailKorisnika());
+                retVal.add(lekarListaDTO);
+            }
+        }
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
+    @GetMapping("/klinika")
+    public ResponseEntity<List<LekarFrontendDTO>> getLekareByKlinika(Principal principal) {
+
+        Administrator administrator = administratorService.findAdministratorByEmailKorisnika(principal.getName());
+        if(administrator == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<Lekar> lekari = lekarService.findLekarByKlinika(administrator.getKlinika().getIdKlinike());
+        List<LekarFrontendDTO> retVal = new ArrayList<>();
+
+        for (Lekar lekar : lekari) {
+            retVal.add(new LekarFrontendDTO(lekar));
+        }
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 }

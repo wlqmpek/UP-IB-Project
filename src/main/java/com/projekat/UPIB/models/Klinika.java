@@ -9,6 +9,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projekat.UPIB.enums.TipKorisnika;
 import com.projekat.UPIB.enums.VrstaAdministratora;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -37,12 +38,13 @@ public class Klinika {
     private String opis;
     
 //    @Column(name = "slobodni_termini", nullable = true, unique = false)
-    
+
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "klinika")
     private Set<Pregled> slobodniTermini = new HashSet<Pregled>();
 
 //    private Double ocena;
-
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "klinika")
     private Set<Administrator> administratori = new HashSet<Administrator>();
 }

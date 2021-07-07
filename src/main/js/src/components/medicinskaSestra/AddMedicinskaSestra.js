@@ -13,7 +13,7 @@ const AddMedicinskaSestra = () =>{
         imeKorisnika: "",
         prezimeKorisnika: "",
         emailKorisnika: "",
-        lozinkaKorisnika: "",
+        lozinka: "",
         idKlinike: ""
     })
     const [clinics, setClinics] = useState([])
@@ -42,7 +42,7 @@ const AddMedicinskaSestra = () =>{
     const onSubmit = (e) => {
         e.preventDefault()
 
-        if(!msestra.imeKorisnika || !msestra.prezimeKorisnika || !msestra.emailKorisnika || !msestra.lozinkaKorisnika){
+        if(!msestra.imeKorisnika || !msestra.prezimeKorisnika || !msestra.emailKorisnika || !msestra.lozinka){
             alert("Sva polja su obavezna")
             return
         }
@@ -51,12 +51,13 @@ const AddMedicinskaSestra = () =>{
             alert("Email nije ispravan")
             return
         }
+        console.log(msestra)
         addMSestra()
         setMSestra({
             imeKorisnika: "",
             prezimeKorisnika: "",
             emailKorisnika: "",
-            lozinkaKorisnika: "",
+            lozinka: "",
             idKlinike: ""
         })
     }
@@ -94,7 +95,7 @@ const AddMedicinskaSestra = () =>{
                         </div>
                         <div className='form-group'>
                             <label>Lozinka: </label>
-                            <input type='password' value={msestra.lozinkaKorisnika} onChange={handleFormInputChange("lozinkaKorisnika")}
+                            <input type='password' value={msestra.lozinka} onChange={handleFormInputChange("lozinka")}
                                    className='form-control'/>
                         </div>
                         <div className="form-group">

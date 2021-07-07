@@ -6,6 +6,7 @@ import {AuthenticationService} from "../services/AuthenticationService";
 import HeaderLekar from "./lekar/HeaderLekar";
 import HeaderPacijent from "./pacijent/HeaderPacijent";
 import HeaderGuest from "./HeaderGuest";
+import CAHeader from "./klinicki_administrator/CAHeader";
 
 const HeaderComponent = () => {
 
@@ -43,6 +44,8 @@ const HeaderComponent = () => {
             return <HeaderPacijent/>
         }else if (role === ""){
             return <HeaderGuest/>
+        }else if(role === "ROLE_KLINICKI_ADMINISTRATOR"){
+            return <CAHeader/>
         }
     }
 

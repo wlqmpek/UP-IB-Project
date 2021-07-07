@@ -2,11 +2,13 @@ package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.services.IAdministratorService;
+import com.projekat.UPIB.web.dto.administrator.AdministratorFrontendDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -66,6 +68,12 @@ public class AdministratorController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/prijavljeni")
+    public ResponseEntity<AdministratorFrontendDTO> getAdmin(Principal principal) {
 
+        Administrator administrator = administratorService.findAdministratorByEmailKorisnika(principal.getName());
+
+        return new ResponseEntity<>(new AdministratorFrontendDTO(administrator), HttpStatus.OK);
+    }
 
 }

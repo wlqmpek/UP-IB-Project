@@ -31,20 +31,22 @@ const HeaderLekar = () => {
     }
 
     const update = () => {
-        console.log(lekar)
-        history.push("/lekar/izmena/"+ lekar.emailKorisnika)
+        history.push("/korisnik/izmena")
     }
 
     const workCalendar = () => {
         history.push(`/${lekar.idKorisnika}/radniKalendar/${lekar.idKlinike}`)
     }
 
+    const appointment = () => {
+        history.push("/lekar/pregledi/dodaj")
+    }
 
     return(
         <ul className="nav navbar-nav">
             <li className="nav-item"><Link className="nav-link" to="/lekar-pocetna"><MDBIcon icon="home"/>Pocetna</Link></li>
             <li className="nav-item"><Link className="nav-link" to="/pacijenti"><MDBIcon icon="users"/>Pacijenti klinike</Link></li>
-            <li className="nav-item"><Link className="nav-link" to="/pregledi"><MDBIcon icon="user-md"/>Pregledi</Link></li>
+            <li className="nav-item"><button style={style} className="nav-link" onClick={appointment}><MDBIcon icon="user-md"/>Pregledi</button></li>
             <li className="nav-item"><button style={style} className="nav-link" onClick={workCalendar}><MDBIcon icon="calendar-alt"/>Radni kalendar</button></li>
             <li className="nav-item"><button style={style} className="nav-link" onClick={update}><MDBIcon icon="user-edit"/>Vas profil</button></li>
         </ul>

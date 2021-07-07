@@ -6,11 +6,12 @@ export const MedicinskaSestraService = {
     getMSestra,
     createMSestra,
     editMSestra,
-    deleteMSestra
+    deleteMSestra,
+    getMSestreForList
 }
 
 async function getMSestre() {
-    return await AxiosClient.get("MedicinkseSestre")
+    return await AxiosClient.get("MedicinskeSestre")
 }
 
 async function getMSestra(id) {
@@ -27,4 +28,8 @@ async function editMSestra(id, msestra) {
 
 async function deleteMSestra(id) {
     return await AxiosClient.delete(`MedicinskeSestre/${id}`)
+}
+
+async function getMSestreForList() {
+    return await AxiosClient.get("MedicinskeSestre/lista")
 }

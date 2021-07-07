@@ -38,5 +38,9 @@ public class PregledService implements IPregledService{
     	Pregled pregled = pregledRepozitorijum.getOne(id);
     	pregledRepozitorijum.delete(pregled);
     }
-	
+
+    @Override
+    public List<Pregled> findAllByKlinika(Long id) {
+        return pregledRepozitorijum.findByKlinikaIdKlinike(id);
+    }
 }

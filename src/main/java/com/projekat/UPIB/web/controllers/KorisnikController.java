@@ -7,7 +7,8 @@ import com.projekat.UPIB.payload.response.TokenRefreshResponse;
 import com.projekat.UPIB.services.implementation.PacijentLinkService;
 import com.projekat.UPIB.services.implementation.RefreshTokenService;
 import com.projekat.UPIB.support.exceptions.TokenRefreshException;
-import com.projekat.UPIB.web.dto.KorisnikLoginDTO;
+import com.projekat.UPIB.web.dto.korisnik.KorisnikInfoDTO;
+import com.projekat.UPIB.web.dto.korisnik.KorisnikLoginDTO;
 import com.projekat.UPIB.mail.EmailService;
 import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.models.Korisnik;
@@ -21,19 +22,20 @@ import com.projekat.UPIB.services.IAdministratorService;
 import com.projekat.UPIB.services.ILekarService;
 import com.projekat.UPIB.services.IMedicinskaSestraService;
 import com.projekat.UPIB.services.IPacijentService;
+import com.projekat.UPIB.web.dto.korisnik.PasswordChangeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.time.LocalDateTime;
 
@@ -83,6 +85,9 @@ public class KorisnikController {
     
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
 
     //TODO: Dodati za medicinsku sestru. - WLQ
@@ -214,4 +219,130 @@ public class KorisnikController {
                         "Refresh token is not in database!!"));
     }
 
+    @PreAuthorize("hasAnyRole('LEKAR, ADMINISTRATOR, MEDICINSKA_SESTRA, PACIJENT, KLINICKI_ADMINISTRATOR')")
+    @PutMapping("/promena-lozinke")
+    public ResponseEntity<Void> changePassword(@RequestBody PasswordChangeDTO passwordChangeDTO, Principal principal){
+
+        Lekar lekar;
+        MedicinskaSestra medicinskaSestra;
+        Administrator administrator;
+        Pacijent pacijent;
+
+        String username = principal.getName();
+        String password = passwordEncoder.encode(passwordChangeDTO.getPassword());
+
+        lekar = lekarService.findLekarByEmailKorisnika(username);
+        if(lekar != null){
+            lekar.setLozinkaKorisnika(password);
+            lekarService.save(lekar);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        medicinskaSestra = medicinskaSestraService.findMedicinskaSestraByEmailKorisnika(username);
+        if(medicinskaSestra != null) {
+            medicinskaSestra.setLozinkaKorisnika(password);
+            medicinskaSestraService.save(medicinskaSestra);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        administrator = administratorService.findAdministratorByEmailKorisnika(username);
+        if(administrator != null){
+            administrator.setLozinkaKorisnika(password);
+            administratorService.save(administrator);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        pacijent = pacijentService.findPacijentByEmailKorisnika(username);
+        if(pacijent != null){
+            pacijent.setLozinkaKorisnika(password);
+            pacijentService.save(pacijent);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PreAuthorize("hasAnyRole('LEKAR, ADMINISTRATOR, MEDICINSKA_SESTRA, PACIJENT, KLINICKI_ADMINISTRATOR')")
+    @GetMapping("/korisnik-info")
+    public ResponseEntity<KorisnikInfoDTO> getInfo(Principal principal){
+
+        Lekar lekar;
+        MedicinskaSestra medicinskaSestra;
+        Administrator administrator;
+        Pacijent pacijent;
+
+        String username = principal.getName();
+
+        lekar = lekarService.findLekarByEmailKorisnika(username);
+        if(lekar != null){
+            return new ResponseEntity<>(new KorisnikInfoDTO(lekar), HttpStatus.OK);
+        }
+
+        medicinskaSestra = medicinskaSestraService.findMedicinskaSestraByEmailKorisnika(username);
+        if(medicinskaSestra != null) {
+            return new ResponseEntity<>(new KorisnikInfoDTO(medicinskaSestra), HttpStatus.OK);
+        }
+
+        administrator = administratorService.findAdministratorByEmailKorisnika(username);
+        if(administrator != null){
+            return new ResponseEntity<>(new KorisnikInfoDTO(administrator), HttpStatus.OK);
+        }
+
+        pacijent = pacijentService.findPacijentByEmailKorisnika(username);
+        if(pacijent != null){
+            return new ResponseEntity<>(new KorisnikInfoDTO(pacijent), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PreAuthorize("hasAnyRole('LEKAR, ADMINISTRATOR, MEDICINSKA_SESTRA, PACIJENT, KLINICKI_ADMINISTRATOR')")
+    @PutMapping("/izmena-podataka")
+    public ResponseEntity<Void> changeInfo(@RequestBody KorisnikInfoDTO korisnikInfoDTO, Principal principal){
+
+        Lekar lekar;
+        MedicinskaSestra medicinskaSestra;
+        Administrator administrator;
+        Pacijent pacijent;
+
+        String username = principal.getName();
+
+        lekar = lekarService.findLekarByEmailKorisnika(username);
+        if(lekar != null){
+            lekar.setImeKorisnika(korisnikInfoDTO.getIme());
+            lekar.setPrezimeKorisnika(korisnikInfoDTO.getPrezime());
+            lekar.setEmailKorisnika(korisnikInfoDTO.getEmail());
+            lekarService.save(lekar);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        medicinskaSestra = medicinskaSestraService.findMedicinskaSestraByEmailKorisnika(username);
+        if(medicinskaSestra != null) {
+            medicinskaSestra.setImeKorisnika(korisnikInfoDTO.getIme());
+            medicinskaSestra.setPrezimeKorisnika(korisnikInfoDTO.getPrezime());
+            medicinskaSestra.setEmailKorisnika(korisnikInfoDTO.getEmail());
+            medicinskaSestraService.save(medicinskaSestra);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        administrator = administratorService.findAdministratorByEmailKorisnika(username);
+        if(administrator != null){
+            administrator.setImeKorisnika(korisnikInfoDTO.getIme());
+            administrator.setPrezimeKorisnika(korisnikInfoDTO.getPrezime());
+            administrator.setEmailKorisnika(korisnikInfoDTO.getEmail());
+            administratorService.save(administrator);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        pacijent = pacijentService.findPacijentByEmailKorisnika(username);
+        if(pacijent != null){
+            pacijent.setImeKorisnika(korisnikInfoDTO.getIme());
+            pacijent.setPrezimeKorisnika(korisnikInfoDTO.getPrezime());
+            pacijent.setEmailKorisnika(korisnikInfoDTO.getEmail());
+            pacijentService.save(pacijent);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }

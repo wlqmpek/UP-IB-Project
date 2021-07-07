@@ -1,14 +1,19 @@
 package com.projekat.UPIB.web.controllers;
 
-import java.time.LocalDateTime;
+import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import com.projekat.UPIB.models.Administrator;
+import com.projekat.UPIB.models.Lekar;
+import com.projekat.UPIB.models.MedicinskaSestra;
+import com.projekat.UPIB.services.*;
+import com.projekat.UPIB.web.dto.pregled.PregledKreiranjeAdminDTO;
+import com.projekat.UPIB.web.dto.pregled.PregledKreiranjeLekarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,24 +24,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projekat.UPIB.web.dto.PregledBackendDTO;
-import com.projekat.UPIB.web.dto.PregledFrontendDTO;
+import com.projekat.UPIB.web.dto.pregled.PregledBackendDTO;
+import com.projekat.UPIB.web.dto.pregled.PregledFrontendDTO;
 import com.projekat.UPIB.models.Pregled;
-import com.projekat.UPIB.models.Recept;
-import com.projekat.UPIB.services.IKlinikaService;
-import com.projekat.UPIB.services.ILekarService;
-import com.projekat.UPIB.services.IMedicinskaSestraService;
-import com.projekat.UPIB.services.IPregledService;
-import com.projekat.UPIB.services.IReceptService;
-import com.projekat.UPIB.services.IZdravstveniKarton;
-import com.projekat.UPIB.services.implementation.ReceptService;
-
 
 
 @CrossOrigin(origins = "https://localhost:3000")
 @RestController
 @RequestMapping(value = "/Pregledi")
 public class PregledController {
+
 	@Autowired
     private IPregledService pregledService;
 	
@@ -54,6 +51,9 @@ public class PregledController {
 	
 	@Autowired
     private IReceptService receptService;
+
+	@Autowired
+    private IAdministratorService iAdministratorService;
 	
 	
 
@@ -139,5 +139,74 @@ public class PregledController {
 
         pregledService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    }      
+    }
+
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
+    @GetMapping("/klinika")
+    public ResponseEntity<List<PregledFrontendDTO>> getPreglediForKlinika(Principal principal){
+
+        Administrator administrator = iAdministratorService.findAdministratorByEmailKorisnika(principal.getName());
+
+        if(administrator == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<Pregled> pregledi = pregledService.findAllByKlinika(administrator.getKlinika().getIdKlinike());
+        List<PregledFrontendDTO> retVal = new ArrayList<>();
+
+        for (Pregled pregled : pregledi){
+            retVal.add(new PregledFrontendDTO(pregled));
+        }
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('LEKAR')")
+    @PostMapping("/pregled/lekar")
+    public ResponseEntity<Void> addFreeAppointment(Principal principal, @RequestBody PregledKreiranjeLekarDTO pregledKreiranjeLekarDTO){
+
+        Lekar lekar = lekarService.findLekarByEmailKorisnika(principal.getName());
+        MedicinskaSestra medicinskaSestra = medSestraService
+                .findMedicinskaSestraByEmailKorisnika(pregledKreiranjeLekarDTO.getMedSestraEmail());
+        Pregled pregled = new Pregled();
+
+        if(lekar == null || medicinskaSestra == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        pregled.setCena(pregledKreiranjeLekarDTO.getCena());
+        pregled.setKlinika(lekar.getKlinika());
+        pregled.setLekar(lekar);
+        pregled.setMedicinskaSestra(medicinskaSestra);
+        pregled.setPocetakTermina(pregledKreiranjeLekarDTO.getPocetakTermina());
+        pregled.setKrajTermima(pregledKreiranjeLekarDTO.getKrajTermina());
+
+        pregledService.save(pregled);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
+    @PostMapping("/pregled/administrator")
+    public ResponseEntity<Void> addFreeAppointmentAdmin(Principal principal, @RequestBody PregledKreiranjeAdminDTO pregledKreiranjeLekarDTO){
+
+        Administrator administrator = iAdministratorService.findAdministratorByEmailKorisnika(principal.getName());
+        MedicinskaSestra medicinskaSestra = medSestraService
+                .findMedicinskaSestraByEmailKorisnika(pregledKreiranjeLekarDTO.getMedSestraEmail());
+        Lekar lekar = lekarService.findLekarByEmailKorisnika(pregledKreiranjeLekarDTO.getLekarEmail());
+        Pregled pregled = new Pregled();
+
+        if(lekar == null || medicinskaSestra == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        pregled.setCena(pregledKreiranjeLekarDTO.getCena());
+        pregled.setKlinika(administrator.getKlinika());
+        pregled.setLekar(lekar);
+        pregled.setMedicinskaSestra(medicinskaSestra);
+        pregled.setPocetakTermina(pregledKreiranjeLekarDTO.getPocetakTermina());
+        pregled.setKrajTermima(pregledKreiranjeLekarDTO.getKrajTermina());
+
+        pregledService.save(pregled);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

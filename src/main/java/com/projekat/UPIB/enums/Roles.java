@@ -4,5 +4,6 @@ public enum Roles {
     ADMIN,
     PACIJENT,
     MEDICINSKA_SESTRA,
-    LEKAR
+    LEKAR,
+    KLINICKI_ADMINISTRATOR
 }
