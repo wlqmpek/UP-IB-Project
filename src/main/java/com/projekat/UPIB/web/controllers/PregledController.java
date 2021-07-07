@@ -56,6 +56,7 @@ public class PregledController {
     private IAdministratorService iAdministratorService;
 	
 	
+
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR', 'MEDICINSKA_SESTRA')")
     @GetMapping
     public ResponseEntity<List<PregledFrontendDTO>> findAll(){
