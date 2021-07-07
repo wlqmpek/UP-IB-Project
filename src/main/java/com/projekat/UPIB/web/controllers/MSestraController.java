@@ -44,7 +44,7 @@ public class MSestraController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
     @GetMapping("/{id}")
     public ResponseEntity<MedicinskaSestraDTO> getOne(@PathVariable("id") Long id){
 
@@ -78,7 +78,7 @@ public class MSestraController {
         return new ResponseEntity<>(medicinskaSestraDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<MedicinskaSestraDTO> editMSestra(@PathVariable("id") Long id,
                                                            @RequestBody MedicinskaSestraDTO medicinskaSestraDTO){

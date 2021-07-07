@@ -139,7 +139,7 @@ function getRole() {
     const token = TokenService.getAccessToken();
     console.log(console.log("object: %O", token));
     const decoded_token = token ? TokenService.decodeAccessToken(token) : null;
-    console.log("Decoded token roles " + decoded_token.roles);
+    //console.log("Decoded token roles " + decoded_token.roles);
     if (decoded_token) {
         return decoded_token.roles;
     } else {

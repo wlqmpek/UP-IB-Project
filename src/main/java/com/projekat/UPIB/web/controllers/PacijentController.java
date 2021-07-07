@@ -59,7 +59,7 @@ public class PacijentController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR','PACIJENT')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','PACIJENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<PacijentFrontDTO> findOne(@PathVariable(name = "id") Long id){
 

@@ -72,7 +72,7 @@ public class PregledController {
         return new ResponseEntity<List<PregledFrontendDTO>>(preglediFrontendDTO, HttpStatus.OK);
     }
 
-	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR','MEDICINSKA_SESTRA','PACIJENT')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','MEDICINSKA_SESTRA','PACIJENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<PregledFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -106,7 +106,7 @@ public class PregledController {
         return new ResponseEntity<>(pregled, HttpStatus.CREATED);
     }
 
-	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Pregled> updatePregled(@PathVariable(name = "id") Long id, @RequestBody PregledBackendDTO pregledBackendDTO){
 

@@ -42,7 +42,7 @@ public class KlinikaController {
         return new ResponseEntity<List<KlinikaDTO>>(klinikeFrontendDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<KlinikaDTO> findOne(@PathVariable(name = "id") Long id){
 

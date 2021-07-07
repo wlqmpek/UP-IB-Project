@@ -44,7 +44,7 @@ public class LekarController {
         return new ResponseEntity<>(lekariFrontendDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<LekarFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -86,7 +86,7 @@ public class LekarController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Lekar> updateLekar(@PathVariable(name = "id") Long id, @RequestBody LekarBackendDTO lekarInfo){
 

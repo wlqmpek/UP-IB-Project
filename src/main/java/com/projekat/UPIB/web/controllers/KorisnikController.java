@@ -200,7 +200,7 @@ public class KorisnikController {
     }
 
 
-    @PreAuthorize("hasRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshtoken(@RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();

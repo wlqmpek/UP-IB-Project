@@ -53,7 +53,7 @@ public class ZdravstveniKartonController {
         return new ResponseEntity<List<ZdravstveniKartonFrontendDTO>>(zdravstveniKartoniFrontendDTO, HttpStatus.OK);
     }
 
-	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR','PACIJENT')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','PACIJENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<ZdravstveniKartonFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -84,7 +84,7 @@ public class ZdravstveniKartonController {
         return new ResponseEntity<ZdravstveniKartonFrontendDTO>(zdravstveniKartonFrontendDTO,HttpStatus.CREATED);
     }
     
-	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Recept> updateZdravstveniKarton(@PathVariable(name = "id") Long id, @RequestBody ZdravstveniKartonBackendDTO zdravstveniKartonBackendDTO){
 

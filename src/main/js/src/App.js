@@ -38,6 +38,9 @@ import EditMedicinkaSestra from "./components/medicinska_sestra/EditMedicinkaSes
 import AddMedicinskaSestra from "./components/medicinska_sestra/AddMedicinskaSestra";
 import AfterAcceptRegistration from "./components/pacijent/AfterAcceptRegistration";
 import EmailLogin from './pages/EmailLogin';
+import PrivateRoute from './components/PrivateRoute';
+import Page403 from './components/Page-403';
+
 
 function App() {
 
@@ -48,6 +51,7 @@ function App() {
               <div className="container-fluid">
 
                   <Switch>
+                      <Route exact path="/403" component={Page403}></Route>
                       <Route exact path="/registracija" component={PacijentRegistration}></Route>
                       <Route exact path="/prijava" component={Login}></Route>
                       <Route exact path="/email-prijava/:token" component={EmailLogin}></Route>

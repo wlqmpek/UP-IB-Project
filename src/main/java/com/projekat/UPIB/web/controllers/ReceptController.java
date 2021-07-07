@@ -51,7 +51,7 @@ public class ReceptController {
         return new ResponseEntity<List<ReceptFrontendDTO>>(receptiFrontendDTO, HttpStatus.OK);
     }
 
-	@PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA','LEKAR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','MEDICINSKA_SESTRA','LEKAR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReceptFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -64,7 +64,7 @@ public class ReceptController {
         return new ResponseEntity<ReceptFrontendDTO>(receptFrontendDTO, HttpStatus.OK);
     }
 
-	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ReceptFrontendDTO> saveRecept(@RequestBody ReceptBackendDTO receptBackendDTO){
 
@@ -84,7 +84,7 @@ public class ReceptController {
         return new ResponseEntity<ReceptFrontendDTO>(receptFrontendDTO,HttpStatus.CREATED);
     }
     
-	@PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Recept> updateRecept(@PathVariable(name = "id") Long id, @RequestBody ReceptBackendDTO receptBackendDTO){
 
