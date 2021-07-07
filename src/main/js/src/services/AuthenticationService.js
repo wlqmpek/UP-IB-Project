@@ -142,7 +142,7 @@ function getRole() {
     if (decoded_token) {
         return decoded_token.roles;
     } else {
-        return null;
+        return "";
     }
 }
 
@@ -154,7 +154,7 @@ function getEmail() {
     if (decoded_token) {
         return decoded_token.sub;
     } else {
-        return null;
+        return "";
     }
 }
 
