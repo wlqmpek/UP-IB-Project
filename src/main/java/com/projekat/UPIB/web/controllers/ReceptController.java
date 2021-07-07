@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,7 @@ public class ReceptController {
 	@Autowired
     private IPregledService pregledService;
 	
-
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<ReceptFrontendDTO>> findAll(){
 
@@ -50,6 +51,7 @@ public class ReceptController {
         return new ResponseEntity<List<ReceptFrontendDTO>>(receptiFrontendDTO, HttpStatus.OK);
     }
 
+	@PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA','LEKAR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReceptFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -62,6 +64,7 @@ public class ReceptController {
         return new ResponseEntity<ReceptFrontendDTO>(receptFrontendDTO, HttpStatus.OK);
     }
 
+	@PreAuthorize("hasRole('ADMINISTRATOR','LEKAR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ReceptFrontendDTO> saveRecept(@RequestBody ReceptBackendDTO receptBackendDTO){
 
@@ -81,7 +84,7 @@ public class ReceptController {
         return new ResponseEntity<ReceptFrontendDTO>(receptFrontendDTO,HttpStatus.CREATED);
     }
     
-    
+	@PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Recept> updateRecept(@PathVariable(name = "id") Long id, @RequestBody ReceptBackendDTO receptBackendDTO){
 
@@ -99,7 +102,7 @@ public class ReceptController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
-    
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePregled(@PathVariable(name = "id") Long id){
 

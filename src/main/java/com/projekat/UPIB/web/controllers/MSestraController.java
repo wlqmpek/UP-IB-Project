@@ -8,6 +8,7 @@ import com.projekat.UPIB.services.IMedicinskaSestraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class MSestraController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<MedicinskaSestraDTO>> getAll(){
 
@@ -42,6 +44,7 @@ public class MSestraController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
     @GetMapping("/{id}")
     public ResponseEntity<MedicinskaSestraDTO> getOne(@PathVariable("id") Long id){
 
@@ -53,6 +56,7 @@ public class MSestraController {
         return new ResponseEntity<>(new MedicinskaSestraDTO(medicinskaSestra), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<MedicinskaSestraDTO> createMSestra(@RequestBody MedicinskaSestraDTO medicinskaSestraDTO){
 
@@ -74,6 +78,7 @@ public class MSestraController {
         return new ResponseEntity<>(medicinskaSestraDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<MedicinskaSestraDTO> editMSestra(@PathVariable("id") Long id,
                                                            @RequestBody MedicinskaSestraDTO medicinskaSestraDTO){
@@ -95,6 +100,7 @@ public class MSestraController {
 
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteMSestra(@PathVariable("id") Long id){
 

@@ -24,6 +24,7 @@ import com.projekat.UPIB.services.IPacijentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -199,6 +200,7 @@ public class KorisnikController {
     }
 
 
+    @PreAuthorize("hasRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshtoken(@RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();

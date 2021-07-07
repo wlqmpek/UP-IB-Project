@@ -7,6 +7,7 @@ import com.projekat.UPIB.web.dto.KlinikaListaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.projekat.UPIB.web.dto.KlinikaDTO;
@@ -26,6 +27,7 @@ public class KlinikaController {
 	@Autowired
     private IAdministratorService administratorService;
 
+	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<KlinikaDTO>> findAll(){
 
@@ -40,6 +42,7 @@ public class KlinikaController {
         return new ResponseEntity<List<KlinikaDTO>>(klinikeFrontendDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<KlinikaDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -52,6 +55,7 @@ public class KlinikaController {
         return new ResponseEntity<KlinikaDTO>(klinikaFrontendDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Klinika> saveKlinika(@RequestBody Klinika klinika){
 
@@ -59,6 +63,7 @@ public class KlinikaController {
         return new ResponseEntity<>(klinika, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Klinika> updateKlinika(@PathVariable(name = "id") Long id, @RequestBody Klinika klinika){
 
@@ -78,6 +83,7 @@ public class KlinikaController {
         return new ResponseEntity<>(klinikaOld, HttpStatus.OK);
     }
     
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(value = "/{idKlinike}/dodajAdmina/{idAdmina}", consumes = "application/json")
     public  ResponseEntity<Administrator> dodajAdminaUKliniku(@PathVariable(name = "idKlinike") Long idKlinike,
     		@PathVariable(name = "idAdmina") Long idAdmina){
@@ -96,6 +102,7 @@ public class KlinikaController {
         return new ResponseEntity<Administrator>(admin, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteKlinika(@PathVariable(name = "id") Long id){
 
@@ -108,6 +115,7 @@ public class KlinikaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/lista")
     public ResponseEntity<List<KlinikaListaDTO>> getLista(){
 
