@@ -57,7 +57,7 @@ public class PregledController {
     private IReceptService receptService;
 	
 	
-	@PreAuthorize("hasRole('ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
     @GetMapping
     public ResponseEntity<List<PregledFrontendDTO>> findAll(){
 
