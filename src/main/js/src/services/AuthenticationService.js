@@ -142,7 +142,7 @@ function getRole() {
     if (decoded_token) {
         return decoded_token.roles;
     } else {
-        return null;
+        return "";
     }
 }
 
