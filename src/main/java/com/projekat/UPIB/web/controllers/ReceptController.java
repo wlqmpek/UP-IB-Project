@@ -51,7 +51,7 @@ public class ReceptController {
         return new ResponseEntity<List<ReceptFrontendDTO>>(receptiFrontendDTO, HttpStatus.OK);
     }
 
-	@PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
+	@PreAuthorize("hasRole('ADMINISTRATOR','MEDICINSKA_SESTRA','LEKAR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReceptFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 

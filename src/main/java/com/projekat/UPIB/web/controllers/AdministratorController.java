@@ -41,7 +41,7 @@ public class AdministratorController {
         return new ResponseEntity<Administrator>(administrator, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR','KLINICKI_ADMINISTRATOR')")
     @PutMapping(value = "/{id}", consumes = "application/json")
     public  ResponseEntity<Administrator> updateAdministrator(@PathVariable(name = "id") Long id,@RequestBody Administrator administrator){
 
