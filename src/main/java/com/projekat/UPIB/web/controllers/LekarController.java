@@ -59,7 +59,7 @@ public class LekarController {
         return new ResponseEntity<>(lekariFrontendDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR', 'KLINICKI_ADMINISTRATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<LekarFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 

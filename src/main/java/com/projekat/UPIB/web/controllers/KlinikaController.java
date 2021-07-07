@@ -56,7 +56,7 @@ public class KlinikaController {
         return new ResponseEntity<List<KlinikaDTO>>(klinikeFrontendDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA', 'KLINICKI_ADMINISTRATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<KlinikaDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -77,7 +77,7 @@ public class KlinikaController {
         return new ResponseEntity<>(klinika, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR, KLINICKI_ADMINISTRATOR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Klinika> updateKlinika(@PathVariable(name = "id") Long id, @RequestBody Klinika klinika){
 
@@ -129,7 +129,7 @@ public class KlinikaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
     @GetMapping("/lista")
     public ResponseEntity<List<KlinikaListaDTO>> getLista(){
 

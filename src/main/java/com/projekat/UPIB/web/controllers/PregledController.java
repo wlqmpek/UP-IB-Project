@@ -56,7 +56,7 @@ public class PregledController {
     private IAdministratorService iAdministratorService;
 	
 	
-	@PreAuthorize("hasRole('ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR', 'MEDICINSKA_SESTRA')")
     @GetMapping
     public ResponseEntity<List<PregledFrontendDTO>> findAll(){
 
@@ -71,7 +71,7 @@ public class PregledController {
         return new ResponseEntity<List<PregledFrontendDTO>>(preglediFrontendDTO, HttpStatus.OK);
     }
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','MEDICINSKA_SESTRA','PACIJENT')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','MEDICINSKA_SESTRA','PACIJENT', 'KLINICKI_ADMINISTRATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<PregledFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -130,7 +130,7 @@ public class PregledController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
-	@PreAuthorize("hasRole('ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'KLINICKI_ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePregled(@PathVariable(name = "id") Long id){
 

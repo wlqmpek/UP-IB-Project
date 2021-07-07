@@ -34,7 +34,7 @@ const FrontPageLekar = () => {
     }
 
     function passwordChange(){
-        history.push("/lekar/promena-lozinke")
+        history.push("/korisnik/promena-lozinke")
     }
 
     const workCalendar = () => {

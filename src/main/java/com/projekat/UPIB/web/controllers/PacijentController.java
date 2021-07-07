@@ -46,7 +46,7 @@ public class PacijentController {
     @Autowired
     private PacijentToPacijentFrontDto pacijentToPacijentFrontDto;
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR')")
     @GetMapping
     public ResponseEntity<List<PacijentFrontDTO>> findAll(){
 
