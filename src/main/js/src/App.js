@@ -46,64 +46,82 @@ function App() {
         <Router>
             <HeaderComponent />
               <div className="container-fluid">
-                    <Switch>
+
+                  <Switch>
                       <Route exact path="/registracija" component={PacijentRegistration}></Route>
                       <Route exact path="/prijava" component={Login}></Route>
                       <Route exact path="/email-prijava/:token" component={EmailLogin}></Route>
-                    </Switch>
-                    <Switch>
-                      <Route exact path='/registracija/zahtevi' component={RegistrationRequsets}></Route>
-                      <Route exact path="/registracija/prihvati/:path" component={AfterAcceptRegistration}/>
-                    </Switch>
-                    <Switch>
-                        <Route exact path="/klinike" component={ListClinicsComponent} ></Route>
-                        <Route exact path="/klinike/dodaj" component={CreateClinicComponent} ></Route>
-                        <Route exact path="/klinike/pregled/:id" component={ViewClinicComponent} ></Route>
-                        <Route exact path="/klinike/izmeni/:id" component={UpdateClinicComponent} ></Route>
-                        <Route exact path="/klinike/:id/dodajAdmina" component={AddAdminToClinicComponent} ></Route>
-                        <Route exact path='/klinike/:idKlinike/izmeniAdmina/:idAdmina' component={UpdateAdminComponent}></Route>
-                    </Switch>
-                    <Switch>
-                        <Route exact path="/admini" component={ListAdminsComponent} ></Route>
-                        <Route exact path="/admini/dodaj" component={AddAdminComponent} ></Route>
-                        <Route exact path="/admini/izmeni/:id" component={UpdateAdminKCComponent} ></Route>
-                        <Route exact path="/admini/:id/initial" component={FirstTimeLoginComponent} ></Route>
-
-                    </Switch>
-                    <Switch>
-                        <Route exact path="/pacijenti" component={AllPacijents}/>
-                        <Route exact path="/pacijenti/:id" component={IzmenaPacijenta}/>
-                    </Switch>
-                    <Switch>
-                        <Route exact path="/medicinske-sestre" component={AllMSestre} />
-                        <Route exact path="/medicinske-sestre/dodaj" component={AddMedicinskaSestra} />
-                        <Route exact path="/medicinske-sestre/:id" component={EditMedicinkaSestra} />
-
-                    </Switch>
-                    <Switch>
-                        <Route exact path="/lekari" component={AllDoctors}/>
-                        <Route exact path="/lekari/dodaj" component={AddDoctor}/>
-                        <Route exact path="/lekari/:id" component={EditDoctor}/>
-
-                    </Switch>
-
-                  <Switch>
-                      <Route exact path="/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent}></Route>
                   </Switch>
 
-                    <Switch>
-                      <Route exact path="/pregledi/:id/azuriraj" component={ViewPregledComponent}></Route>
-                    </Switch>
-                    <Switch>
-                        <Route exact path="/:idKorisnika/radniKalendar/:idKlinike" component={ViewWorkCalendar}></Route>
-                    </Switch>
-                    <Switch>
-                        <Route exact path="/pacijenti/profil/:id" component={PatientProfile} ></Route>
-                    </Switch>
-                    <Switch>
-                        <Route path="/" exact component={FrontPage}></Route>
-                        <Route exact path="/medicinske-sestre/:id/klinika/:idKlinike" component={MSHomePageComponent} ></Route>
-                        <Route exact path="/medicinske-sestre/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} ></Route>
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/registracija/zahtevi" component={RegistrationRequsets} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/registracija/prihvati/:path" component={AfterAcceptRegistration} />
+                  </Switch>
+
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike" component={ListClinicsComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/dodaj" component={CreateClinicComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/pregled/:id" component={ViewClinicComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/izmeni/:id" component={UpdateClinicComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/:id/dodajAdmina" component={AddAdminToClinicComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/:idKlinike/izmeniAdmina/:idAdmina" component={UpdateAdminComponent} />
+                  </Switch>
+
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini" component={ListAdminsComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini/dodaj" component={AddAdminComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini/izmeni/:id" component={UpdateAdminKCComponent} />
+                      <PrivateRoute roles={["ROLE_KLINICKI_ADMINISTRATOR"]} path="/admini/:id/initial" component={FirstTimeLoginComponent} />
+                  </Switch>
+
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/pacijenti" component={AllPacijents} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/pacijenti/:id" component={IzmenaPacijenta} />
+                  </Switch>
+
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/medicinske-sestre" component={AllMSestre} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/medicinske-sestre/dodaj" component={AddMedicinskaSestra} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR","ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/:id" component={EditMedicinkaSestra} />
+                  </Switch>
+
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/lekari" component={AllDoctors} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR", "ROLE_KLINICKI_ADMINISTRATOR"]} path="/lekari/dodaj" component={AddDoctor} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR", "ROLE_LEKAR"]} path="/lekari/:id" component={EditDoctor} />
+                  </Switch>
+
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_LEKAR"]} path="/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent} />
+                  </Switch>
+
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_LEKAR"]} path="/pregledi/:id/azuriraj" component={ViewPregledComponent} />
+                  </Switch>
+
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_LEKAR", "ROLE_MEDICINSKA_SESTRA"]} path="/:idKorisnika/radniKalendar/:idKlinike" component={ViewWorkCalendar} />
+                  </Switch>
+
+
+                  <Switch>
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/pacijenti/profil/:id" component={PatientProfile} />
+                  </Switch>
+
+
+                  <Switch>
+                      <Route path="/" exact component={FrontPage}></Route>
+                      <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/:id/klinika/:idKlinike" component={MSHomePageComponent} />
+                      <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} />
                   </Switch>
 
 	            </div>
