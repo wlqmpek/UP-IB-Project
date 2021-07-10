@@ -5,13 +5,16 @@ const PrivateRoute = ({path, roles, component, ...rest}) => (
 
     <Route {...rest} render={props => {
         const currentUser = AuthenticationService.getRole();
-        if (!currentUser) {
+        console.log("Current user: " + currentUser);
+        console.log("Allowed roles:");
+        console.log(roles);
+        if (currentUser === "") {
             // not logged in so redirect to login page with the return url
             return <Redirect to={{ pathname: '/prijava', state: { from: props.location } }} />
         }
 
         // check if route is restricted by role
-        if (roles && roles.indexOf(currentUser) === -1) {
+        if (roles && !roles.includes(currentUser)) {
             // role not authorised so redirect to home page
             return <Redirect to={{ pathname: '/403'}} />
         }

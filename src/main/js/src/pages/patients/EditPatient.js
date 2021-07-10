@@ -23,7 +23,7 @@ const  EditPatientDetails = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        if(AuthenticationService.getRole() !== "ROLE_PACIJENT") {
+        if (AuthenticationService.getRole() !== "ROLE_PACIJENT" && AuthenticationService.getRole() !== "ROLE_MEDICINSKA_SESTRA") {
             window.location.assign("/prijava");
         }
         fetchPatient(id);

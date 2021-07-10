@@ -106,7 +106,7 @@ public class PregledController {
         return new ResponseEntity<>(pregled, HttpStatus.CREATED);
     }
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','MEDICINSKA_SESTRA')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Pregled> updatePregled(@PathVariable(name = "id") Long id, @RequestBody PregledBackendDTO pregledBackendDTO){
 

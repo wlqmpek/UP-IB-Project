@@ -46,7 +46,7 @@ public class PacijentController {
     @Autowired
     private PacijentToPacijentFrontDto pacijentToPacijentFrontDto;
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR','MEDICINSKA_SESTRA')")
     @GetMapping
     public ResponseEntity<List<PacijentFrontDTO>> findAll(){
 
@@ -59,7 +59,7 @@ public class PacijentController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR','PACIJENT')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','PACIJENT','MEDICINSKA_SESTRA')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<PacijentFrontDTO> findOne(@PathVariable(name = "id") Long id){
 

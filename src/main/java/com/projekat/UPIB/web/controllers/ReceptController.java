@@ -34,7 +34,7 @@ public class ReceptController {
 	@Autowired
     private IPregledService pregledService;
 	
-	@PreAuthorize("hasRole('ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','MEDICINSKA_SESTRA')")
     @GetMapping
     public ResponseEntity<List<ReceptFrontendDTO>> findAll(){
 

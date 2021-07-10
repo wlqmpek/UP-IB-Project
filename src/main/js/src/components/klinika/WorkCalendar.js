@@ -3,7 +3,7 @@ import ClinicsService from "../../services/ClinicsService";
 import PreglediService from "../../services/PreglediService";
 import LekarService from "../../services/LekarService";
 import { MedicinskaSestraService } from "../../services/MedicinskaSestraService";
-import { PacientService } from "../../services/PacientService";
+import { PacijentService } from "../../services/PacijentService";
 import Calendar from 'react-calendar';
 import { AuthenticationService } from "../../services/AuthenticationService";
 import 'react-calendar/dist/Calendar.css';
@@ -31,86 +31,69 @@ class ViewWorkCalendar extends Component {
     }
 
     componentDidMount() {
-        if (AuthenticationService.getRole().includes("ROLE_MEDICINSKA_SESTRA")) {
-            MedicinskaSestraService.getMSestra(this.state.idKorisnika).then(response => {
-                this.setState({
-                    korisnik: response.data,
-                    tipKorisnika: "MEDICINSKA_SESTRA"
-                })
-            }).catch(err => {
-                return;
-            })
-        }
-        
-        else if (AuthenticationService.getRole().includes("ROLE_LEKAR")) {
-            LekarService.getLekar(this.state.idKorisnika).then(response => {
-                this.setState({
-                    korisnik: response.data,
-                    tipKorisnika: "LEKAR"
-                })
-            }).catch(err => {
-                return;
-            })
-        }
 
+        if (AuthenticationService.getRole().includes("ROLE_MEDICINSKA_SESTRA")) {
+            this.state.tipKorisnika = "MEDICINSKA_SESTRA";
+        }
+        else if (AuthenticationService.getRole().includes("ROLE_LEKAR")) {
+            this.state.tipKorisnika = "LEKAR";
+        }
         else {
-            // ako nije ni medicinska sestra ni lekar onda ne treba da se prikazuje radni kalendar
-            // jer se ne radi o medicinskom osoblju
             return;
         }
 
         ClinicsService.getClinicById(this.state.idKlinike).then(response => {
             this.setState({ clinic: response.data });
+
+            PreglediService.getPregledi().then(response => {
+                if (AuthenticationService.getRole().includes("ROLE_MEDICINSKA_SESTRA")) {
+                    var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike && pregled.idMedicinskeSestre == this.state.idKorisnika);
+                }
+                else if (AuthenticationService.getRole().includes("ROLE_LEKAR")) {
+                    var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike && pregled.idLekara == this.state.idKorisnika);
+                }
+                else {
+                    var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike);
+                }
+
+                var datumi = []
+                PacijentService.getPacijents().then(res => {
+                    var pacijenti = res.data;
+                    pregledi.forEach(pregled => {
+                        var imePacijenta = ""
+                        var prezimePacijenta = ""
+                        pacijenti.forEach(pacijent => {
+                            if (pacijent.idZdravstvenogKartona == pregled.idZdravstvenogKartona) {
+                                console.log("POKLOP");
+                                imePacijenta = pacijent.ime;
+                                prezimePacijenta = pacijent.prezime;
+                            }
+                        })
+                        pregled['imePacijenta'] = imePacijenta;
+                        pregled['prezimePacijenta'] = prezimePacijenta;
+
+                        this.forceUpdate();
+                        var datum = new Date(pregled.pocetakTermina);
+                        datumi.push(datum);
+                    });
+                }).catch(err => {
+                    return;
+                })
+
+
+                this.setState({
+                    sviPregledi: pregledi,
+                    preglediZaDatum: pregledi,
+                    sviDatumi: datumi,
+                });
+
+                this.forceUpdate();
+            });
+
         }).catch(err => {
             return;
         })
 
-        PreglediService.getPregledi().then(response => {
-            if (this.state.tipKorisnika === "MEDICINSKA_SESTRA") {
-                var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike && pregled.idMedicinskeSestre == this.state.idKorisnika);
-            }
-            else if (this.state.tipKorisnika === "LEKAR") {
-                var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike && pregled.idLekara == this.state.idKorisnika);
-            }
-            else {
-                var pregledi = response.data.filter(pregled => pregled.idKlinike == this.state.clinic.idKlinike);
-            }
-
-            var datumi = []
-            PacientService.getPacients().then(res => {
-                var pacijenti = res.data;
-                pregledi.forEach(pregled => {
-                    var imePacijenta = ""
-                    var prezimePacijenta = ""
-                    pacijenti.forEach(pacijent => {
-                        if (pacijent.idZdravstvenogKartona == pregled.idZdravstvenogKartona) {
-                            console.log("POKLOP");
-                            imePacijenta = pacijent.ime;
-                            prezimePacijenta = pacijent.prezime;
-                        }
-                    })
-                    pregled['imePacijenta'] = imePacijenta;
-                    pregled['prezimePacijenta'] = prezimePacijenta;
-
-                    this.forceUpdate();
-                    var datum = new Date(pregled.pocetakTermina);
-                    datumi.push(datum);
-                });
-            }).catch(err => {
-                return;
-            })
-            
-            
-            this.setState({
-                sviPregledi: pregledi,
-                preglediZaDatum: pregledi,
-                sviDatumi: datumi,
-            });
-
-            this.forceUpdate();
-
-        });
-        
     }
 
     onChange(selektovaniDatum) {

@@ -80,11 +80,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 // svim korisnicima dopusti da pristupe putanjama /korisnici/prijava
-                .authorizeRequests().antMatchers("/korisnici/prijava").permitAll()
+                //.authorizeRequests().antMatchers("/korisnici/prijava").permitAll()
 //                .antMatchers("/korisnici/refreshtoken").permitAll()
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
-                .anyRequest().authenticated().and()
+                //.anyRequest().authenticated().and()
 //                .anyRequest().permitAll().and()
 
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)

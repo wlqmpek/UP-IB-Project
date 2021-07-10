@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import ReceiptsService from "../../../services/ReceiptsService";
 import PreglediService from "../../../services/PreglediService";
-import { PacientService } from "../../../services/PacientService";
+import { PacijentService } from "../../../services/PacijentService";
 import ZdravstveniKartonService from "../../../services/ZdravstveniKartonService";
 import {AuthenticationService} from "../../../services/AuthenticationService"
 
@@ -55,7 +55,7 @@ class UpdateZKComponent extends Component {
             return;
         })
 
-        PacientService.getPacients().then(response => {
+        PacijentService.getPacijents().then(response => {
             this.setState({
                 pacijent: response.data.find(pacijent =>
                     pacijent.idZdravstvenogKartona == this.state.id

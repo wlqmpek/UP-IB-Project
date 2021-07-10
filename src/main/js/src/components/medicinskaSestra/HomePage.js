@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { PacientService } from '../../services/PacientService';
+import { PacijentService } from '../../services/PacijentService';
 import ClinicsService from '../../services/ClinicsService';
 import PreglediService from '../../services/PreglediService';
 import '../../App.css'
@@ -36,39 +36,42 @@ class MSHomePageComponent extends Component {
     componentDidMount() {
         ClinicsService.getClinicById(this.state.idKlinike).then(response => {
             this.setState({ clinic: response.data });
-        }).catch(err => {
-            return;
-        })
 
-        PreglediService.getPregledi().then((response) => {
-            this.setState({ pregledi: response.data.filter(pregled => pregled.idKlinike === this.state.clinic.idKlinike) });
-        })
+            PreglediService.getPregledi().then((response) => {
+                this.setState({ pregledi: response.data.filter(pregled => pregled.idKlinike === this.state.clinic.idKlinike) });
+
+                PacijentService.getPacijents().then((response) => {
+                    var allPatients = response.data;
+                    var i;
+                    for (i = 0; i < allPatients.length; i++) {
+                        var j;
+                        for (j = 0; j < this.state.pregledi.length; j++) {
+                            if (allPatients[i].idZdravstvenogKartona === this.state.pregledi[j].idZdravstvenogKartona) {
+                                this.state.patients.push(allPatients[i]);
+                                break;
+                            }
+                        }
+                    }
+                    this.forceUpdate();
+                })
+                .catch (err => {
+                    return;
+                })
+
+            })
             .catch(error => {
 
             })
 
-        PacientService.getPacients().then((response) => {
-            var allPatients = response.data;
-            var i;
-            for (i = 0; i < allPatients.length; i++) {
-                var j;
-                for (j = 0; j < this.state.pregledi.length; j++) {
-                    if (allPatients[i].idZdravstvenogKartona === this.state.pregledi[j].idZdravstvenogKartona) {
-                        this.state.patients.push(allPatients[i]);
-                        break;
-                    }
-                }
-            }
-        });
+        }).catch(err => {
+            return;
+        })
 
-        PacientService.getPacients().then((response) => {
-            this.setState({ patients: response.data })
-        });
 
     }
 
     viewPatient(id) {
-        this.props.history.push(`/pacijenti/pregled/${id}`);
+        this.props.history.push(`/pacijenti/profil/${id}`);
     }
 
     viewClinic(id) {
@@ -202,14 +205,14 @@ class MSHomePageComponent extends Component {
                                     {
                                         this.state.patients.map(
                                             patient =>
-                                                <tr id="lista" key={patient.idKorisnika}>
+                                                <tr id="lista" key={patient.id}>
                                                     <td>{patient.jbzo}</td>
                                                     <td>{patient.ime}</td>
                                                     <td>{patient.prezime}</td>
                                                     <td>{patient.email}</td>
                                                     <td>{patient.idZdravstvenogKartona}</td>
                                                     <td>
-                                                        <button onClick={() => this.viewPatient(patient.idKorisnika)} className="btn btn-info">Pregled</button>
+                                                        <button onClick={() => this.viewPatient(patient.id)} className="btn btn-info">Pregled</button>
                                                     </td>
                                                 </tr>
                                         )

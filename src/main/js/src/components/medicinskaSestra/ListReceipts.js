@@ -52,37 +52,30 @@ class ListReceiptsComponent extends Component {
 					this.state.pregledi.push(allPregledi[i]);
 				}
 			}
-		});
 
-		console.log(this.state.pregledi);
-
-		// CEKA SE DEBAGOVANJE, POREDJENJE NIJE DOBRO (?) IZ NEKOG RAZLOGA
-		// update: problemi se javljali jer nisam koristio setState i this.state
-		// kako i gdje treba...
-		ReceiptService.getReceipts().then(response => {
-			var allReceipts = response.data;
-			var i;
-			var receipts = [];
-			for (i = 0; i < allReceipts.length; i++) {
-				var j;
-				for (j = 0; j < this.state.pregledi.length; j++) {
-					if (allReceipts[i].idPregleda == this.state.pregledi[j].idPregleda) {
-						if (allReceipts[i].overen == 0) {
-							receipts.push(allReceipts[i])	
-							break;
+			ReceiptService.getReceipts().then(response => {
+				var allReceipts = response.data;
+				var i;
+				var receipts = [];
+				for (i = 0; i < allReceipts.length; i++) {
+					var j;
+					for (j = 0; j < this.state.pregledi.length; j++) {
+						if (allReceipts[i].idPregleda == this.state.pregledi[j].idPregleda) {
+							if (allReceipts[i].overen == 0) {
+								receipts.push(allReceipts[i])
+								break;
+							}
 						}
 					}
 				}
-			}
-			this.setState({
-				receipts: receipts.filter(recept => recept.overen == 0)
-			})
-			this.forceUpdate();
+				this.setState({
+					receipts: receipts.filter(recept => recept.overen == 0)
+				})
+				this.forceUpdate();
+			});
+
 		});
-
 		
-		
-
 	}
 
 	render() {

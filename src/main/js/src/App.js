@@ -93,14 +93,15 @@ function App() {
                   </Switch>
 
                   <Switch>
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR","ROLE_LEKAR"]} path="/pacijenti" component={AllPacijents} />
+                      <PrivateRoute roles={["ROLE_PACIJENT", "ROLE_MEDICINSKA_SESTRA"]} path="/pacijenti/profil/:id" component={PatientProfile} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/pacijenti/:id" component={IzmenaPacijenta} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR","ROLE_LEKAR"]} path="/pacijenti" component={AllPacijents} />
                   </Switch>
 
                   <Switch>
-                      <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/izmeni" component={EditLoggedUser} />
-                      <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/:id/klinika/:idKlinike" component={MSHomePageComponent} />
                       <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} />
+                      <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/:id/klinika/:idKlinike" component={MSHomePageComponent} />
+                      <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/izmeni" component={EditLoggedUser} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/medicinske-sestre" component={AllMSestre} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/medicinske-sestre/dodaj" component={AddMedicinskaSestra} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/medicinske-sestre/:id" component={EditMedicinkaSestra} />
@@ -125,10 +126,6 @@ function App() {
 
                   <Switch>
                       <PrivateRoute roles={["ROLE_LEKAR", "ROLE_MEDICINSKA_SESTRA"]} path="/:idKorisnika/radniKalendar/:idKlinike" component={ViewWorkCalendar} />
-                  </Switch>
-
-                  <Switch>
-                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/pacijenti/profil/:id" component={PatientProfile} />
                   </Switch>
 
                   <Switch>
