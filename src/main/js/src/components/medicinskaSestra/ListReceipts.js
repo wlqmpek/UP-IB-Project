@@ -43,12 +43,11 @@ class ListReceiptsComponent extends Component {
 
 	componentDidMount() {
 
-		// RADI PREKO PETLJE, ALI FILTER() IZ NEKOG RAZLOGA NE RADI
 		PreglediService.getPregledi().then((response) => {
 			var allPregledi = response.data;
 			var i;
 			for (i = 0; i < allPregledi.length; i++) {
-				if (allPregledi[i].idKlinike == this.state.idKlinike) {
+				if (allPregledi[i].idKlinike == this.state.idKlinike && allPregledi[i].idMedicinskeSestre == this.state.idMedSestre) {
 					this.state.pregledi.push(allPregledi[i]);
 				}
 			}

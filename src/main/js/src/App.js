@@ -117,7 +117,7 @@ function App() {
                   </Switch>
 
                   <Switch>
-                      <PrivateRoute roles={["ROLE_LEKAR"]} path="/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent} />
+                      <PrivateRoute roles={["ROLE_LEKAR"]} path="/pregled/:idPregleda/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent} />
                   </Switch>
 
                   <Switch>

@@ -12,6 +12,7 @@ class UpdateZKComponent extends Component {
 
         this.state = {
             id: this.props.match.params.id,
+            idPregleda: this.props.match.params.idPregleda,
             pregled: {},
             pacijent: {},
             izvestaj: '',
@@ -34,7 +35,7 @@ class UpdateZKComponent extends Component {
         PreglediService.getPregledi().then(response => {
             this.setState({
                 pregled: response.data.find(pregled =>
-                    pregled.idZdravstvenogKartona == this.state.id
+                    pregled.idPregleda == this.state.idPregleda
                 )
             })
 

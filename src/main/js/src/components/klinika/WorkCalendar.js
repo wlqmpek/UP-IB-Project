@@ -72,22 +72,20 @@ class ViewWorkCalendar extends Component {
                         pregled['imePacijenta'] = imePacijenta;
                         pregled['prezimePacijenta'] = prezimePacijenta;
 
-                        this.forceUpdate();
                         var datum = new Date(pregled.pocetakTermina);
                         datumi.push(datum);
                     });
+
+                    this.setState({
+                        sviPregledi: pregledi,
+                        preglediZaDatum: pregledi,
+                        sviDatumi: datumi,
+                    });
+                    this.forceUpdate();
+
                 }).catch(err => {
                     return;
                 })
-
-
-                this.setState({
-                    sviPregledi: pregledi,
-                    preglediZaDatum: pregledi,
-                    sviDatumi: datumi,
-                });
-
-                this.forceUpdate();
             });
 
         }).catch(err => {
@@ -127,7 +125,7 @@ class ViewWorkCalendar extends Component {
     ukloniFilter() {
         this.setState({
             preglediZaDatum: this.state.sviPregledi,
-            selektovaniDatum: false
+            selektovaniDatum: "",
         })
     }
 
@@ -142,8 +140,8 @@ class ViewWorkCalendar extends Component {
         this.props.history.push(`/pregledi/${id}/azuriraj`);
     }
 
-    updateZK(id) {
-        this.props.history.push(`/zdravstveniKarton/${id}/azuriraj`);
+    updateZK(idPregleda,id) {
+        this.props.history.push(`/pregled/${idPregleda}/zdravstveniKarton/${id}/azuriraj`);
     }
     render() {
         return (
@@ -180,7 +178,7 @@ class ViewWorkCalendar extends Component {
                 <br />
 
                 {
-                    this.state.preglediZaDatum.length !== this.state.sviPregledi.length ? (
+                    this.state.selektovaniDatum !== "" ? (
                         <h3 style={{ margin: 'auto', textAlign: 'center' }} > Lista pregleda za datum:&nbsp; <a href="">{this.state.selektovaniDatum}</a></h3>
                     ) : (
                             <h3 style={{ margin: 'auto', textAlign: 'center' }} > Lista svih pregleda </h3>
@@ -201,7 +199,7 @@ class ViewWorkCalendar extends Component {
                                         <th> Ime pacijenta </th>
                                         <th> Prezime pacijenta </th>
                                         {
-                                            this.state.preglediZaDatum.length !== this.state.sviPregledi.length ? (
+                                            this.state.selektovaniDatum !== "" ? (
                                                 <th style={{ textAlign: 'right' }}>
                                                     <a onClick={this.ukloniFilter}>
                                                         <img style={{ width: '20px', height: '20px' }} src="/images/unfilter.png" alt="Unfilter"></img>
@@ -255,8 +253,8 @@ class ViewWorkCalendar extends Component {
                                                     
                                                         {new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() && this.state.tipKorisnika === "LEKAR" ? (
                                                             <td style={{ width: '20%' }}>    
-                                                                <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updatePregled(pregled.idPregleda)} className="btn btn-info">Detaljnije o pregledu</button>
-                                                                <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updateZK(pregled.idZdravstvenogKartona)} className="btn btn-success">Zdravstveni karton</button>
+                                                            <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updatePregled(pregled.idPregleda)} className="btn btn-info">Detaljnije o pregledu</button>
+                                                            <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updateZK(pregled.idPregleda,pregled.idZdravstvenogKartona)} className="btn btn-success">Zdravstveni karton</button>
                                                             </td>
                                                     )
                                                         : <td></td>
