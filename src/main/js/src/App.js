@@ -73,7 +73,7 @@ function App() {
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/registracija/zahtevi" component={RegistrationRequsets} />
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/registracija/prihvati/:path" component={AfterAcceptRegistration} />
                   </Switch>
-
+                  //Isak pobegulja
                   <Switch>
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/dodaj" component={CreateClinicComponent} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/pregled/:id" component={ViewClinicComponent} />
