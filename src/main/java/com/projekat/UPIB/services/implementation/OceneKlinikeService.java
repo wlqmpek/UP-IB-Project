@@ -36,6 +36,10 @@ public class OceneKlinikeService implements IOceneKlinikeService {
 
     @Override
     public Double avgOcena(Long id) {
-        return oceneKlinikeRepozitorijum.avgOcena(id);
+        Double ocena = oceneKlinikeRepozitorijum.avgOcena(id);
+        if(ocena == null) {
+            ocena = 0.0;
+        }
+        return ocena;
     }
 }

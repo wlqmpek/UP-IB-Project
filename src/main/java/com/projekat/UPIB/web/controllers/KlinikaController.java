@@ -1,12 +1,16 @@
 package com.projekat.UPIB.web.controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.projekat.UPIB.models.OceneKlinike;
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.services.IOceneKlinikeService;
 import com.projekat.UPIB.services.IPacijentService;
+import com.projekat.UPIB.support.converters.klinika.KlinikaToKlinikaFrontDto;
+import com.projekat.UPIB.web.dto.ParametriPretrageKlinikaDto;
 import com.projekat.UPIB.web.dto.klinika.AvgOcenaKlinikeDTO;
 import com.projekat.UPIB.web.dto.klinika.KlinikaListaDTO;
 import com.projekat.UPIB.web.dto.klinika.OcenaKlinikeDTO;
@@ -16,13 +20,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.projekat.UPIB.web.dto.klinika.KlinikaDTO;
+import com.projekat.UPIB.web.dto.klinika.KlinikaFrontDto;
 import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.models.Klinika;
 import com.projekat.UPIB.services.IAdministratorService;
 import com.projekat.UPIB.services.IKlinikaService;
 
 import javax.annotation.security.PermitAll;
+import javax.validation.Valid;
 
 @CrossOrigin(origins = "https://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST})
 @RestController
@@ -41,32 +46,35 @@ public class KlinikaController {
 	@Autowired
     private IOceneKlinikeService oceneKlinikeService;
 
-	@PreAuthorize("hasRole('ADMINISTRATOR')")
+	@Autowired
+    private KlinikaToKlinikaFrontDto klinikaToKlinikaFrontDto;
+
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','PACIJENT')")
     @GetMapping
-    public ResponseEntity<List<KlinikaDTO>> findAll(){
+    public ResponseEntity<List<KlinikaFrontDto>> findAll(){
 
         List<Klinika> klinike = klinikaService.findAll();
-        List<KlinikaDTO> klinikeFrontendDTO = new ArrayList<KlinikaDTO>();
+        List<KlinikaFrontDto> klinikeFrontendDTO = new ArrayList<KlinikaFrontDto>();
         
         for (Klinika klinika : klinike) {
-        	KlinikaDTO klinikaFrontendDTO = new KlinikaDTO(klinika);
+        	KlinikaFrontDto klinikaFrontendDTO = new KlinikaFrontDto(klinika);
         	klinikeFrontendDTO.add(klinikaFrontendDTO);
         }
         
-        return new ResponseEntity<List<KlinikaDTO>>(klinikeFrontendDTO, HttpStatus.OK);
+        return new ResponseEntity<List<KlinikaFrontDto>>(klinikeFrontendDTO, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA', 'KLINICKI_ADMINISTRATOR')")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<KlinikaDTO> findOne(@PathVariable(name = "id") Long id){
+    public ResponseEntity<KlinikaFrontDto> findOne(@PathVariable(name = "id") Long id){
 
     	Klinika klinika = klinikaService.findOne(id);
         if(klinika == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        KlinikaDTO klinikaFrontendDTO = new KlinikaDTO(klinika);
+        KlinikaFrontDto klinikaFrontendDTO = new KlinikaFrontDto(klinika);
 
-        return new ResponseEntity<KlinikaDTO>(klinikaFrontendDTO, HttpStatus.OK);
+        return new ResponseEntity<KlinikaFrontDto>(klinikaFrontendDTO, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
@@ -154,6 +162,7 @@ public class KlinikaController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+        ocenaKlinikeDTO.setIdKlinike(klinika.getIdKlinike());
         ocenaKlinikeDTO.setOcena(ocena);
 
         if(ocena == null){
@@ -184,5 +193,17 @@ public class KlinikaController {
         oceneKlinikeService.save(oceneKlinike);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @PostMapping(consumes = "application/json", value = "/pretraga")
+    public ResponseEntity<Set<KlinikaFrontDto>> pretraziKlinike(@Valid @RequestBody ParametriPretrageKlinikaDto parametriPretrageKlinikaDto) {
+        System.out.println("Hello " + parametriPretrageKlinikaDto);
+	    Set<Klinika> klinike = klinikaService.pretragaKlinika(parametriPretrageKlinikaDto);
+	    Set<KlinikaFrontDto> klinikaFrontDtos = new HashSet<>();
+	    for(Klinika klinika:klinike)
+	        klinikaFrontDtos.add(klinikaToKlinikaFrontDto.convert(klinika));
+        System.out.println("Result " +klinikaFrontDtos);
+	    return new ResponseEntity<>(klinikaFrontDtos, HttpStatus.OK);
     }
 }

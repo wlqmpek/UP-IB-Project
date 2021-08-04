@@ -1,4 +1,4 @@
-package com.projekat.UPIB.support.converters;
+package com.projekat.UPIB.support.converters.pacijent;
 
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;

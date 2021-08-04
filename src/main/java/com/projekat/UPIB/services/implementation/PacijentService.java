@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PacijentService implements IPacijentService {
@@ -33,7 +36,11 @@ public class PacijentService implements IPacijentService {
     //Funkcionise po principu equals.ignoreCase() bas kako bi i trebalo u slucaju emaila!
     @Override
     public Pacijent findPacijentByEmailKorisnika(String emailKorisnika) {
-        return pacijentRepozitorijum.findPacijentByEmailKorisnika(emailKorisnika);
+        Optional<Pacijent> pacijent = pacijentRepozitorijum.findPacijentByEmailKorisnika(emailKorisnika);
+        if(pacijent.isEmpty()) {
+            throw new NoSuchElementException("Pacijent with email = " + emailKorisnika + " not found!");
+        }
+        return pacijent.get();
     }
 
     @Override

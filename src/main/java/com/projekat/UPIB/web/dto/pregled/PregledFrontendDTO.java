@@ -40,7 +40,11 @@ public class PregledFrontendDTO implements Serializable{
 		this.krajTermina = pregled.getKrajTermima();
 		this.cena = pregled.getCena();
 		this.popust = pregled.getPopust();
-		this.idZdravstvenogKartona = pregled.getZdravstveniKarton().getIdZdravstvenogKartona();
+		if(pregled.getZdravstveniKarton() != null) {
+			this.idZdravstvenogKartona = pregled.getZdravstveniKarton().getIdZdravstvenogKartona();
+		} else {
+			this.idZdravstvenogKartona = null;
+		}
 		this.idKlinike = pregled.getKlinika().getIdKlinike();
 	}
 
@@ -114,7 +118,12 @@ public class PregledFrontendDTO implements Serializable{
 	public void setIdKlinike(Long idKlinike) {
 		this.idKlinike = idKlinike;
 	}
-	
-	
 
+	public ArrayList<Long> getIdRecepata() {
+		return idRecepata;
+	}
+
+	public void setIdRecepata(ArrayList<Long> idRecepata) {
+		this.idRecepata = idRecepata;
+	}
 }

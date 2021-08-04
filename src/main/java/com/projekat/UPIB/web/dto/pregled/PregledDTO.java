@@ -1,6 +1,6 @@
 package com.projekat.UPIB.web.dto.pregled;
 
-import com.projekat.UPIB.web.dto.klinika.KlinikaDTO;
+import com.projekat.UPIB.web.dto.klinika.KlinikaFrontDto;
 import com.projekat.UPIB.web.dto.medicinkaSestra.MedicinskaSestraDTO;
 import com.projekat.UPIB.web.dto.recept.ReceptDTO;
 import com.projekat.UPIB.web.dto.zdravstveniKarton.ZdravstveniKartonDTO;
@@ -22,7 +22,7 @@ public class PregledDTO implements Serializable{
     private double cena;
     private int popust;
     private ZdravstveniKartonDTO zdravstveniKarton;
-    private KlinikaDTO klinika;
+    private KlinikaFrontDto klinika;
     
     
 	public PregledDTO() {
@@ -32,7 +32,7 @@ public class PregledDTO implements Serializable{
 
 	public PregledDTO(Long idPregleda, String dijagnoza, String opis, ReceptDTO recept, LekarDTO lekar,
 			MedicinskaSestraDTO medicinskaSestra, LocalDateTime pocetakTermina, LocalDateTime krajTermima, double cena,
-			int popust, ZdravstveniKartonDTO zdravstveniKarton, KlinikaDTO klinika) {
+			int popust, ZdravstveniKartonDTO zdravstveniKarton, KlinikaFrontDto klinika) {
 		super();
 		this.idPregleda = idPregleda;
 		this.dijagnoza = dijagnoza;
@@ -116,10 +116,10 @@ public class PregledDTO implements Serializable{
 	public void setZdravstveniKarton(ZdravstveniKartonDTO zdravstveniKarton) {
 		this.zdravstveniKarton = zdravstveniKarton;
 	}
-	public KlinikaDTO getKlinika() {
+	public KlinikaFrontDto getKlinika() {
 		return klinika;
 	}
-	public void setKlinika(KlinikaDTO klinika) {
+	public void setKlinika(KlinikaFrontDto klinika) {
 		this.klinika = klinika;
 	}
     

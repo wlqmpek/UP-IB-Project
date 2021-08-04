@@ -8,6 +8,8 @@ import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.models.Lekar;
 import com.projekat.UPIB.models.MedicinskaSestra;
 import com.projekat.UPIB.services.*;
+import com.projekat.UPIB.services.implementation.PacijentService;
+import com.projekat.UPIB.support.converters.pregled.PregledToPregledToFrontDto;
 import com.projekat.UPIB.web.dto.pregled.PregledKreiranjeAdminDTO;
 import com.projekat.UPIB.web.dto.pregled.PregledKreiranjeLekarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class PregledController {
 	
 	@Autowired
     private IKlinikaService klinikaService;
+
+	@Autowired
+    private PacijentService pacijentService;
 	
 	@Autowired
     private ILekarService lekarService;
@@ -55,7 +60,8 @@ public class PregledController {
 	@Autowired
     private IAdministratorService iAdministratorService;
 	
-	
+	@Autowired
+    private PregledToPregledToFrontDto pregledToPregledToFrontDto;
 
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR', 'MEDICINSKA_SESTRA')")
     @GetMapping
@@ -83,6 +89,20 @@ public class PregledController {
         PregledFrontendDTO pregledFrontendDTO = new PregledFrontendDTO(pregled);
 
         return new ResponseEntity<PregledFrontendDTO>(pregledFrontendDTO, HttpStatus.OK);
+    }
+
+    //Dobavlja samo preglede za odredjenog pacijenta - WLQ
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping("/pacijenti")
+    public ResponseEntity<List<PregledFrontendDTO>> findPreglediPacijenta(Principal p) {
+	    List<Pregled> sviPregledi = pregledService.findAll();
+	    List<PregledFrontendDTO> pregledi = new ArrayList<>();
+	    for(Pregled pregled:sviPregledi) {
+	        if(pregled.getZdravstveniKarton().getPacijent().getIdKorisnika().equals(pacijentService.findPacijentByEmailKorisnika(p.getName()))) {
+	            pregledi.add(pregledToPregledToFrontDto.convert(pregled));
+            }
+        }
+	    return new ResponseEntity<>(pregledi, HttpStatus.OK);
     }
 
 	@PreAuthorize("hasRole('ADMINISTRATOR')")
@@ -173,11 +193,9 @@ public class PregledController {
         MedicinskaSestra medicinskaSestra = medSestraService
                 .findMedicinskaSestraByEmailKorisnika(pregledKreiranjeLekarDTO.getMedSestraEmail());
         Pregled pregled = new Pregled();
-
         if(lekar == null || medicinskaSestra == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         pregled.setCena(pregledKreiranjeLekarDTO.getCena());
         pregled.setKlinika(lekar.getKlinika());
         pregled.setLekar(lekar);
@@ -188,6 +206,8 @@ public class PregledController {
         pregledService.save(pregled);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
     @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
     @PostMapping("/pregled/administrator")

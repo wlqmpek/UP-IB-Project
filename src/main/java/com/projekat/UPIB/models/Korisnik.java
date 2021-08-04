@@ -1,20 +1,16 @@
 package com.projekat.UPIB.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.projekat.UPIB.enums.Roles;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.List;
 
-import com.projekat.UPIB.enums.TipKorisnika;
-import com.projekat.UPIB.enums.VrstaAdministratora;
-
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @ToString
 //END OF LOMBOK
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -24,7 +20,7 @@ public abstract class Korisnik implements UserDetails {
     //identity inkrementuje za 1
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_korisnika", unique = true, nullable = false)
-    private long idKorisnika;
+    private Long idKorisnika;
 
     @Column(name = "ime_korisnika", unique = false, nullable = false)
     private String imeKorisnika;

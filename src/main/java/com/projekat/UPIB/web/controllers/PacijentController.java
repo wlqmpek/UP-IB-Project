@@ -2,8 +2,8 @@ package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.services.IZdravstveniKarton;
 import com.projekat.UPIB.services.implementation.AuthorityService;
-import com.projekat.UPIB.support.converters.PacijentEditDtoToPacijent;
-import com.projekat.UPIB.support.converters.PacijentToPacijentFrontDto;
+import com.projekat.UPIB.support.converters.pacijent.PacijentEditDtoToPacijent;
+import com.projekat.UPIB.support.converters.pacijent.PacijentToPacijentFrontDto;
 import com.projekat.UPIB.web.dto.pacijent.*;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
@@ -16,7 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +72,7 @@ public class PacijentController {
         return new ResponseEntity<>(frontDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasAnyRole('ANONYMOUS')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent){
 
@@ -119,15 +119,13 @@ public class PacijentController {
 
     //Ova metoda je moja i koristi se da pacijent menja svoje podatke! - WLQ
     @PreAuthorize("hasRole('PACIJENT')")
-    @PutMapping(consumes = "application/json", value = "/izmeni/{id}")
-    public ResponseEntity<PacijentFrontDTO> izmeniPacijent(@PathVariable(name = "id") Long id,
-                                                        @RequestBody PacijentEditDto pacijentNew){
+    @PutMapping(consumes = "application/json", value = "/izmeni")
+    public ResponseEntity<PacijentFrontDTO> izmeniPacijent(@RequestBody PacijentEditDto pacijentNew, Principal p){
         ResponseEntity responseEntity = null;
-        Pacijent pacijentOld = pacijentService.findOne(id);
+        Pacijent pacijentOld = pacijentService.findPacijentByEmailKorisnika(p.getName());
         Pacijent pacijent = pacijentEditDtoToPacijent.convert(pacijentOld, pacijentNew);
 
         pacijent = pacijentService.save(pacijentOld);
-
         responseEntity = (pacijent == null) ? new ResponseEntity(pacijent, HttpStatus.NOT_FOUND) : new ResponseEntity(pacijent, HttpStatus.OK);
         return responseEntity;
     }

@@ -1,7 +1,5 @@
 package com.projekat.UPIB.models;
 
-import com.projekat.UPIB.enums.Roles;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

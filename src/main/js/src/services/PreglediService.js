@@ -2,6 +2,7 @@ import AxiosClient from "./clients/AxiosClient"
 
 export const PreglediService = {
     getPregledi,
+    getPreglediPacijenta,
     getPregled,
     createPregled,
     editPregled,
@@ -13,6 +14,11 @@ export const PreglediService = {
 
 async function getPregledi() {
     return await AxiosClient.get("Pregledi")
+}
+
+//Koristi se za dobavljanje svih pregleda pacijenta, od strane pacijenta. - WLQ
+async function getPreglediPacijenta() {
+    return await AxiosClient.get("Pregledi/pacijenti")
 }
 
 async function getPregled(id) {

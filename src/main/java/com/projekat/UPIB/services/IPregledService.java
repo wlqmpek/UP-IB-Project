@@ -15,4 +15,6 @@ public interface IPregledService {
     void remove(Long id);
 
     List<Pregled> findAllByKlinika(Long id);
+
+    List<Pregled> findByLekarIdKorisnika (Long id);
 }

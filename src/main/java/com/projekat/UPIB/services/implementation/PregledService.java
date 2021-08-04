@@ -43,4 +43,9 @@ public class PregledService implements IPregledService{
     public List<Pregled> findAllByKlinika(Long id) {
         return pregledRepozitorijum.findByKlinikaIdKlinike(id);
     }
+
+    @Override
+    public List<Pregled> findByLekarIdKorisnika(Long id) {
+        return pregledRepozitorijum.findPregledsByLekarIdKorisnika(id);
+    }
 }

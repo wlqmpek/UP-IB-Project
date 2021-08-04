@@ -1,4 +1,4 @@
-package com.projekat.UPIB.support.converters;
+package com.projekat.UPIB.support.converters.pacijent;
 
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.models.ZdravstveniKarton;
@@ -24,7 +24,7 @@ public class PacijentEditDtoToPacijent {
                 pacijentOld.setPrezimeKorisnika(pacijentEditDto.getPrezime());
                 pacijentOld.setLozinkaKorisnika(pacijentEditDto.getLozinka());
             } else {
-                //TODO: Ovde baci custom exception
+                //TODO: Kreiraj custom exception i baci ga ovde, hendlaj ga u ControllerAdvice. - WLQ
                 System.out.println("Lozinke se ne poklapaju");
             }
         }

@@ -1,9 +1,6 @@
 package com.projekat.UPIB.web.dto.lekar;
-
 import java.io.Serializable;
 import java.util.HashSet;
-
-import com.projekat.UPIB.enums.TipKorisnika;
 import com.projekat.UPIB.models.Lekar;
 
 public class LekarBackendDTO implements Serializable{

@@ -2,6 +2,7 @@ package com.projekat.UPIB.web.controllers;
 
 import com.projekat.UPIB.models.*;
 import com.projekat.UPIB.services.*;
+import com.projekat.UPIB.services.implementation.LekarService;
 import com.projekat.UPIB.web.dto.lekar.*;
 import com.projekat.UPIB.web.dto.korisnik.PasswordChangeDTO;
 import com.projekat.UPIB.web.dto.pregled.PregledKreiranjeLekarDTO;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "https://localhost:3000")
@@ -25,7 +28,7 @@ public class LekarController {
     private static final Long ROLE_LEKAR = 2L;
 
     @Autowired
-    private ILekarService lekarService;
+    private LekarService lekarService;
     
     @Autowired
     private IKlinikaService klinikaService;
@@ -45,6 +48,8 @@ public class LekarController {
     @Autowired
     private IAdministratorService administratorService;
 
+
+
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<LekarFrontendDTO>> findAll(){
@@ -59,7 +64,7 @@ public class LekarController {
         return new ResponseEntity<>(lekariFrontendDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR', 'KLINICKI_ADMINISTRATOR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR', 'KLINICKI_ADMINISTRATOR', 'PACIJENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<LekarFrontendDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -69,6 +74,7 @@ public class LekarController {
         }
         
         LekarFrontendDTO lekarFrontendDTO = new LekarFrontendDTO(lekar);
+        lekarFrontendDTO.setOcena(lekarService.prosecnaOcenaLekara(lekarFrontendDTO.getIdKorisnika()));
 
         return  new ResponseEntity<>(lekarFrontendDTO, HttpStatus.OK);
     }
@@ -247,5 +253,12 @@ public class LekarController {
         }
 
         return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @PostMapping("/termin")
+    public ResponseEntity<Set<LekarSaPregledimaFrontDto>> getLekariUTerminu(@RequestBody LekarTerminDto termin) {
+        Set<LekarSaPregledimaFrontDto> lekari = lekarService.pretragaLekaraPoSlobodnomTerminu(termin.getTermin());
+        return new ResponseEntity<>(lekari, HttpStatus.OK);
     }
 }

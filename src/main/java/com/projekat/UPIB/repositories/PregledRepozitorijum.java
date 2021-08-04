@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface PregledRepozitorijum extends JpaRepository<Pregled, Long> {
     List<Pregled> findByKlinikaIdKlinike (Long id);
+    List<Pregled> findPregledsByLekarIdKorisnika (Long id);
 }

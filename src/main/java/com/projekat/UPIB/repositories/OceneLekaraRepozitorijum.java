@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface OceneLekaraRepozitorijum extends JpaRepository<OceneDoktora, Long> {
 
-    @Query("select avg(od.ocena) from OceneDoktora as od where od.lekar = ?1")
+    @Query("select avg(od.ocena) from OceneDoktora as od where od.lekar.idKorisnika = ?1")
     Double avgOcena(Long id);
 }

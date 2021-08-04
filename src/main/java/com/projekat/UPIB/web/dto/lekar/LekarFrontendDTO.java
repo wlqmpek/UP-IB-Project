@@ -1,18 +1,20 @@
 package com.projekat.UPIB.web.dto.lekar;
-
 import java.io.Serializable;
-
-import com.projekat.UPIB.enums.TipKorisnika;
 import com.projekat.UPIB.models.Lekar;
+import com.projekat.UPIB.services.implementation.LekarService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 
 public class LekarFrontendDTO implements Serializable{
-	
+
 	private Long idKorisnika;
     private String imeKorisnika;
     private String prezimeKorisnika;
     private String emailKorisnika;
     private Long idKlinike;
-    
+    private Double ocena;
+
 	public LekarFrontendDTO() {
 		super();
 	}
@@ -68,5 +70,11 @@ public class LekarFrontendDTO implements Serializable{
 		this.emailKorisnika = emailKorisnika;
 	}
 
-	
+	public Double getOcena() {
+		return ocena;
+	}
+
+	public void setOcena(Double ocena) {
+		this.ocena = ocena;
+	}
 }

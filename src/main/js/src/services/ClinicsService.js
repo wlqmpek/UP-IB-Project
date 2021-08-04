@@ -7,7 +7,9 @@ export const ClinicsService = {
     createClinic,
     updateClinic,
     deleteClinic,
-    getClinicsList
+    getClinicsList,
+    pretraziKlinike,
+    ocenaKlinike
 }
 
 async function getClinics() {
@@ -32,6 +34,14 @@ async function deleteClinic(clinicId) {
 
 async function getClinicsList(){
     return await AxiosClient.get("Klinike/lista");
+}
+
+async function pretraziKlinike(parametriPretrage) {
+    return await AxiosClient.post(`Klinike/pretraga/`, parametriPretrage);
+}
+
+async function ocenaKlinike(idKlinike) {
+    return await AxiosClient.get(`Klinike/ocene/${idKlinike}`)
 }
 
 export default ClinicsService;

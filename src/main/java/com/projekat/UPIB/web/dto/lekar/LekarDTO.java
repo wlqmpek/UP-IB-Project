@@ -1,6 +1,6 @@
 package com.projekat.UPIB.web.dto.lekar;
 
-import com.projekat.UPIB.web.dto.klinika.KlinikaDTO;
+import com.projekat.UPIB.web.dto.klinika.KlinikaFrontDto;
 
 import java.io.Serializable;
 
@@ -11,14 +11,14 @@ public class LekarDTO implements Serializable{
     private String prezimeKorisnika;
     private String emailKorisnika;
     private String lozinkaKorisnika;
-    private KlinikaDTO klinika;
+    private KlinikaFrontDto klinika;
     
 	public LekarDTO() {
 		super();
 	}
 
 	public LekarDTO(long idKorisnika, String imeKorisnika, String prezimeKorisnika, String emailKorisnika,
-			String lozinkaKorisnika, KlinikaDTO klinika) {
+			String lozinkaKorisnika, KlinikaFrontDto klinika) {
 		super();
 		this.idKorisnika = idKorisnika;
 		this.imeKorisnika = imeKorisnika;
@@ -69,11 +69,11 @@ public class LekarDTO implements Serializable{
 		this.lozinkaKorisnika = lozinkaKorisnika;
 	}
 
-	public KlinikaDTO getKlinika() {
+	public KlinikaFrontDto getKlinika() {
 		return klinika;
 	}
 
-	public void setKlinika(KlinikaDTO klinika) {
+	public void setKlinika(KlinikaFrontDto klinika) {
 		this.klinika = klinika;
 	}
     
