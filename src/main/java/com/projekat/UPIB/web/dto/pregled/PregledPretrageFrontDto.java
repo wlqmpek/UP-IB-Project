@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class PregledPretrageFrontDto {
     private Long idPregleda;
     private double cenaPregleda;
+    private int popust;
     private LocalDateTime pocetakTermina;
     private LocalDateTime krajTermina;
 }

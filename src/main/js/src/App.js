@@ -17,6 +17,7 @@ import UpdateClinicComponent from './components/klinika/Update';
 import ViewClinicComponent from './components/klinika/ViewClinic';
 import ViewPreglediPacijenta from "./components/klinika/pregledi/ViewPreglediPacijenta";
 import HeaderComponent from './components/Header';
+import ViewTerminiKlinike from "./components/termin/ViewTerminiKlinike";
 import FrontPage from './components/FrontPage'
 import FrontPageLekar from "./pages/lekar/FrontPageLekar";
 import FooterComponent from './components/Footer';
@@ -46,6 +47,8 @@ import EditMedicinkaSestra from "./components/medicinskaSestra/EditMedicinkaSest
 import AddMedicinskaSestra from "./components/medicinskaSestra/AddMedicinskaSestra";
 import AfterAcceptRegistration from "./components/pacijent/AfterAcceptRegistration";
 import EmailLogin from './pages/EmailLogin';
+import ViewAllClinics from "./components/klinika/ViewAllClinics";
+import ViewPotvrdaTermina from "./components/termin/ViewPotvrdaTermina";
 import ViewSlobodniLekari from "./components/pacijent/ViewSlobodniLekari";
 import PrivateRoute from './components/PrivateRoute';
 import Page403 from './components/Page-403';
@@ -109,6 +112,9 @@ function App() {
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/zakazivanje-pregleda/:id" component={ViewZakazivanjePregleda} />
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/pretraga-klinika" component={PretragaKlinika} />}/>
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/prikaz-lekara" component={ViewSlobodniLekari} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/lista-klinika" component={ViewAllClinics} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/prikaz-termina-klinike" component={ViewTerminiKlinike} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/potvrda-termina/idKorisnika/:idKorisnika/idTermina/:idTermina" component={ViewPotvrdaTermina} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/pacijenti/:id" component={IzmenaPacijenta} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR","ROLE_LEKAR"]} path="/pacijenti" component={AllPacijents} />
                   </Switch>

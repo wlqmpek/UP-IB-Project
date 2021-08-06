@@ -52,7 +52,7 @@ const PretragaKlinika = () => {
         setParametriPretrage({...parametriPretrage, [name]: val});
     }
 
-    function prikaziKliniku(podaci) {
+    function prikaziKliniku() {
         history.push(`/prikaz-lekara`);
     }
 

@@ -49,6 +49,10 @@ const HeaderPacijent = () =>{
         history.push(`/pretraga-klinika`);
     }
 
+    const listaKlinika = () => {
+        history.push(`/lista-klinika`);
+    }
+
     return (
         <ul className="nav navbar-nav">
             <li className="nav-item"><Link className="nav-link" to="/">Početna</Link></li>
@@ -56,6 +60,7 @@ const HeaderPacijent = () =>{
             <li className="nav-item"><button style={style} className="nav-link" onClick={zdravstveniKarton}><MDBIcon icon="file-invoice" /> Zdravstveni Karton</button></li>
             <li className="nav-item"><button style={style} className="nav-link" onClick={mojiPregledi}><MDBIcon icon="tasks" /> Moji Pregledi</button></li>
             <li className="nav-item"><button style={style} className="nav-link" onClick={pretragaKlinika}><MDBIcon icon="search" /> Pretraga Klinika</button> </li>
+            <li className="nav-item"><button style={style} className="nav-link" onClick={listaKlinika}><MDBIcon icon="align-justify" /> Lista Klinika</button> </li>
         </ul>
     )
 }

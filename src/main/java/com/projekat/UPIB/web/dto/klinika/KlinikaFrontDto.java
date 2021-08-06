@@ -3,10 +3,15 @@ package com.projekat.UPIB.web.dto.klinika;
 import java.io.Serializable;
 
 import com.projekat.UPIB.models.Klinika;
+import com.projekat.UPIB.services.implementation.OceneKlinikeService;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @ToString
-public class KlinikaFrontDto implements Serializable{
+public class KlinikaFrontDto implements Serializable {
+
+	@Autowired
+	private OceneKlinikeService oceneKlinikeService;
 	
 	private Long idKlinike;
     private String naziv;
@@ -33,6 +38,7 @@ public class KlinikaFrontDto implements Serializable{
 		this.naziv = klinika.getNaziv();
 		this.adresa = klinika.getAdresa();
 		this.opis = klinika.getOpis();
+		this.ocena = oceneKlinikeService.avgOcena(klinika.getIdKlinike());
 	}
 
 	public Long getIdKlinike() {

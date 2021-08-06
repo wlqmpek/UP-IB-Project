@@ -161,9 +161,6 @@ public class PacijentController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
-
-    
     
 }

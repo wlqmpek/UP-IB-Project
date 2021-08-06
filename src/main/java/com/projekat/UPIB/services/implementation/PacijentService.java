@@ -1,6 +1,7 @@
 package com.projekat.UPIB.services.implementation;
 
 import com.projekat.UPIB.models.Pacijent;
+import com.projekat.UPIB.models.Pregled;
 import com.projekat.UPIB.repositories.PacijentRepozitorijum;
 import com.projekat.UPIB.services.IPacijentService;
 import org.hibernate.Criteria;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;

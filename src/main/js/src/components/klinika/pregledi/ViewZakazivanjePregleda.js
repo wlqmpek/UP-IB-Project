@@ -78,7 +78,13 @@ const ViewZakazivanjePregleda = () => {
         }
     }
 
-
+    async function posaljiZahtevNaMejl() {
+        try {
+            const response = await PreglediService.posaljiMejl(AuthenticationService.getId(), pregled.idPregleda);
+        } catch (e) {
+            console.log(`Error: ${e}`, e);
+        }
+    }
 
     return(
         <>
@@ -178,7 +184,7 @@ const ViewZakazivanjePregleda = () => {
                                 <Col>
                                     <Button
                                         className="btn btn-green"
-                                        onClick={() => {console.log(pacijent)}}
+                                        onClick={() => {posaljiZahtevNaMejl()}}
                                         style={{margin: '2px'}}
                                     >
                                         Potvrdi

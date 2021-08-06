@@ -4,6 +4,7 @@ export const ParametriPretrageService = {
 }
 
 function setParametri(parametri) {
+    console.log(parametri);
     localStorage.setItem("parametri", JSON.stringify(parametri));
 }
 

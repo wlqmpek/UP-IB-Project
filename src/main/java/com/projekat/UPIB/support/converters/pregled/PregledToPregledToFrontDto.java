@@ -22,7 +22,9 @@ public class PregledToPregledToFrontDto implements Converter<Pregled, PregledFro
         pregledFrontendDTO.setKrajTermina(pregled.getKrajTermima());
         pregledFrontendDTO.setCena(pregled.getCena());
         pregledFrontendDTO.setPopust(pregled.getPopust());
-        pregledFrontendDTO.setIdZdravstvenogKartona(pregled.getZdravstveniKarton().getIdZdravstvenogKartona());
+        if(pregled.getZdravstveniKarton() != null) {
+            pregledFrontendDTO.setIdZdravstvenogKartona(pregled.getZdravstveniKarton().getIdZdravstvenogKartona());
+        }
         pregledFrontendDTO.setIdKlinike(pregled.getKlinika().getIdKlinike());
         return pregledFrontendDTO;
     }

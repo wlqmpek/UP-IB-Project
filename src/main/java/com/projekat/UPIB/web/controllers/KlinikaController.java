@@ -1,5 +1,6 @@
 package com.projekat.UPIB.web.controllers;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -57,7 +58,7 @@ public class KlinikaController {
         List<KlinikaFrontDto> klinikeFrontendDTO = new ArrayList<KlinikaFrontDto>();
         
         for (Klinika klinika : klinike) {
-        	KlinikaFrontDto klinikaFrontendDTO = new KlinikaFrontDto(klinika);
+        	KlinikaFrontDto klinikaFrontendDTO = klinikaToKlinikaFrontDto.convert(klinika);
         	klinikeFrontendDTO.add(klinikaFrontendDTO);
         }
         
@@ -72,7 +73,7 @@ public class KlinikaController {
         if(klinika == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        KlinikaFrontDto klinikaFrontendDTO = new KlinikaFrontDto(klinika);
+        KlinikaFrontDto klinikaFrontendDTO = klinikaToKlinikaFrontDto.convert(klinika);
 
         return new ResponseEntity<KlinikaFrontDto>(klinikaFrontendDTO, HttpStatus.OK);
     }
@@ -195,15 +196,5 @@ public class KlinikaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('PACIJENT')")
-    @PostMapping(consumes = "application/json", value = "/pretraga")
-    public ResponseEntity<Set<KlinikaFrontDto>> pretraziKlinike(@Valid @RequestBody ParametriPretrageKlinikaDto parametriPretrageKlinikaDto) {
-        System.out.println("Hello " + parametriPretrageKlinikaDto);
-	    Set<Klinika> klinike = klinikaService.pretragaKlinika(parametriPretrageKlinikaDto);
-	    Set<KlinikaFrontDto> klinikaFrontDtos = new HashSet<>();
-	    for(Klinika klinika:klinike)
-	        klinikaFrontDtos.add(klinikaToKlinikaFrontDto.convert(klinika));
-        System.out.println("Result " +klinikaFrontDtos);
-	    return new ResponseEntity<>(klinikaFrontDtos, HttpStatus.OK);
-    }
+
 }

@@ -14,6 +14,7 @@ public class PregledToPregledPretrageFrontConverter implements Converter<Pregled
         pregledPretrage.setCenaPregleda(pregled.getCena());
         pregledPretrage.setPocetakTermina(pregled.getPocetakTermina());
         pregledPretrage.setKrajTermina(pregled.getKrajTermima());
+        pregledPretrage.setPopust(pregled.getPopust());
         return pregledPretrage;
     }
 }

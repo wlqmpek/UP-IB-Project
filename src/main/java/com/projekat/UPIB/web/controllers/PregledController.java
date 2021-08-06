@@ -3,6 +3,7 @@ package com.projekat.UPIB.web.controllers;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import com.projekat.UPIB.models.Administrator;
 import com.projekat.UPIB.models.Lekar;
@@ -10,8 +11,7 @@ import com.projekat.UPIB.models.MedicinskaSestra;
 import com.projekat.UPIB.services.*;
 import com.projekat.UPIB.services.implementation.PacijentService;
 import com.projekat.UPIB.support.converters.pregled.PregledToPregledToFrontDto;
-import com.projekat.UPIB.web.dto.pregled.PregledKreiranjeAdminDTO;
-import com.projekat.UPIB.web.dto.pregled.PregledKreiranjeLekarDTO;
+import com.projekat.UPIB.web.dto.pregled.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projekat.UPIB.web.dto.pregled.PregledBackendDTO;
-import com.projekat.UPIB.web.dto.pregled.PregledFrontendDTO;
 import com.projekat.UPIB.models.Pregled;
 
 
@@ -63,7 +61,7 @@ public class PregledController {
 	@Autowired
     private PregledToPregledToFrontDto pregledToPregledToFrontDto;
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR', 'MEDICINSKA_SESTRA')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR', 'MEDICINSKA_SESTRA', 'PACIJENT')")
     @GetMapping
     public ResponseEntity<List<PregledFrontendDTO>> findAll(){
 
@@ -120,7 +118,6 @@ public class PregledController {
         pregled.setKrajTermima(pregledBackendDTO.getKrajTermina());
         pregled.setPopust(pregledBackendDTO.getPopust());
         pregled.setZdravstveniKarton(zdravstveniKartonService.findOne(pregledBackendDTO.getIdZdravstvenogKartona()));
-    	
     	
     	pregledService.save(pregled);
         return new ResponseEntity<>(pregled, HttpStatus.CREATED);
@@ -232,5 +229,39 @@ public class PregledController {
 
         pregledService.save(pregled);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping(value = "/pretraga")
+    public ResponseEntity<List<PregledFrontendDTO>> pretraga(ParametriPretragePregledaDto parametriPretragePregleda) {
+        System.out.println("Parametri pretrage pregleda " +parametriPretragePregleda);
+        List<Pregled> pregledi = pregledService.
+                findPregledsByPocetakTerminaIsOrPocetakTerminaIsAfterAndKlinikaIdKlinike(
+                    parametriPretragePregleda.getIdKlinike(),
+                    parametriPretragePregleda.getOdDatuma());
+        List<PregledFrontendDTO> preglediFront = new ArrayList<>();
+        for(Pregled pregled:pregledi) {
+            //Filtriramo tako da vratimo samo slobodne preglede.
+            if(pregled.getZdravstveniKarton() == null) {
+                preglediFront.add(pregledToPregledToFrontDto.convert(pregled));
+            }
+        }
+        return new ResponseEntity<>(preglediFront, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @PostMapping(value = "/zakazivanje")
+    public ResponseEntity<Void> zakazivanjeTermina(@RequestBody ZakazivanjePregledaFromFrontDto zakazivanjePregledaFromFrontDto) {
+	    pregledService.zakaziPregled(zakazivanjePregledaFromFrontDto.getIdKorisnika(), zakazivanjePregledaFromFrontDto.getIdPregleda());
+	    return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @PostMapping(value = "/potvrda-termina")
+    public ResponseEntity<PregledFrontendDTO> potvrdaTermina(@RequestBody ZakazivanjePregledaFromFrontDto zakazivanjePregledaFromFrontDto) {
+        System.out.println("Potvrda termina " + zakazivanjePregledaFromFrontDto);
+	    Pregled pregled = pregledService.potvrdiPregled(zakazivanjePregledaFromFrontDto.getIdKorisnika(), zakazivanjePregledaFromFrontDto.getIdPregleda());
+	    PregledFrontendDTO pregledFrontendDTO = pregledToPregledToFrontDto.convert(pregled);
+	    return new ResponseEntity<>(pregledFrontendDTO, HttpStatus.OK);
     }
 }

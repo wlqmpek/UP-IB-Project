@@ -9,7 +9,10 @@ export const PreglediService = {
     deletePregled,
     createPregledLekar,
     createPregledCAdministrator,
-    getPreglediForKlinika
+    getPreglediForKlinika,
+    pretragaPregleda,
+    posaljiMejl,
+    potvrdaTermina
 }
 
 async function getPregledi() {
@@ -47,6 +50,20 @@ async function createPregledCAdministrator(pregled) {
 
 async function getPreglediForKlinika(){
     return await AxiosClient.get("Pregledi/klinika")
+}
+
+async function pretragaPregleda(parametri) {
+    return await AxiosClient.get(`Pregledi/pretraga?idKlinike=${parametri.idKlinike}&odDatuma=${parametri.odDatuma}`)
+}
+
+async function posaljiMejl(idKorisnika, idPregleda) {
+    const parametri = {idKorisnika:idKorisnika, idPregleda:idPregleda};
+    return await AxiosClient.post(`Pregledi/zakazivanje`, parametri);
+}
+
+async function potvrdaTermina(idKorisnika, idPregleda) {
+    const parametri = {idKorisnika:idKorisnika, idPregleda:idPregleda};
+    return await AxiosClient.post(`Pregledi/potvrda-termina`, parametri);
 }
 
 export default PreglediService;
