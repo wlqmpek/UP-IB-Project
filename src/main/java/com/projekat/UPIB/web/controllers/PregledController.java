@@ -96,7 +96,7 @@ public class PregledController {
 	    List<Pregled> sviPregledi = pregledService.findAll();
 	    List<PregledFrontendDTO> pregledi = new ArrayList<>();
 	    for(Pregled pregled:sviPregledi) {
-	        if(pregled.getZdravstveniKarton().getPacijent().getIdKorisnika().equals(pacijentService.findPacijentByEmailKorisnika(p.getName()))) {
+	        if(pregled.getZdravstveniKarton() != null && pregled.getZdravstveniKarton().getPacijent().getIdKorisnika().equals(pacijentService.findPacijentByEmailKorisnika(p.getName()))) {
 	            pregledi.add(pregledToPregledToFrontDto.convert(pregled));
             }
         }

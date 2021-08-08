@@ -36,7 +36,15 @@ const ViewPotvrdaTermina = () => {
         <>
             <h1 className="text-center" style={{marginTop: 30}}>Potvrda Termina</h1>
             {uspeh &&
-            <h1 className="text-center">{"Vas termin datuma " + new Date(termin.pocetakTermina).toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}) + " u " + new Date(termin.pocetakTermina).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',  hour12: false })  + " je uspesno zakazan!"} </h1>
+            <h1 className="text-center">{"Vas termin datuma " + new Date(termin.pocetakTermina).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }) + " u " + new Date(termin.pocetakTermina).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }) + " je uspesno zakazan!"} </h1>
             }
             {!uspeh &&
             <h1>{"Greska!"} </h1>

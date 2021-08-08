@@ -196,5 +196,40 @@ public class KlinikaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping(value = "/pretraga")
+    public ResponseEntity<Set<KlinikaFrontDto>> pretraga(ParametriPretrageKlinikaDto parametriPretrageKlinikaDto) {
+        System.out.println("Parametri pretrage klinika " + parametriPretrageKlinikaDto);
+        Set<Klinika> klinike = klinikaService.pretragaKlinika(parametriPretrageKlinikaDto);
+        Set<KlinikaFrontDto> klinikaFrontDtos = new HashSet<>();
+        for(Klinika klinika:klinike) {
+            klinikaFrontDtos.add(klinikaToKlinikaFrontDto.convert(klinika));
+        }
+
+	    return new ResponseEntity<>(klinikaFrontDtos, HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

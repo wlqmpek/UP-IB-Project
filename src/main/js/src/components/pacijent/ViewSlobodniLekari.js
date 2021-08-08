@@ -52,7 +52,7 @@ const ViewSlobodniLekari = () => {
 
     return(
         <>
-            <h1 className="text-center">Odabir Termina</h1>
+            <h1 className="text-center" style={{marginTop: 50, marginBottom: 50}}>Odabir Termina</h1>
             <Table striped bordered hover style={{marginTop: 50, marginBottom: 50,  textAlign: "center"}}>
                 <thead className="thead-dark">
                     <tr>

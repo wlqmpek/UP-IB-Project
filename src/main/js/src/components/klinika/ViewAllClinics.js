@@ -3,6 +3,7 @@ import { useHistory, useParams } from "react-router";
 import { Col, Container, Row, Modal, Button, Form, Table } from "react-bootstrap";
 import { ClinicsService } from "../../services/ClinicsService";
 import { ParametriPretrageService } from "../../services/ParametriPretrageService";
+import useSortableData from "../SortTable";
 
 const ViewAllClinics = () => {
 
@@ -12,7 +13,25 @@ const ViewAllClinics = () => {
         pribaviSveKlinike();
     }, []);
 
+    const styleButton = {
+        border: "0",
+        backgroundColor: "#343a40",
+        borderRadius: "none",
+        fontFamily: "inherit",
+        fontSize: "inherit",
+        color: "white"
+    }
+
     const history = useHistory();
+
+    const {items, requestSort, sortConfig} = useSortableData(klinike)
+
+    const getClassNameFor = (name) => {
+        if(!sortConfig){
+            return;
+        }
+        return sortConfig.key === name ? sortConfig.direction : undefined
+    }
 
     async function pribaviSveKlinike() {
         try {
@@ -33,25 +52,50 @@ const ViewAllClinics = () => {
     return(
         <>
             <h1 className="text-center">Prikaz Svih Klinika</h1>
-            <Table striped bordered hover style={{marginTop: 50, marginBottom: 50}}>
+            <Table striped bordered hover style={{marginTop: 50, marginBottom: 50, textAlign: "center"}}>
                 <thead className="thead-dark">
                 <tr>
-                    <th>Naziv</th>
-                    <th>Adresa</th>
+                    <th>
+                        <button
+                            type="button"
+                            style={styleButton}
+                            onClick={() => requestSort("naziv")}
+                            className={getClassNameFor("naziv")}
+                        >
+                            Naziv
+                        </button>
+                    </th>
+                    <th>
+                        <button
+                            type="button"
+                            style={styleButton}
+                            onClick={() => requestSort("adresa")}
+                            className={getClassNameFor("adresa")}
+                        >
+                            Adresa Klinike
+                        </button>
+                    </th>
                     <th>Opis</th>
-                    <th>Ocena</th>
+                    <th><button
+                        type="button"
+                        style={styleButton}
+                        onClick={() => requestSort("ocena")}
+                        className={getClassNameFor("ocena")}
+                    >
+                        Ocena
+                    </button></th>
                     <th>Pregledi</th>
                 </tr>
                 </thead>
                 <tbody>
-                {klinike.map((klinika) => {
+                {items.map((klinika, index) => {
                     return (
                         <tr key={klinika.idKlinike}>
-                            <td>{klinika.naziv}</td>
-                            <td>{klinika.adresa}</td>
-                            <td>{klinika.opis}</td>
-                            <td>{klinika.ocena}</td>
-                            <td>
+                            <td style={{verticalAlign: "middle"}}>{klinika.naziv}</td>
+                            <td style={{verticalAlign: "middle"}}>{klinika.adresa}</td>
+                            <td style={{verticalAlign: "middle"}}>{klinika.opis}</td>
+                            <td style={{verticalAlign: "middle"}}>{klinika.ocena}</td>
+                            <td style={{verticalAlign: "middle"}}   >
                                 <Button
                                     className="btn btn-danger"
                                     block

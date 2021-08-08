@@ -28,9 +28,8 @@ const PretragaKlinika = () => {
 
     async function pretrazi() {
         try {
-            console.log(parametriPretrage);
-            // console.log(new Date('2012-03-21'));
-            const response = await ClinicsService.pretraziKlinike(parametriPretrage);
+            const parametri = {...parametriPretrage, datum: parametriPretrage.datum.toISOString().split('T')[0]};
+            const response = await ClinicsService.pretragaKlinika(parametri);
             // console.log(response.data);
             setKlinike(response.data);
         } catch (error) {

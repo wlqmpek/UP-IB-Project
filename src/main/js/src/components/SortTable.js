@@ -1,6 +1,5 @@
 import {useMemo, useState} from "react";
 
-
 const useSortableData = (items, config = null) => {
     const [sortConfig, setSortConfig] = useState(config)
 
