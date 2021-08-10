@@ -264,4 +264,16 @@ public class PregledController {
 	    PregledFrontendDTO pregledFrontendDTO = pregledToPregledToFrontDto.convert(pregled);
 	    return new ResponseEntity<>(pregledFrontendDTO, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping(value = "/klinika/{id}")
+    public ResponseEntity<List<PregledFrontendDTO>> terminiKlinike(@PathVariable(name = "id") Long id) {
+	    List<Pregled> preglediKlinike = pregledService.findAllByKlinika(id);
+	    List<PregledFrontendDTO> pregledFrontendDTOS = new ArrayList<>();
+	    for(Pregled pregled:preglediKlinike) {
+            pregledFrontendDTOS.add(pregledToPregledToFrontDto.convert(pregled));
+        }
+
+	    return new ResponseEntity<>(pregledFrontendDTOS, HttpStatus.OK);
+    }
 }

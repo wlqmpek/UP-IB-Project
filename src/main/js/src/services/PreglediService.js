@@ -10,6 +10,7 @@ export const PreglediService = {
     createPregledLekar,
     createPregledCAdministrator,
     getPreglediForKlinika,
+    getPreglediKlinike,
     pretragaPregleda,
     posaljiMejl,
     potvrdaTermina
@@ -50,6 +51,10 @@ async function createPregledCAdministrator(pregled) {
 
 async function getPreglediForKlinika(){
     return await AxiosClient.get("Pregledi/klinika")
+}
+
+async function getPreglediKlinike(id) {
+    return await AxiosClient.get(`Pregledi/klinika/${id}`)
 }
 
 async function pretragaPregleda(parametri) {

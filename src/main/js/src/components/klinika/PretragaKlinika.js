@@ -3,11 +3,12 @@ import { useHistory, useParams } from "react-router";
 import { Col, Container, Row, Modal, Button, Form, Table } from "react-bootstrap";
 import { AuthenticationService } from "../../services/AuthenticationService";
 import { ClinicsService } from "../../services/ClinicsService";
+import { PreglediService } from "../../services/PreglediService";
 import DatePicker from "react-datepicker";
 import {ParametriPretrageService} from "../../services/ParametriPretrageService";
 // import { useParametriPretrage } from "../context/ParametriPretrageContext";
 
-
+//DA OVDE JE PRIMER FECOVANJA VISE PUTA.
 const PretragaKlinika = () => {
 
     const[parametriPretrage, setParametriPretrage] = useState({
@@ -18,10 +19,25 @@ const PretragaKlinika = () => {
 
     const [klinike, setKlinike] = useState([]);
 
+    const [pregledi, setPregledi] = useState([]);
+
     useEffect(() => {
         pretrazi();
         ParametriPretrageService.setParametri(parametriPretrage);
     }, [parametriPretrage]);
+
+    //Pitaj za pomoc. -WLQ
+    //Inace primer zvanja asjdnsanjdsnjas dsaijdsajidj - WLQ
+    useEffect(async () => {
+        let noviPregledi = [];
+        await Promise.all(klinike.map(async (klinika) => {
+            pribaviPregledeKlinika(klinika.idKlinike).then((podaci) => {
+                noviPregledi = noviPregledi.concat(podaci);
+                console.log(noviPregledi)
+                setPregledi(noviPregledi);
+            })
+        }));
+    }, [klinike]);
 
 
     const history = useHistory();
@@ -32,6 +48,15 @@ const PretragaKlinika = () => {
             const response = await ClinicsService.pretragaKlinika(parametri);
             // console.log(response.data);
             setKlinike(response.data);
+        } catch (error) {
+            console.error(`Greska: ${error}`);
+        }
+    }
+
+    async function pribaviPregledeKlinika(id) {
+        try {
+            const response = await PreglediService.getPreglediKlinike(id);
+            return response.data;
         } catch (error) {
             console.error(`Greska: ${error}`);
         }
@@ -54,6 +79,28 @@ const PretragaKlinika = () => {
     function prikaziKliniku() {
         history.push(`/prikaz-lekara`);
     }
+
+    function nadjiNajnizuCenuPregledaZaKliniku(idKlinike) {
+        var ocena = 0;
+        var preglediKlinike = pregledi.filter(pregled => pregled.idKlinike == idKlinike);
+        preglediKlinike.sort(compare);
+        if(typeof preglediKlinike[0] !== "undefined") {
+            ocena = preglediKlinike[0].cena;
+        }
+        return ocena;
+    }
+
+    function compare( a, b ) {
+        if ( a.cena < b.cena ){
+            return -1;
+        }
+        if ( a.cena > b.cena ){
+            return 1;
+        }
+        return 0;
+    }
+
+
 
     return (
         <>
@@ -106,7 +153,7 @@ const PretragaKlinika = () => {
                     <th>Naziv</th>
                     <th>Ocena</th>
                     <th>Adresa</th>
-                    <th>Pregledi</th>
+                    <th>Cena Pregleda</th>
                     <th>Prikazi Lekare</th>
                 </tr>
                 </thead>
@@ -119,14 +166,7 @@ const PretragaKlinika = () => {
                             <td>{klinika.ocena}</td>
 
                             <td>
-                                <Button
-                                    className="btn btn-danger"
-                                    block
-                                    onClick={() => {}}
-                                    // onClick={() => props.deleteArticle(article.articleId)}
-                                >
-                                    Delete Article
-                                </Button>
+                                {nadjiNajnizuCenuPregledaZaKliniku(klinika.idKlinike)}
                             </td>
                             <td>
                                 <Button
@@ -143,6 +183,14 @@ const PretragaKlinika = () => {
                 })}
                 </tbody>
             </Table>
+            <Button
+                className="btn btn-danger"
+                block
+                // onClick={() => {console.log(nadjiNajnizuCenuPregledaZaKliniku(klinike[0].idKlinike))}}
+                // onClick={() => props.deleteArticle(article.articleId)}
+            >
+                Prikazi Lekare/Termine
+            </Button>
         </>
     );
 }
