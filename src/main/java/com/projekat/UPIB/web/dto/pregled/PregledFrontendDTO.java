@@ -7,7 +7,9 @@ import java.util.HashSet;
 
 import com.projekat.UPIB.models.Pregled;
 import com.projekat.UPIB.models.Recept;
+import lombok.ToString;
 
+@ToString
 public class PregledFrontendDTO implements Serializable{
 
 	private Long idPregleda;

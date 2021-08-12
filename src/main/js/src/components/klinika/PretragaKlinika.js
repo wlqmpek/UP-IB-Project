@@ -39,6 +39,14 @@ const PretragaKlinika = () => {
         }));
     }, [klinike]);
 
+    async function pribaviPregledeKlinika(id) {
+        try {
+            const response = await PreglediService.getPreglediKlinike(id);
+            return response.data;
+        } catch (error) {
+            console.error(`Greska: ${error}`);
+        }
+    }
 
     const history = useHistory();
 
@@ -53,14 +61,7 @@ const PretragaKlinika = () => {
         }
     }
 
-    async function pribaviPregledeKlinika(id) {
-        try {
-            const response = await PreglediService.getPreglediKlinike(id);
-            return response.data;
-        } catch (error) {
-            console.error(`Greska: ${error}`);
-        }
-    }
+
 
     function formatDate(selectedDate) {
         return new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * -60000);
@@ -183,14 +184,6 @@ const PretragaKlinika = () => {
                 })}
                 </tbody>
             </Table>
-            <Button
-                className="btn btn-danger"
-                block
-                // onClick={() => {console.log(nadjiNajnizuCenuPregledaZaKliniku(klinike[0].idKlinike))}}
-                // onClick={() => props.deleteArticle(article.articleId)}
-            >
-                Prikazi Lekare/Termine
-            </Button>
         </>
     );
 }

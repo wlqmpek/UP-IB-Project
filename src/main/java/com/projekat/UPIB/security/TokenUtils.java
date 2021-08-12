@@ -31,7 +31,7 @@ public class TokenUtils {
 
     // Period vazenja
     //Promenio zbog principala
-    @Value("6000000")
+    @Value("6000")
     private Long jwtExpirationMs;
 
     // Naziv headera kroz koji ce se prosledjivati JWT u komunikaciji server-klijent
@@ -43,8 +43,6 @@ public class TokenUtils {
     // Algoritam za potpisivanje JWT
     private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
-
-    //TODO: Dodati role.
     public String generateJwtToken(Authentication authentication) {
         Korisnik userPrincipal = (Korisnik) authentication.getPrincipal();
         return Jwts.builder()

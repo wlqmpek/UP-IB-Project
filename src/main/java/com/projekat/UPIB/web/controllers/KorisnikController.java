@@ -204,9 +204,9 @@ public class KorisnikController {
     }
 
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshtoken(@RequestBody TokenRefreshRequest request) {
+        System.out.println("Jel ovo prolazi");
         String requestRefreshToken = request.getRefreshToken();
         // Ovde ce puci ako je refresh token istekao.
         return refreshTokenService.findByToken(requestRefreshToken)
@@ -214,6 +214,8 @@ public class KorisnikController {
                 .map(RefreshToken::getKorisnik)
                 .map(korisnik -> {
                     String token = tokenUtils.generateJwtToken(requestRefreshToken);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(korisnik.getEmailKorisnika(), null, korisnik.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                     return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,

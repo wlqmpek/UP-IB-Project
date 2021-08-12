@@ -24,9 +24,9 @@ const ZdravstveniKartonView = () => {
     return(
         <>
             <Form>
-                <h1 className="text-center">Zdravstveni Karton</h1>
+                <h1 className="text-center" style={{marginTop: 25}}>Zdravstveni Karton</h1>
 
-                <FormGroup as={Row} className="justify-content-md-center">
+                <FormGroup as={Row}  style={{marginTop: 25}} className="justify-content-md-center">
                     <FormLabel className="border-top border-bottom border-left border-dark" column xs={2}>Visina</FormLabel>
                     <Col xs={6}>
                         <FormControl className="text-center border-bottom border-right border-dark"  plaintext readOnly defaultValue={zdravstveniKarton.visina} />
@@ -50,7 +50,7 @@ const ZdravstveniKartonView = () => {
                         <FormControl className="text-center border-bottom border-right border-dark" plaintext readOnly defaultValue={zdravstveniKarton.dioptrija} />
                     </Col>
                 </FormGroup>
-                <FormGroup as={Row} className="justify-content-md-center">
+                <FormGroup as={Row}  className="justify-content-md-center">
                     <FormLabel className="border-top border-bottom border-left border-dark" column xs={2}>Alergije</FormLabel>
                     <Col xs={6}>
                         <FormControl className="text-center border-bottom border-right border-dark" plaintext readOnly as={"textarea"} value={zdravstveniKarton.alergije}></FormControl>

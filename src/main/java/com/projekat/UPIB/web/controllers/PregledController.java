@@ -96,10 +96,11 @@ public class PregledController {
 	    List<Pregled> sviPregledi = pregledService.findAll();
 	    List<PregledFrontendDTO> pregledi = new ArrayList<>();
 	    for(Pregled pregled:sviPregledi) {
-	        if(pregled.getZdravstveniKarton() != null && pregled.getZdravstveniKarton().getPacijent().getIdKorisnika().equals(pacijentService.findPacijentByEmailKorisnika(p.getName()))) {
+	        if(pregled.getZdravstveniKarton() != null && pregled.getZdravstveniKarton().getPacijent().getIdKorisnika().equals(pacijentService.findPacijentByEmailKorisnika(p.getName()).getIdKorisnika())) {
 	            pregledi.add(pregledToPregledToFrontDto.convert(pregled));
             }
         }
+        System.out.println("Nadjeni pregledi " + pregledi);
 	    return new ResponseEntity<>(pregledi, HttpStatus.OK);
     }
 
