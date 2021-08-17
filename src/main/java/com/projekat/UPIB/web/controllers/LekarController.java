@@ -258,7 +258,8 @@ public class LekarController {
     @PreAuthorize("hasRole('PACIJENT')")
     @PostMapping("/termin")
     public ResponseEntity<Set<LekarSaPregledimaFrontDto>> getLekariUTerminu(@RequestBody LekarTerminDto termin) {
-        Set<LekarSaPregledimaFrontDto> lekari = lekarService.pretragaLekaraPoSlobodnomTerminu(termin.getTermin());
+        System.out.println("Lekar i termin " + termin);
+        Set<LekarSaPregledimaFrontDto> lekari = lekarService.pretragaLekaraPoKliniciISlobodnomTerminu(termin.getIdKlinike(), termin.getTermin());
         return new ResponseEntity<>(lekari, HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.projekat.UPIB.services.implementation;
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.models.Pregled;
 import com.projekat.UPIB.repositories.PacijentRepozitorijum;
+import com.projekat.UPIB.security.EnkripcijaDekripcijaUtils;
 import com.projekat.UPIB.services.IPacijentService;
 import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class PacijentService implements IPacijentService {
 
     @Autowired
     private PacijentRepozitorijum pacijentRepozitorijum;
+
+    @Autowired
+    private EnkripcijaDekripcijaUtils enkripcijaDekripcijaUtils;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -47,7 +51,12 @@ public class PacijentService implements IPacijentService {
 
     @Override
     public Pacijent save(Pacijent pacijent) {
-        System.out.println("Pokusavamo da sacuvamo " +pacijent.getImeKorisnika());
+        pacijent.setJBZO(enkripcijaDekripcijaUtils.enkriptujJBZO(pacijent.getJBZO(), pacijent.getEmailKorisnika()));
+        return pacijentRepozitorijum.save(pacijent);
+    }
+
+    @Override
+    public Pacijent update(Pacijent pacijent) {
         return pacijentRepozitorijum.save(pacijent);
     }
 

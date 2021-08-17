@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LekarTerminDto {
+    private Long idKlinike;
     private LocalDate termin;
-
-
 }

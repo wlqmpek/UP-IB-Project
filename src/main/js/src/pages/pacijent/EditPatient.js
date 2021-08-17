@@ -44,7 +44,7 @@ const  EditPatient = () => {
 
     async function editPatient() {
         try {
-            await PacijentService.editPatientDetails(patientDetails);
+            await PacijentService.editPacijentDetails(patientDetails);
         } catch (error) {
             console.error(`Greška prilikom аžuriranja stanja korisnika: ${error}`);
         }
@@ -88,6 +88,26 @@ const  EditPatient = () => {
                                 name="prezime"
                                 value={patientDetails.prezime || ""}
                                 onChange={handleFormInputChange("prezime")}>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="prezime"
+                                value={patientDetails.email || ""}
+                                disabled={true}
+                                >
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>JBZO</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="prezime"
+                                value={patientDetails.jbzo || ""}
+                                disabled={true}
+                            >
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>

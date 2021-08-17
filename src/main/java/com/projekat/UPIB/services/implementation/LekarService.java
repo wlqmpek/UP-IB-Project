@@ -66,11 +66,11 @@ public class LekarService implements ILekarService {
     }
 
     @Override
-    public Set<LekarSaPregledimaFrontDto> pretragaLekaraPoSlobodnomTerminu(LocalDate date) {
+    public Set<LekarSaPregledimaFrontDto> pretragaLekaraPoKliniciISlobodnomTerminu(Long idKlinike, LocalDate date) {
 
         Set<LekarSaPregledimaFrontDto> rezultat = new HashSet<>();
 
-        List<Lekar> sviLekari = findAll();
+        List<Lekar> sviLekari = findLekarByKlinika(idKlinike);
         //Definisemo vremenski opseg od unetog datuma.
         LocalDateTime pocetakDana = date.atStartOfDay();
         LocalDateTime krajDana = date.atStartOfDay().plusHours(24);

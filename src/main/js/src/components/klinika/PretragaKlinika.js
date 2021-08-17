@@ -12,6 +12,7 @@ import {ParametriPretrageService} from "../../services/ParametriPretrageService"
 const PretragaKlinika = () => {
 
     const[parametriPretrage, setParametriPretrage] = useState({
+        klinika: null,
         datum: new Date(),
         adresa: "",
         ocena: 0
@@ -26,6 +27,11 @@ const PretragaKlinika = () => {
         ParametriPretrageService.setParametri(parametriPretrage);
     }, [parametriPretrage]);
 
+    useEffect(() => {
+        if(parametriPretrage.klinika !== null) {
+            history.push(`/prikaz-lekara`);
+        }
+    }, [parametriPretrage])
     //Pitaj za pomoc. -WLQ
     //Inace primer zvanja asjdnsanjdsnjas dsaijdsajidj - WLQ
     useEffect(async () => {
@@ -77,8 +83,8 @@ const PretragaKlinika = () => {
         setParametriPretrage({...parametriPretrage, [name]: val});
     }
 
-    function prikaziKliniku() {
-        history.push(`/prikaz-lekara`);
+    function prikaziKliniku(idKlinike) {
+        setParametriPretrage({...parametriPretrage, klinika: idKlinike})
     }
 
     function nadjiNajnizuCenuPregledaZaKliniku(idKlinike) {
@@ -173,7 +179,7 @@ const PretragaKlinika = () => {
                                 <Button
                                     className="btn btn-danger"
                                     block
-                                    onClick={() => prikaziKliniku()}
+                                    onClick={() => prikaziKliniku(klinika.idKlinike)}
                                     // onClick={() => props.deleteArticle(article.articleId)}
                                 >
                                     Prikazi Lekare/Termine

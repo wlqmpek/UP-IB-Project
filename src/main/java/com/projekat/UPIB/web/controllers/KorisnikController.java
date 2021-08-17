@@ -258,7 +258,7 @@ public class KorisnikController {
         pacijent = pacijentService.findPacijentByEmailKorisnika(username);
         if(pacijent != null){
             pacijent.setLozinkaKorisnika(password);
-            pacijentService.save(pacijent);
+            pacijentService.update(pacijent);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
@@ -342,7 +342,7 @@ public class KorisnikController {
             pacijent.setImeKorisnika(korisnikInfoDTO.getIme());
             pacijent.setPrezimeKorisnika(korisnikInfoDTO.getPrezime());
             pacijent.setEmailKorisnika(korisnikInfoDTO.getEmail());
-            pacijentService.save(pacijent);
+            pacijentService.update(pacijent);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 

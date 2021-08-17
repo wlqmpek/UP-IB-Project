@@ -1,5 +1,6 @@
 package com.projekat.UPIB.web.controllers;
 
+import com.projekat.UPIB.security.EnkripcijaDekripcijaUtils;
 import com.projekat.UPIB.services.IZdravstveniKarton;
 import com.projekat.UPIB.services.implementation.AuthorityService;
 import com.projekat.UPIB.support.converters.pacijent.PacijentEditDtoToPacijent;
@@ -39,6 +40,8 @@ public class PacijentController {
     @Autowired
     private AuthorityService authorityService;
 
+    @Autowired
+    private EnkripcijaDekripcijaUtils enkripcijaDekripcijaUtils;
 
     @Autowired
     private PacijentEditDtoToPacijent pacijentEditDtoToPacijent;
@@ -64,7 +67,7 @@ public class PacijentController {
     public ResponseEntity<PacijentFrontDTO> findOne(@PathVariable(name = "id") Long id){
 
         Pacijent pacijent = pacijentService.findOne(id);
-        PacijentFrontDTO frontDTO = new PacijentFrontDTO(pacijent);
+        PacijentFrontDTO frontDTO = pacijentToPacijentFrontDto.convert(pacijent);
         if(pacijent == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -111,7 +114,7 @@ public class PacijentController {
         pacijentOld.setLozinkaKorisnika(passwordEncoder.encode(pacijent.getLozinka()));
         pacijentOld.setPrezimeKorisnika(pacijent.getPrezime());
 
-        pacijentOld = pacijentService.save(pacijentOld);
+        pacijentOld = pacijentService.update(pacijentOld);
         pacijent = new PacijentAdminEditDTO(pacijentOld);
 
         return new ResponseEntity<>(pacijent, HttpStatus.OK);
@@ -125,7 +128,7 @@ public class PacijentController {
         Pacijent pacijentOld = pacijentService.findPacijentByEmailKorisnika(p.getName());
         Pacijent pacijent = pacijentEditDtoToPacijent.convert(pacijentOld, pacijentNew);
 
-        pacijent = pacijentService.save(pacijentOld);
+        pacijent = pacijentService.update(pacijentOld);
         responseEntity = (pacijent == null) ? new ResponseEntity(pacijent, HttpStatus.NOT_FOUND) : new ResponseEntity(pacijent, HttpStatus.OK);
         return responseEntity;
     }

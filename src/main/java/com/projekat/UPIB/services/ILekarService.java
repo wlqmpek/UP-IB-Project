@@ -22,5 +22,5 @@ public interface ILekarService {
 
     List<Lekar> findLekarByKlinika(Long id);
 
-    Set<LekarSaPregledimaFrontDto> pretragaLekaraPoSlobodnomTerminu(LocalDate date);
+    Set<LekarSaPregledimaFrontDto> pretragaLekaraPoKliniciISlobodnomTerminu(Long idKlinike, LocalDate date);
 }

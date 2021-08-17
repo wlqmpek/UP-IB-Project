@@ -14,5 +14,7 @@ public interface IPacijentService {
 
     Pacijent save(Pacijent pacijent);
 
+    Pacijent update(Pacijent pacijent);
+
     void remove(Long id);
 }

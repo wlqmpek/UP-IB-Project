@@ -10,7 +10,8 @@ const ViewSlobodniLekari = () => {
 
     const [lekari, setLekari] = useState([]);
     const [parametriPretrage, setParametriPretrage] = useState({
-        termin:pribaviDatum()
+        termin:pribaviDatum(),
+        idKlinike:pribaviKliniku()
     });
 
     const history = useHistory();
@@ -22,9 +23,17 @@ const ViewSlobodniLekari = () => {
         if(ParametriPretrageService.getParametri() !== null) {
             datum = ParametriPretrageService.getParametri().datum;
         }
-
         console.log(datum);
         return datum;
+    }
+
+    function pribaviKliniku() {
+        var klinika = 0;
+        if(ParametriPretrageService.getParametri() !== null) {
+            klinika = ParametriPretrageService.getParametri().klinika;
+        }
+
+        return klinika;
     }
 
     useEffect(() => {

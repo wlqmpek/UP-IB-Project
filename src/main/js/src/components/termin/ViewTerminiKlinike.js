@@ -25,6 +25,7 @@ const ViewTerminiKlinike = () => {
 
     async function pribaviTermineKlinike() {
         try {
+            console.log(ParametriPretrageService.getParametri());
             const response = await PreglediService.pretragaPregleda(ParametriPretrageService.getParametri());
             // console.log(response.data);
             setTermini(response.data);
