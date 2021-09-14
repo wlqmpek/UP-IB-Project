@@ -36,9 +36,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.security.Principal;
 import java.time.LocalDateTime;
 
+@PermitAll
 @CrossOrigin(origins = "https://localhost:3000")
 @RestController
 @RequestMapping(value = "/korisnici")
@@ -163,7 +165,7 @@ public class KorisnikController {
     }
     
     
-    @GetMapping(value =  "/emailPrijava/{token}")
+    @GetMapping(value =  "/email-prijava/{token}")
     public ResponseEntity<?> emailPrijava(@PathVariable("token") String token) {
 
     	System.out.println(token);

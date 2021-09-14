@@ -41,7 +41,7 @@ public class KlinikaController {
 	@Autowired
     private IOceneKlinikeService oceneKlinikeService;
 
-	@PreAuthorize("hasRole('ADMINISTRATOR')")
+	@PermitAll
     @GetMapping
     public ResponseEntity<List<KlinikaDTO>> findAll(){
 
@@ -69,7 +69,7 @@ public class KlinikaController {
         return new ResponseEntity<KlinikaDTO>(klinikaFrontendDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PermitAll
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Klinika> saveKlinika(@RequestBody Klinika klinika){
 
@@ -77,7 +77,7 @@ public class KlinikaController {
         return new ResponseEntity<>(klinika, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR, KLINICKI_ADMINISTRATOR')")
+    @PermitAll
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<Klinika> updateKlinika(@PathVariable(name = "id") Long id, @RequestBody Klinika klinika){
 
@@ -116,7 +116,7 @@ public class KlinikaController {
         return new ResponseEntity<Administrator>(admin, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PermitAll
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteKlinika(@PathVariable(name = "id") Long id){
 

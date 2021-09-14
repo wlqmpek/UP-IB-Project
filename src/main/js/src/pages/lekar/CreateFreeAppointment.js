@@ -3,15 +3,18 @@ import DateTimePicker from 'react-datetime-picker'
 import Select from "react-dropdown-select";
 import {MedicinskaSestraService} from "../../services/MedicinskaSestraService";
 import PreglediService from "../../services/PreglediService";
+import {CenovnikService} from "../../services/CenovnikService";
+import {useHistory} from "react-router-dom";
 
 const CreateFreeAppointment = () => {
 
+    const history = useHistory()
     const [pocetak, setPocetak] = useState(new Date())
     const [kraj, setKraj] = useState(new Date())
     const [appointment, setAppointment] = useState({
         pocetakTermina: new Date(),
         krajTermina: new Date(),
-        MSestra: "",
+        medSestraEmail: "",
         cena: 0.0,
     })
     const [selectedMSestra, setSelectedMSestra] = useState(null)
@@ -29,6 +32,15 @@ const CreateFreeAppointment = () => {
         }
     }
 
+    async function fetchCenovnik() {
+        try {
+            const response = await CenovnikService.getPriceListL()
+            setPriceList(response.data)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
     async function createAppointment() {
         try {
             await PreglediService.createPregledLekar(appointment)
@@ -39,27 +51,29 @@ const CreateFreeAppointment = () => {
 
     useEffect(()=>{
         fetchMSestre()
+        fetchCenovnik()
     },[])
 
-    const handleChangeMSestra = selectedOption => {
-        setSelectedMSestra({ selectedOption });
-        setAppointment({...appointment, ["MSestra"]: selectedOption[0].value})
+    const handleChangeMSestra = selectedMSestra => {
+        setSelectedMSestra({ selectedMSestra });
+        setAppointment({...appointment, ["medSestraEmail"]: selectedMSestra[0].value})
     };
 
-    const handleChangeCena = selectedOption => {
-        setSelectedCena({ selectedOption });
-        setAppointment({...appointment, ["cena"]: selectedOption[0].value})
+    const handleChangeCena = selectedCena => {
+        setSelectedCena({ selectedCena });
+        setAppointment({...appointment, ["cena"]: selectedCena[0].value})
     };
 
     const onSubmit = (e) =>{
         e.preventDefault()
 
-        if(!appointment.cena || !appointment.krajTermina || !appointment.pocetakTermina || !appointment.MSestra){
+        if(!appointment.cena || !appointment.krajTermina || !appointment.pocetakTermina || !appointment.medSestraEmail){
             setWarning("Sve mora da bude izabrano")
             return
         }
 
-        //createAppointment()
+        createAppointment()
+        history.push("/")
         console.log("Ovo je pregled: " + appointment)
     }
 

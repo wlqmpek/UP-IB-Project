@@ -36,7 +36,7 @@ const CAHomePage = () => {
     }
 
     const addPregled = () => {
-        history.push("/admini/pregledi/dodaj")
+        history.push("/adminis/pregledi/dodaj")
     }
 
     const changePassword = () => {

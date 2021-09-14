@@ -75,32 +75,32 @@ function App() {
                   </Switch>
 
                   <Switch>
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/dodaj" component={CreateClinicComponent} />
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/pregled/:id" component={ViewClinicComponent} />
+                      <Route exact path="/klinike/dodaj" component={CreateClinicComponent} />
+                      <Route exact path="/klinike/pregled/:id" component={ViewClinicComponent} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR", "ROLE_KLINICKI_ADMINISTRATOR"]} path="/klinike/izmeni/:id" component={UpdateClinicComponent} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/:id/dodajAdmina" component={AddAdminToClinicComponent} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/:idKlinike/izmeniAdmina/:idAdmina" component={UpdateAdminComponent} />
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike" component={ListClinicsComponent} />
+                      <Route exact path="/klinike" component={ListClinicsComponent} />
                   </Switch>
 
                   <Switch>
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini" component={ListAdminsComponent} />
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini/dodaj" component={AddAdminComponent} />
+                      <Route exact path="/admini/dodaj" component={AddAdminComponent} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini/izmeni/:id" component={UpdateAdminKCComponent} />
                       <PrivateRoute roles={["ROLE_KLINICKI_ADMINISTRATOR"]} path="/admini/:id/initial" component={FirstTimeLoginComponent} />
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini/pregledi/dodaj" component={AddAppointment} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR", "ROLE_KLINICKI_ADMINISTRATOR"]} path="/adminis/pregledi/dodaj" component={AddAppointment} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/pregled/izmeni/:id" component={EditAppointment} />
                   </Switch>
 
                   <Switch>
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR","ROLE_LEKAR"]} path="/pacijenti" component={AllPacijents} />
+                      <Route exact path="/pacijenti" component={AllPacijents} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/pacijenti/:id" component={IzmenaPacijenta} />
                   </Switch>
 
                   <Switch>
+                      <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} />
                       <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/izmeni" component={EditLoggedUser} />
                       <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/:id/klinika/:idKlinike" component={MSHomePageComponent} />
-                      <PrivateRoute roles={["ROLE_MEDICINSKA_SESTRA"]} path="/medicinske-sestre/:idMedSestre/klinika/:idKlinike/recepti" component={ListReceiptsComponent} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/medicinske-sestre" component={AllMSestre} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/medicinske-sestre/dodaj" component={AddMedicinskaSestra} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/medicinske-sestre/:id" component={EditMedicinkaSestra} />

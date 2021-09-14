@@ -73,7 +73,7 @@ public class LekarController {
         return  new ResponseEntity<>(lekarFrontendDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'KLINICKI_ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Lekar> saveLekar(@RequestBody LekarBackendDTO lekarInfo){
 

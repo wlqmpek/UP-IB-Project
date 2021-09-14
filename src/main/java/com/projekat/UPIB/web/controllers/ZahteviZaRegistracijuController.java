@@ -15,9 +15,11 @@ import com.projekat.UPIB.web.dto.pacijent.PacijentStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+@PreAuthorize("hasAnyRole('ANONYMOUS')")
 @RestController
 @CrossOrigin(origins = "https://localhost:3000")
 @RequestMapping(value = "/Zahtevi")
@@ -47,6 +50,7 @@ public class ZahteviZaRegistracijuController {
     @Autowired
     private AuthorityService authorityService;
 
+    @PreAuthorize("hasAnyRole('ANONYMOUS')")
     @GetMapping
     public ResponseEntity<List<PacijentFrontDTO>> getPacijents(){
         List<Pacijent> pacijenti = pacijentService.findAll();
@@ -115,6 +119,7 @@ public class ZahteviZaRegistracijuController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PermitAll
     private String createPath(String email) throws NoSuchAlgorithmException, InvalidKeyException {
         //TODO kreiranje linka za registraciju pacijenta, poterbno je da se taj path hashuje
 

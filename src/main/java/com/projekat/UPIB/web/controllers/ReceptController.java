@@ -34,7 +34,7 @@ public class ReceptController {
 	@Autowired
     private IPregledService pregledService;
 	
-	@PreAuthorize("hasRole('ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR', 'MEDICINSKA_SESTRA')")
     @GetMapping
     public ResponseEntity<List<ReceptFrontendDTO>> findAll(){
 
@@ -62,7 +62,7 @@ public class ReceptController {
         return new ResponseEntity<ReceptFrontendDTO>(receptFrontendDTO, HttpStatus.OK);
     }
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','MEDICINSKA_SESTRA')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ReceptFrontendDTO> saveRecept(@RequestBody ReceptBackendDTO receptBackendDTO){
 
