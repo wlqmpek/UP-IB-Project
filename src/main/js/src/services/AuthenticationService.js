@@ -11,7 +11,8 @@ export const AuthenticationService = {
     refresh,
     logout,
     getRole,
-    getEmail
+    getEmail,
+    getId
 };
 
 async function login(userCredentials) {
@@ -39,9 +40,10 @@ async function login(userCredentials) {
                 window.location.assign("/lekar-pocetna")
             }else if(this.getRole().includes("ROLE_KLINICKI_ADMINISTRATOR")){
                 window.location.assign("/klinicki-administrator")
-            }
-            else {
-                window.location.assign("/");
+            } else if(this.getRole().includes("ROLE_ADMINISTRATOR")) {
+                alert("Hey bitch ova funkcionalnost nije zavrsena.");
+            } else {
+                window.location.assign("/pacijent-pocetna");
             }
         } else {
             console.log("NOPEEE");
@@ -52,7 +54,6 @@ async function login(userCredentials) {
     }
 }
 
-
 async function emailLoginRequest(userCredentials) {
     TokenService.removeAccessToken()
     try {
@@ -60,7 +61,6 @@ async function emailLoginRequest(userCredentials) {
             "/korisnici/emailPrijavaZahtev",
             userCredentials
         );
-
     } catch (error) {
         throw error;
     }
@@ -91,9 +91,8 @@ async function emailLogin(token) {
                 LekarService.getLekar(idLekara).then(res => {
                     window.location.assign(`/${idLekara}/radniKalendar/${res.data.idKlinike}`);
                 });
-            }
-            else {
-                window.location.assign("/");
+            } else {
+                window.location.assign("/pacijent-pocetna");
             }
         }
         else {
@@ -146,8 +145,6 @@ function getRole() {
     }
 }
 
-
-
 function getEmail() {
     const token = TokenService.getAccessToken();
     const decoded_token = token ? TokenService.decodeAccessToken(token) : null;
@@ -156,5 +153,11 @@ function getEmail() {
     } else {
         return "";
     }
+}
+
+function getId() {
+    console.log("Token service getId " + TokenService.getId());
+    console.log("lol")
+    return TokenService.getId();
 }
 

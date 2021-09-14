@@ -206,9 +206,9 @@ public class KorisnikController {
     }
 
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR','LEKAR','PACIJENT','MEDICINSKA_SESTRA')")
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshtoken(@RequestBody TokenRefreshRequest request) {
+        System.out.println("Jel ovo prolazi");
         String requestRefreshToken = request.getRefreshToken();
         // Ovde ce puci ako je refresh token istekao.
         return refreshTokenService.findByToken(requestRefreshToken)
@@ -216,6 +216,8 @@ public class KorisnikController {
                 .map(RefreshToken::getKorisnik)
                 .map(korisnik -> {
                     String token = tokenUtils.generateJwtToken(requestRefreshToken);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(korisnik.getEmailKorisnika(), null, korisnik.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                     return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
@@ -258,7 +260,7 @@ public class KorisnikController {
         pacijent = pacijentService.findPacijentByEmailKorisnika(username);
         if(pacijent != null){
             pacijent.setLozinkaKorisnika(password);
-            pacijentService.save(pacijent);
+            pacijentService.update(pacijent);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
@@ -342,7 +344,7 @@ public class KorisnikController {
             pacijent.setImeKorisnika(korisnikInfoDTO.getIme());
             pacijent.setPrezimeKorisnika(korisnikInfoDTO.getPrezime());
             pacijent.setEmailKorisnika(korisnikInfoDTO.getEmail());
-            pacijentService.save(pacijent);
+            pacijentService.update(pacijent);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 

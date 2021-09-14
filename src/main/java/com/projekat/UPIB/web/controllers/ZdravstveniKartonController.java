@@ -3,6 +3,9 @@ package com.projekat.UPIB.web.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projekat.UPIB.models.Pacijent;
+import com.projekat.UPIB.security.EnkripcijaDekripcijaUtils;
+import com.projekat.UPIB.services.implementation.PacijentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,12 @@ public class ZdravstveniKartonController {
 	
 	@Autowired
     private IZdravstveniKarton zdravstveniKartonService;
+
+	@Autowired
+    private EnkripcijaDekripcijaUtils enkripcijaDekripcijaUtils;
+
+	@Autowired
+    private PacijentService pacijentService;
 	
 	@PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
@@ -110,5 +119,17 @@ public class ZdravstveniKartonController {
 
         zdravstveniKartonService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    }      
+    }
+
+//    @PreAuthorize("hasRole('PACIJENT')")
+//    @GetMapping("/test")
+//    public ResponseEntity<Void> test(){
+//
+//	    List<Pacijent> pacijenti = pacijentService.findAll();
+//	    for(Pacijent pacijent:pacijenti) {
+//            System.out.println(enkripcijaDekripcijaUtils.dekriptujJBZO(pacijent.getJBZO(), pacijent.getEmailKorisnika()));
+//        }
+//
+//	    return new ResponseEntity<>(HttpStatus.OK);
+//    }
 }

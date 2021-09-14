@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { AuthenticationService } from "../../services/AuthenticationService";
 import { TokenService } from "../../services/TokenService";
-import {PatientService} from "../../services/pacijent/PatientService";
+import { PacijentService } from "../../services/PacijentService";
 import { useParams } from "react-router";
 
-const  EditPatientDetails = () => {
+const  EditPatient = () => {
     const [patientDetails, setPatientDetails] = useState({
         id: "",
         ime: "",
@@ -23,7 +23,7 @@ const  EditPatientDetails = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        if(AuthenticationService.getRole() !== "ROLE_PACIJENT") {
+        if (AuthenticationService.getRole() !== "ROLE_PACIJENT" && AuthenticationService.getRole() !== "ROLE_MEDICINSKA_SESTRA") {
             window.location.assign("/prijava");
         }
         fetchPatient(id);
@@ -34,7 +34,7 @@ const  EditPatientDetails = () => {
     async function fetchPatient(id) {
         console.log("Fetchovanje pacijenata");
         try {
-            const response = await PatientService.getPatient(id);
+            const response = await PacijentService.getPacijent(id);
             console.log("Fetch Patient " + JSON.stringify(response.data))
             setPatientDetails(response.data)
         } catch (error) {
@@ -44,7 +44,7 @@ const  EditPatientDetails = () => {
 
     async function editPatient() {
         try {
-            await PatientService.editPatient(id, patientDetails);
+            await PacijentService.editPacijentDetails(patientDetails);
         } catch (error) {
             console.error(`Greška prilikom аžuriranja stanja korisnika: ${error}`);
         }
@@ -91,6 +91,26 @@ const  EditPatientDetails = () => {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="prezime"
+                                value={patientDetails.email || ""}
+                                disabled={true}
+                                >
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>JBZO</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="prezime"
+                                value={patientDetails.jbzo || ""}
+                                disabled={true}
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
                             <Form.Label>Lozinka</Form.Label>
                             <Form.Control
                                 type="password"
@@ -116,4 +136,4 @@ const  EditPatientDetails = () => {
     );
 };
 
-export default EditPatientDetails;
+export default EditPatient;

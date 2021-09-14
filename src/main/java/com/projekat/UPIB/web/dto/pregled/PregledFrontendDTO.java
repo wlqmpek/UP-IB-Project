@@ -7,7 +7,9 @@ import java.util.HashSet;
 
 import com.projekat.UPIB.models.Pregled;
 import com.projekat.UPIB.models.Recept;
+import lombok.ToString;
 
+@ToString
 public class PregledFrontendDTO implements Serializable{
 
 	private Long idPregleda;
@@ -32,15 +34,19 @@ public class PregledFrontendDTO implements Serializable{
 	public PregledFrontendDTO(Pregled pregled) {
 		super();
 		this.idPregleda = pregled.getIdPregleda();
-		//this.dijagnoza = pregled.getDijagnoza();
-		//this.opis = pregled.getOpis();
+		this.dijagnoza = pregled.getDijagnoza();
+		this.opis = pregled.getOpis();
 		this.idLekara =  pregled.getLekar().getIdKorisnika();
 		this.idMedicinskeSestre = pregled.getMedicinskaSestra().getIdKorisnika();
 		this.pocetakTermina = pregled.getPocetakTermina();
 		this.krajTermina = pregled.getKrajTermima();
 		this.cena = pregled.getCena();
-		//this.popust = pregled.getPopust();
-		//this.idZdravstvenogKartona = pregled.getZdravstveniKarton().getIdZdravstvenogKartona();
+		this.popust = pregled.getPopust();
+		if(pregled.getZdravstveniKarton() != null) {
+			this.idZdravstvenogKartona = pregled.getZdravstveniKarton().getIdZdravstvenogKartona();
+		} else {
+			this.idZdravstvenogKartona = null;
+		}
 		this.idKlinike = pregled.getKlinika().getIdKlinike();
 	}
 
@@ -114,7 +120,12 @@ public class PregledFrontendDTO implements Serializable{
 	public void setIdKlinike(Long idKlinike) {
 		this.idKlinike = idKlinike;
 	}
-	
-	
 
+	public ArrayList<Long> getIdRecepata() {
+		return idRecepata;
+	}
+
+	public void setIdRecepata(ArrayList<Long> idRecepata) {
+		this.idRecepata = idRecepata;
+	}
 }

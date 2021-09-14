@@ -32,23 +32,25 @@ class ViewPregledComponent extends Component {
                 opis: response.data.opis,
                 recepti: response.data.recepti
             });
+
+            ReceiptsService.getReceipts().then(response => {
+                var recepti = response.data;
+                var filtriraniRecepti = [];
+                var i = 0;
+                for (i; i < recepti.length; i++) {
+                    if (recepti[i].idPregleda == this.state.pregled.idPregleda) {
+                        filtriraniRecepti.push(recepti[i]);
+                    }
+                }
+                this.setState({
+                    recepti: filtriraniRecepti
+                });
+            });
+
+
         }).catch(err => {
             return;
         })
-
-        ReceiptsService.getReceipts().then(response => {
-            var recepti = response.data;
-            var filtriraniRecepti = [];
-            var i = 0;
-            for (i; i < recepti.length; i++) {
-                if (recepti[i].idPregleda == this.state.pregled.idPregleda) {
-                    filtriraniRecepti.push(recepti[i]);
-                }
-            }
-            this.setState({
-                recepti: filtriraniRecepti
-            });
-        });
 
     }
 

@@ -1,8 +1,6 @@
 package com.projekat.UPIB.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -17,7 +15,8 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 //END OF LOMBOK
 @Entity
 @Table(name = "pregled")
@@ -62,5 +61,6 @@ public class Pregled {
     @JoinColumn(name = "id_klinike", referencedColumnName = "id_klinike", nullable = true)
     @JsonIgnore
     private Klinika klinika;
+
 
 }

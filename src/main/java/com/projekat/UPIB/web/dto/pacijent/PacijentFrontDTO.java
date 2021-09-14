@@ -2,8 +2,13 @@ package com.projekat.UPIB.web.dto.pacijent;
 
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
+import com.projekat.UPIB.security.EnkripcijaDekripcijaUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class PacijentFrontDTO {
+
+    @Autowired
+    private EnkripcijaDekripcijaUtils enkripcijaDekripcijaUtils;
 
     private long id;
     private String ime;
@@ -35,7 +40,7 @@ public class PacijentFrontDTO {
         this.ime = pacijent.getImeKorisnika();
         this.prezime = pacijent.getPrezimeKorisnika();
         this.email = pacijent.getEmailKorisnika();
-        this.JBZO = pacijent.getJBZO();
+        this.JBZO = enkripcijaDekripcijaUtils.dekriptujJBZO(pacijent.getJBZO(), pacijent.getEmailKorisnika());
         this.statusKorisnika = pacijent.getStatusKorisnika();
         this.idZdravstvenogKartona = pacijent.getZdravstveniKarton().getIdZdravstvenogKartona();
     }

@@ -80,12 +80,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 // svim korisnicima dopusti da pristupe putanjama /korisnici/prijava
-                .authorizeRequests().antMatchers("/korisnici/prijava").permitAll()
+                //.authorizeRequests().antMatchers("/korisnici/prijava").permitAll()
 //                .antMatchers("/korisnici/refreshtoken").permitAll()
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
                 //.anyRequest().authenticated().and()
-                .anyRequest().permitAll().and()
+//                .anyRequest().permitAll().and()
 
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -101,7 +101,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         web.ignoring().antMatchers(HttpMethod.POST, "/korisnici/prijava");
         web.ignoring().antMatchers(HttpMethod.POST, "/korisnici/refreshtoken");
-        web.ignoring().antMatchers(HttpMethod.POST, "/Zahtevi/*");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");
     }

@@ -5,6 +5,7 @@ export const PacijentService = {
     getPacijent,
     createPacijent,
     editPacijent,
+    editPacijentDetails,
     deletePacijent
 }
 
@@ -24,6 +25,13 @@ async function editPacijent(id, pacijent) {
     return await AxiosClient.put(`Pacijenti/${id}`, pacijent)
 }
 
+//Gadja endpoint koji sluzi da pacijent menja sopstvene detalje.
+async function editPacijentDetails(patient) {
+    return await AxiosClient.put(`Pacijenti/izmeni`, patient);
+}
+
 async function deletePacijent(id) {
     return await AxiosClient.delete(`Pacijenti/${id}`)
 }
+
+export default PacijentService;

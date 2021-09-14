@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import ReceiptsService from "../../../services/ReceiptsService";
 import PreglediService from "../../../services/PreglediService";
-import { PacientService } from "../../../services/PacientService";
+import { PacijentService } from "../../../services/PacijentService";
 import ZdravstveniKartonService from "../../../services/ZdravstveniKartonService";
 import {AuthenticationService} from "../../../services/AuthenticationService"
 
@@ -12,6 +12,7 @@ class UpdateZKComponent extends Component {
 
         this.state = {
             id: this.props.match.params.id,
+            idPregleda: this.props.match.params.idPregleda,
             pregled: {},
             pacijent: {},
             izvestaj: '',
@@ -34,7 +35,7 @@ class UpdateZKComponent extends Component {
         PreglediService.getPregledi().then(response => {
             this.setState({
                 pregled: response.data.find(pregled =>
-                    pregled.idZdravstvenogKartona == this.state.id
+                    pregled.idPregleda == this.state.idPregleda
                 )
             })
 
@@ -55,7 +56,7 @@ class UpdateZKComponent extends Component {
             return;
         })
 
-        PacientService.getPacients().then(response => {
+        PacijentService.getPacijents().then(response => {
             this.setState({
                 pacijent: response.data.find(pacijent =>
                     pacijent.idZdravstvenogKartona == this.state.id
@@ -134,7 +135,7 @@ class UpdateZKComponent extends Component {
     }
 
     render() {
-        if (this.state.pregled !== null) {
+        if (this.state.pregled.krajTermina !== null) {
             return (
                 <div style={{ margin: "50px" }}>
                     <div className="container">
@@ -149,27 +150,27 @@ class UpdateZKComponent extends Component {
                                         <div className="form-group">
                                             <label> Izvestaj za pregled: </label>
                                             <textarea placeholder="Izvestaj" name="izvestaj" className="form-control"
-                                                value={this.state.pregled.izvestaj} onChange={this.changeIzvestajHandler} />
+                                                value={this.state.izvestaj} onChange={this.changeIzvestajHandler} />
                                             <br />
                                             <label> Visina: </label>
                                             <input readOnly placeholder="Visina" name="visina" className="form-control"
-                                                value={this.state.pregled.visina} onChange={this.changeVisinaHandler} />
+                                                value={this.state.visina} onChange={this.changeVisinaHandler} />
                                             <br />
                                             <label> Tezina: </label>
                                             <input readOnly placeholder="Tezina" name="tezina" className="form-control"
-                                                value={this.state.pregled.tezina} onChange={this.changeTezinaHandler} />
+                                                value={this.state.tezina} onChange={this.changeTezinaHandler} />
                                             <br />
                                             <label> Krvna grupa: </label>
                                             <input readOnly placeholder="Krvna grupa" name="krvnaGrupa" className="form-control"
-                                                value={this.state.pregled.krvnaGrupa} onChange={this.changeKrvnaGrupaHandler} />
+                                                value={this.state.krvnaGrupa} onChange={this.changeKrvnaGrupaHandler} />
                                             <br />
                                             <label> Dioptrija: </label>
                                             <input readOnly placeholder="Dioptrija" name="dioptrija" className="form-control"
-                                                value={this.state.pregled.dioptrija} onChange={this.changeDioptrijaHandler} />
+                                                value={this.state.dioptrija} onChange={this.changeDioptrijaHandler} />
                                             <br />
                                             <label> Alergije: </label>
                                             <textarea readOnly placeholder="Alergije" name="alergije" className="form-control"
-                                                value={this.state.pregled.alergije} onChange={this.changeAlergijeHandler} />
+                                                value={this.state.alergije} onChange={this.changeAlergijeHandler} />
                                             <br />
 
                                         </div>

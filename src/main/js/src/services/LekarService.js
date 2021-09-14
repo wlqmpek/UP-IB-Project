@@ -9,7 +9,8 @@ export const LekarService = {
     deleteLekar,
     changePassword,
     getLekariList,
-    getLekariByKlinika
+    getLekariByKlinika,
+    getLekariUTerminu
 }
 
 async function getLekari() {
@@ -46,5 +47,10 @@ async function getLekariList() {
 async function getLekariByKlinika(){
     return await AxiosClient.get("Lekari/klinika")
 }
+
+async function getLekariUTerminu(termin) {
+    return await AxiosClient.post("Lekari/termin", termin);
+}
+
 
 export default LekarService;

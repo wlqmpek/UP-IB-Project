@@ -3,7 +3,7 @@ package com.projekat.UPIB.web.dto.administrator;
 import java.io.Serializable;
 
 import com.projekat.UPIB.enums.VrstaAdministratora;
-import com.projekat.UPIB.web.dto.klinika.KlinikaDTO;
+import com.projekat.UPIB.web.dto.klinika.KlinikaFrontDto;
 
 public class AdministratorDTO implements Serializable{
 	
@@ -12,7 +12,7 @@ public class AdministratorDTO implements Serializable{
     private String prezimeKorisnika;
     private String emailKorisnika;
     private String lozinkaKorisnika;
-    private KlinikaDTO klinika;
+    private KlinikaFrontDto klinika;
     private VrstaAdministratora vrstaAdministratora;
     
     
@@ -22,7 +22,7 @@ public class AdministratorDTO implements Serializable{
 	}
 
 	public AdministratorDTO(long idKorisnika, String imeKorisnika, String prezimeKorisnika, String emailKorisnika,
-			String lozinkaKorisnika, KlinikaDTO klinika, VrstaAdministratora vrstaAdministratora) {
+                            String lozinkaKorisnika, KlinikaFrontDto klinika, VrstaAdministratora vrstaAdministratora) {
 		super();
 		this.idKorisnika = idKorisnika;
 		this.imeKorisnika = imeKorisnika;
@@ -65,10 +65,10 @@ public class AdministratorDTO implements Serializable{
 	public void setLozinkaKorisnika(String lozinkaKorisnika) {
 		this.lozinkaKorisnika = lozinkaKorisnika;
 	}
-	public KlinikaDTO getKlinika() {
+	public KlinikaFrontDto getKlinika() {
 		return klinika;
 	}
-	public void setKlinika(KlinikaDTO klinika) {
+	public void setKlinika(KlinikaFrontDto klinika) {
 		this.klinika = klinika;
 	}
 	public VrstaAdministratora getVrstaAdministratora() {

@@ -1,20 +1,29 @@
 package com.projekat.UPIB.services.implementation;
 
 import com.projekat.UPIB.models.Pacijent;
+import com.projekat.UPIB.models.Pregled;
 import com.projekat.UPIB.repositories.PacijentRepozitorijum;
+import com.projekat.UPIB.security.EnkripcijaDekripcijaUtils;
 import com.projekat.UPIB.services.IPacijentService;
 import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PacijentService implements IPacijentService {
 
     @Autowired
     private PacijentRepozitorijum pacijentRepozitorijum;
+
+    @Autowired
+    private EnkripcijaDekripcijaUtils enkripcijaDekripcijaUtils;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -33,12 +42,21 @@ public class PacijentService implements IPacijentService {
     //Funkcionise po principu equals.ignoreCase() bas kako bi i trebalo u slucaju emaila!
     @Override
     public Pacijent findPacijentByEmailKorisnika(String emailKorisnika) {
-        return pacijentRepozitorijum.findPacijentByEmailKorisnika(emailKorisnika);
+        Optional<Pacijent> pacijent = pacijentRepozitorijum.findPacijentByEmailKorisnika(emailKorisnika);
+        if(pacijent.isEmpty()) {
+            throw new NoSuchElementException("Pacijent with email = " + emailKorisnika + " not found!");
+        }
+        return pacijent.get();
     }
 
     @Override
     public Pacijent save(Pacijent pacijent) {
-        System.out.println("Pokusavamo da sacuvamo " +pacijent.getImeKorisnika());
+        pacijent.setJBZO(enkripcijaDekripcijaUtils.enkriptujJBZO(pacijent.getJBZO(), pacijent.getEmailKorisnika()));
+        return pacijentRepozitorijum.save(pacijent);
+    }
+
+    @Override
+    public Pacijent update(Pacijent pacijent) {
         return pacijentRepozitorijum.save(pacijent);
     }
 

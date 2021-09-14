@@ -1,7 +1,7 @@
 package com.projekat.UPIB.web.dto.medicinkaSestra;
 
 import com.projekat.UPIB.models.MedicinskaSestra;
-import com.projekat.UPIB.web.dto.klinika.KlinikaDTO;
+import com.projekat.UPIB.web.dto.klinika.KlinikaFrontDto;
 
 import java.io.Serializable;
 
@@ -21,7 +21,7 @@ public class MedicinskaSestraDTO implements Serializable{
 	}
 
 	public MedicinskaSestraDTO(long idKorisnika, String imeKorisnika, String prezimeKorisnika, String emailKorisnika,
-			KlinikaDTO klinika) {
+			KlinikaFrontDto klinika) {
 		super();
 		this.idKorisnika = idKorisnika;
 		this.imeKorisnika = imeKorisnika;
