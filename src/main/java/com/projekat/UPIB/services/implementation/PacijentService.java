@@ -51,7 +51,7 @@ public class PacijentService implements IPacijentService {
 
     @Override
     public Pacijent save(Pacijent pacijent) {
-        pacijent.setJBZO(enkripcijaDekripcijaUtils.enkriptujJBZO(pacijent.getJBZO(), pacijent.getEmailKorisnika()));
+        //pacijent.setJBZO(enkripcijaDekripcijaUtils.enkriptujJBZO(pacijent.getJBZO(), pacijent.getEmailKorisnika()));
         return pacijentRepozitorijum.save(pacijent);
     }
 

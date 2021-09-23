@@ -82,7 +82,7 @@ function App() {
                   </Switch>
 
                   <Switch>
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/registracija/zahtevi" component={RegistrationRequsets} />
+                      <Route  path="/registracija/zahtevi" component={RegistrationRequsets} />
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/registracija/prihvati/:path" component={AfterAcceptRegistration} />
                   </Switch>
 

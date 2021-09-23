@@ -5,13 +5,10 @@ import com.projekat.UPIB.models.Authority;
 import com.projekat.UPIB.models.PacijentLink;
 import com.projekat.UPIB.services.implementation.AuthorityService;
 import com.projekat.UPIB.services.implementation.PacijentLinkService;
-import com.projekat.UPIB.web.dto.pacijent.PacijentFrontDTO;
-import com.projekat.UPIB.web.dto.pacijent.PacijentLinkDTO;
-import com.projekat.UPIB.web.dto.pacijent.PacijentRegisterDTO;
+import com.projekat.UPIB.web.dto.pacijent.*;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.services.implementation.PacijentService;
-import com.projekat.UPIB.web.dto.pacijent.PacijentStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,13 +49,13 @@ public class ZahteviZaRegistracijuController {
 
     @PreAuthorize("hasAnyRole('ANONYMOUS')")
     @GetMapping
-    public ResponseEntity<List<PacijentFrontDTO>> getPacijents(){
+    public ResponseEntity<List<PacijentZahtevDTO>> getPacijents(){
         List<Pacijent> pacijenti = pacijentService.findAll();
-        List<PacijentFrontDTO> retVal = new ArrayList<>();
+        List<PacijentZahtevDTO> retVal = new ArrayList<>();
 
         for (Pacijent pacijent : pacijenti) {
             if(pacijent.getStatusKorisnika().equals(StatusKorisnika.NA_CEKANJU)){
-                PacijentFrontDTO frontDTO = new PacijentFrontDTO(pacijent);
+                PacijentZahtevDTO frontDTO = new PacijentZahtevDTO(pacijent);
                 retVal.add(frontDTO);
             }
         }

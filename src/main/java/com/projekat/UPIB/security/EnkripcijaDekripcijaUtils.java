@@ -36,6 +36,7 @@ public class EnkripcijaDekripcijaUtils {
     public static final String BASE64_ENC_CER_FILE = "./data/jovan2.cer";
     public static final String BIN_ENC_CER_FILE = "./data/jovan1.cer";
 
+    private static final String ZK_KEY = "ahuPbkS4Ah";
     private static final String KEY_STORE_FILE = "./data/test.jks";
     private static final String KEY_STORE_PASS = "test10";
     private static final String KEY_STORE_ALIAS = "test";
@@ -54,6 +55,54 @@ public class EnkripcijaDekripcijaUtils {
     private static SignatureManager signatureManager = new SignatureManager();
     private static SignatureManagerSignedObject signatureManagerSignedObject = new SignatureManagerSignedObject();
 
+
+    public String dekriptujZdravstveniKarton(String enkriptovaniZK){
+        byte[] dekriptovaniZK = null;
+        KeyStore keyStore = keyStoreWriter.loadKeyStore(KEY_STORE_FILE, KEY_STORE_PASS.toCharArray());
+        PrivateKey privateKey = keyStoreReader.getPrivateKeyFromKeyStore(keyStore, ZK_KEY, KEY_STORE_DEFAULT_PASS_FOR_PRIVATE_KEYS.toCharArray());
+        try {
+            Cipher rsaCipherDec = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
+            rsaCipherDec.init(Cipher.DECRYPT_MODE, privateKey);
+            dekriptovaniZK = rsaCipherDec.doFinal(Base64.decode(enkriptovaniZK));
+
+        } catch (NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e){
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+
+        return new String(dekriptovaniZK);
+    }
+
+    public String enkriptujZdravstveniKarton(String zdravstveniKartoni){
+
+        byte[] enkriptovaniZK = null;
+        upisiSertifikatUJKS(ZK_KEY, KEY_STORE_DEFAULT_PASS_FOR_PRIVATE_KEYS);
+        Certificate certificate = ucitajSertifikat(ZK_KEY);
+        PublicKey publicKey = keyStoreReader.getPublicKeyFromCertificate(certificate);
+        try {
+            Cipher rsaCipherEnc = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
+            rsaCipherEnc.init(Cipher.ENCRYPT_MODE, publicKey);
+            enkriptovaniZK = rsaCipherEnc.doFinal(zdravstveniKartoni.getBytes());
+        }  catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        }
+        return Base64.encodeToString(enkriptovaniZK);
+    }
 
     public String dekriptujJBZO(String enkriptovaniJBZO, String emailAsAlias) {
         byte[] dekriptovanText = null;

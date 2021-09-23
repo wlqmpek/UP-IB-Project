@@ -1,5 +1,6 @@
 package com.projekat.UPIB.web.controllers;
 
+import com.projekat.UPIB.mail.IEmailService;
 import com.projekat.UPIB.security.EnkripcijaDekripcijaUtils;
 import com.projekat.UPIB.services.IZdravstveniKarton;
 import com.projekat.UPIB.services.implementation.AuthorityService;
@@ -27,6 +28,9 @@ import java.util.List;
 public class PacijentController {
 
     private static final String SECRET = "DQ5vLW9QCh";
+
+    @Autowired
+    private IEmailService emailService;
 
     @Autowired
     private IPacijentService pacijentService;
@@ -94,8 +98,8 @@ public class PacijentController {
         registered.setAuthorities(authorityService.findByIdAuthority(pacijent.getAuthorities()));
 
         registered = pacijentService.save(registered);
-        String proba = registered.getLozinkaKorisnika();
         pacijent = new PacijentRegisterDTO(registered);
+
 
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }
