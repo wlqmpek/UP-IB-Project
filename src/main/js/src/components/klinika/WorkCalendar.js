@@ -234,14 +234,14 @@ class ViewWorkCalendar extends Component {
                                                                 : false
                                                         }
                                                         {
-                                                            // ako kraj termina nije definisan a pregled je poceo
-                                                            pregled.krajTermina === null && new Date(pregled.pocetakTermina).getTime() < new Date().getTime() ?
+                                                            // ako kraj termina nije definisan a pregled je poceo (oduzimanje 2h = 7200000 milisec razlike jer se pogresno konvertuje)
+                                                            pregled.krajTermina === null && (new Date(pregled.pocetakTermina).getTime() - 7200000) < new Date().getTime() ?
                                                                 (<span>Pregled je u toku</span>)
                                                                 : false
                                                         }
                                                         {
-                                                            // ako kraj termina nije definisan a pregled je u buducnosti
-                                                            pregled.krajTermina === null && new Date(pregled.pocetakTermina).getTime() >= new Date().getTime() ?
+                                                            // ako kraj termina nije definisan a pregled je u buducnosti (oduzimanje 2h = 7200000 milisec razlike jer se pogresno konvertuje)
+                                                            pregled.krajTermina === null && (new Date(pregled.pocetakTermina).getTime() - 7200000) >= new Date().getTime() ?
                                                                 (<span>Pregled nije počeo</span>)
                                                                 : false
                                                         }
@@ -250,8 +250,10 @@ class ViewWorkCalendar extends Component {
                                                     </td>
                                                     <td style={{ verticalAlign: 'middle', fontSize: '20px' }}>{pregled.imePacijenta}</td>
                                                     <td style={{ verticalAlign: 'middle', fontSize: '20px' }}>{pregled.prezimePacijenta}</td>
-                                                    
-                                                        {new Date(pregled.pocetakTermina).getTime() <= new Date().getTime() && this.state.tipKorisnika === "LEKAR" ? (
+                                                        
+                                                    {
+                                                        // (oduzimanje 2h = 7200000 milisec razlike jer se pogresno konvertuje)
+                                                        (new Date(pregled.pocetakTermina).getTime() - 7200000) <= new Date().getTime() && this.state.tipKorisnika === "LEKAR" ? (
                                                             <td style={{ width: '20%' }}>    
                                                             <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updatePregled(pregled.idPregleda)} className="btn btn-info">Detaljnije o pregledu</button>
                                                             <button style={{ float: 'right', padding: '15px' }} onClick={() => this.updateZK(pregled.idPregleda,pregled.idZdravstvenogKartona)} className="btn btn-success">Zdravstveni karton</button>
