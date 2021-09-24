@@ -69,7 +69,7 @@ public class PregledController {
         List<PregledFrontendDTO> preglediFrontendDTO = new ArrayList<PregledFrontendDTO>();
         
         for (Pregled pregled : pregledi) {
-        	PregledFrontendDTO pregledFrontendDTO = new PregledFrontendDTO(pregled);
+        	PregledFrontendDTO pregledFrontendDTO = pregledToPregledToFrontDto.convert(pregled);
         	preglediFrontendDTO.add(pregledFrontendDTO);
         }
         

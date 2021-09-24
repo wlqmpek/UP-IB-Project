@@ -5,6 +5,7 @@ import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.security.EnkripcijaDekripcijaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 public class PacijentFrontDTO {
 
     @Autowired

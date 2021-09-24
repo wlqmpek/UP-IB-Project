@@ -44,7 +44,7 @@ public class PacijentService implements IPacijentService {
     public Pacijent findPacijentByEmailKorisnika(String emailKorisnika) {
         Optional<Pacijent> pacijent = pacijentRepozitorijum.findPacijentByEmailKorisnika(emailKorisnika);
         if(pacijent.isEmpty()) {
-            throw new NoSuchElementException("Pacijent with email = " + emailKorisnika + " not found!");
+            return null;
         }
         return pacijent.get();
     }

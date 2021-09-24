@@ -56,7 +56,7 @@ public class PacijentController {
         List<PacijentFrontDTO> retVal = new ArrayList<>();
         List<Pacijent> pacijenti = pacijentService.findAll();
         for (Pacijent pacijent : pacijenti) {
-            PacijentFrontDTO frontDTO = new PacijentFrontDTO(pacijent);
+            PacijentFrontDTO frontDTO = pacijentToPacijentFrontDto.convert(pacijent);
             retVal.add(frontDTO);
         }
         return new ResponseEntity<>(retVal, HttpStatus.OK);
