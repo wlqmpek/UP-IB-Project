@@ -39,8 +39,8 @@ function setId(idKorisnika) {
     localStorage.setItem("idKorisnika", idKorisnika);
 }
 
-function getId(idKorisnika) {
-    localStorage.getItem(idKorisnika);
+function getId() {
+    return localStorage.getItem("idKorisnika");
 }
 
 function removeId(idKorisnika) {
@@ -49,7 +49,6 @@ function removeId(idKorisnika) {
 
 
 function decodeAccessToken(token) {
-    console.log("Token za dekodiranje " +token);
     try {
         return jwtDecode(token);
     } catch (error) {

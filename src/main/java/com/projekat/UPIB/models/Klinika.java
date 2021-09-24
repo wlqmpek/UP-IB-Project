@@ -1,23 +1,15 @@
 package com.projekat.UPIB.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.projekat.UPIB.enums.TipKorisnika;
-import com.projekat.UPIB.enums.VrstaAdministratora;
-import lombok.ToString;
-
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 //END OF LOMBOK
 @Entity
 @Table(name = "klinika")

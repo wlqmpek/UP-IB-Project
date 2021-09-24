@@ -39,7 +39,9 @@ public class KorisnikService implements IKorisnikService {
         if(korisnik == null)
             korisnik = lekarRepozitorijum.findLekarByEmailKorisnika(emailKorisnika);
         if(korisnik == null)
-            korisnik = pacijentRepozitorijum.findPacijentByEmailKorisnika(emailKorisnika);
+            //TODO: Ovde treba ispraviti tako da ne koristi repozitorijum nego Servise. - WLQ
+            //Trebaces da hendlujes sa try catch jer ce servisi bacati exception za not found.
+            korisnik = pacijentRepozitorijum.findPacijentByEmailKorisnika(emailKorisnika).get();
         if(korisnik == null)
             korisnik = medicinskaSestraRepozitorijum.findMedicinskaSestraByEmailKorisnika(emailKorisnika);
 

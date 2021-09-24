@@ -57,7 +57,14 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-
+    @ExceptionHandler(PregledVecZakazanException.class)
+    public ResponseEntity<Object> handlePregledVecZakazanException(PregledVecZakazanException ex, HttpServletRequest request) {
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
+        apiError.setMessage(ex.getMessage());
+        apiError.setTimestamp(LocalDateTime.now());
+        System.out.println("Ovaj pregled je vec zakazan Exception!");
+        return buildResponseEntity(apiError);
+    }
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());

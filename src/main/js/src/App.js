@@ -4,20 +4,26 @@ import 'bootstrap/dist/js/bootstrap'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import './App.css'
+
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import FrontPagePacijent from "./pages/pacijent/FrontPagePacijent";
 import PacijentRegistration from './components/pacijent/Registration'
 import RegistrationRequsets from './components/pacijent/RegistrationRequsets'
 import CreateClinicComponent from './components/klinika/Create';
 import ListClinicsComponent from './components/klinika/ListClinics';
 import UpdateClinicComponent from './components/klinika/Update';
 import ViewClinicComponent from './components/klinika/ViewClinic';
+import ViewPreglediPacijenta from "./components/klinika/pregledi/ViewPreglediPacijenta";
 import HeaderComponent from './components/Header';
+import ViewTerminiKlinike from "./components/termin/ViewTerminiKlinike";
 import FrontPage from './components/FrontPage'
 import FrontPageLekar from "./pages/lekar/FrontPageLekar";
 import FooterComponent from './components/Footer';
 import Login from "./pages/Login";
-import PatientProfile from "./pages/patients/EditPatient";
+import PretragaKlinika from "./components/klinika/PretragaKlinika";
+import EditPatient from "./pages/pacijent/EditPatient";
 import AddAdminToClinicComponent from "./components/klinika/admin/AddAdmin";
 import UpdateAdminComponent from "./components/klinika/admin/UpdateAdmin";
 import ListAdminsComponent from "./components/administrator/ListAdmins";
@@ -27,10 +33,12 @@ import MSHomePageComponent from './components/medicinskaSestra/HomePage';
 import ListReceiptsComponent from './components/medicinskaSestra/ListReceipts';
 import ViewWorkCalendar from './components/klinika/WorkCalendar';
 import ViewPregledComponent from './components/klinika/pregledi/ViewPregled';
+import ZdravstveniKartonView from "./components/klinika/zdravstveniKarton/ZdravstveniKartonView";
 import FirstTimeLoginComponent from './components/administrator/FirstTimeLogin';
 import UpdateZKComponent from './components/klinika/zdravstveniKarton/Update';
 import AllPacijents from "./components/administrator/AllPacijents";
 import IzmenaPacijenta from "./components/pacijent/IzmenaPacijenta";
+import ViewZakazivanjePregleda from "./components/klinika/pregledi/ViewZakazivanjePregleda";
 import AllDoctors from "./components/administrator/AllDoctors";
 import AllMSestre from "./components/administrator/AllMSestre";
 import AddDoctor from "./components/lekar/AddDoctor";
@@ -39,6 +47,9 @@ import EditMedicinkaSestra from "./components/medicinskaSestra/EditMedicinkaSest
 import AddMedicinskaSestra from "./components/medicinskaSestra/AddMedicinskaSestra";
 import AfterAcceptRegistration from "./components/pacijent/AfterAcceptRegistration";
 import EmailLogin from './pages/EmailLogin';
+import ViewAllClinics from "./components/klinika/ViewAllClinics";
+import ViewPotvrdaTermina from "./components/termin/ViewPotvrdaTermina";
+import ViewSlobodniLekari from "./components/pacijent/ViewSlobodniLekari";
 import PrivateRoute from './components/PrivateRoute';
 import Page403 from './components/Page-403';
 
@@ -53,6 +64,7 @@ import AllAppointments from "./pages/klinicki_administrator/AllAppointments";
 import PriceList from "./pages/klinicki_administrator/PriceList";
 import AddPriceList from "./pages/klinicki_administrator/AddPriceList";
 import EditAppointment from "./pages/klinicki_administrator/EditAppointment";
+
 
 function App() {
 
@@ -80,20 +92,29 @@ function App() {
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR", "ROLE_KLINICKI_ADMINISTRATOR"]} path="/klinike/izmeni/:id" component={UpdateClinicComponent} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/:id/dodajAdmina" component={AddAdminToClinicComponent} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike/:idKlinike/izmeniAdmina/:idAdmina" component={UpdateAdminComponent} />
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/klinike" component={ListClinicsComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR", "ROLE_PACIJENT"]} path="/klinike" component={ListClinicsComponent} />
                   </Switch>
 
                   <Switch>
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini" component={ListAdminsComponent} />
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini/dodaj" component={AddAdminComponent} />
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini/izmeni/:id" component={UpdateAdminKCComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} exact path="/admini" component={ListAdminsComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} exact path="/admini/dodaj" component={AddAdminComponent} />
+                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} exact path="/admini/izmeni/:id" component={UpdateAdminKCComponent} />
                       <PrivateRoute roles={["ROLE_KLINICKI_ADMINISTRATOR"]} path="/admini/:id/initial" component={FirstTimeLoginComponent} />
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/admini/pregledi/dodaj" component={AddAppointment} />
-                      <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/pregled/izmeni/:id" component={EditAppointment} />
+                      <PrivateRoute roles={["ROLE_KLINICKI_ADMINISTRATOR"]} exact path="/admini/pregledi/dodaj" component={AddAppointment} />
+                      <PrivateRoute roles={["ROLE_KLINICKI_ADMINISTRATOR"]} path="/pregled/izmeni/:id" component={EditAppointment} />
                   </Switch>
 
                   <Switch>
-                      <PrivateRoute roles={["ROLE_PACIJENT", "ROLE_MEDICINSKA_SESTRA"]} path="/pacijenti/profil/:id" component={PatientProfile} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/pacijent-pocetna" component={FrontPagePacijent}/>
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/zdravstveni-karton/:id" component={ZdravstveniKartonView}/>
+                      <PrivateRoute roles={["ROLE_PACIJENT", "ROLE_MEDICINSKA_SESTRA"]} path="/pacijenti/profil/izmeni/:id" component={EditPatient} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/pregledi" component={ViewPreglediPacijenta} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/zakazivanje-pregleda/:id" component={ViewZakazivanjePregleda} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/pretraga-klinika" component={PretragaKlinika} />}/>
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/prikaz-lekara" component={ViewSlobodniLekari} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/lista-klinika" component={ViewAllClinics} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/prikaz-termina-klinike" component={ViewTerminiKlinike} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/potvrda-termina/idKorisnika/:idKorisnika/idTermina/:idTermina" component={ViewPotvrdaTermina} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR"]} path="/pacijenti/:id" component={IzmenaPacijenta} />
                       <PrivateRoute roles={["ROLE_ADMINISTRATOR","ROLE_LEKAR"]} path="/pacijenti" component={AllPacijents} />
                   </Switch>

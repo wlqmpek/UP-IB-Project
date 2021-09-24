@@ -56,7 +56,7 @@ public class MSestraController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MEDICINSKA_SESTRA', 'KLINICKI_ADMINISTRATOR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MEDICINSKA_SESTRA', 'KLINICKI_ADMINISTRATOR', 'PACIJENT')")
     @GetMapping("/{id}")
     public ResponseEntity<MedicinskaSestraDTO> getOne(@PathVariable("id") Long id){
 

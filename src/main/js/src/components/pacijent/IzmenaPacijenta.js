@@ -95,4 +95,4 @@ const IzmenaPacijenta = () => {
     )
 }
 
-export default IzmenaPacijenta
+export default IzmenaPacijenta;

@@ -1,10 +1,7 @@
 package com.projekat.UPIB.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +10,8 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 //END OF LOMBOK
 @Entity
 @Table(name = "zdravstveni_karton")
@@ -26,20 +24,21 @@ public class ZdravstveniKarton {
     private Long idZdravstvenogKartona;
 
     @Column(name = "visina", nullable = true, unique = false)
-    private int visina;
+    private int visina = 0;
 
     @Column(name = "tezina", nullable = true, unique = false)
-    private int tezina;
+    private int tezina = 0;
     
     @Column(name = "krvna_grupa", nullable = true, unique = false)
     private String krvnaGrupa;
 
     @Column(name = "dioptrija", nullable = true, unique = false)
-    private double dioptrija;
+    private double dioptrija = 0;
     
     @Column(name = "alergije", nullable = true, unique = false)
     private String alergije;
-    
+
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "zdravstveniKarton")
     private Pacijent pacijent;
 

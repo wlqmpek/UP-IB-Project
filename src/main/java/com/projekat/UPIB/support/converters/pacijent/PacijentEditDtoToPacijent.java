@@ -1,4 +1,4 @@
-package com.projekat.UPIB.support.converters;
+package com.projekat.UPIB.support.converters.pacijent;
 
 import com.projekat.UPIB.models.Pacijent;
 import com.projekat.UPIB.models.ZdravstveniKarton;
@@ -6,6 +6,7 @@ import com.projekat.UPIB.services.IPacijentService;
 import com.projekat.UPIB.web.dto.pacijent.PacijentEditDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +14,9 @@ public class PacijentEditDtoToPacijent {
 
     @Autowired
     private IPacijentService pacijentService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Pacijent convert(Pacijent pacijentOld, PacijentEditDto pacijentEditDto) {
         if(pacijentOld == null) {
@@ -22,9 +26,9 @@ public class PacijentEditDtoToPacijent {
             if(pacijentEditDto.getLozinka().equals(pacijentEditDto.getPonovljenaLozinka())) {
                 pacijentOld.setImeKorisnika(pacijentEditDto.getIme());
                 pacijentOld.setPrezimeKorisnika(pacijentEditDto.getPrezime());
-                pacijentOld.setLozinkaKorisnika(pacijentEditDto.getLozinka());
+                pacijentOld.setLozinkaKorisnika(passwordEncoder.encode(pacijentEditDto.getLozinka()));
             } else {
-                //TODO: Ovde baci custom exception
+                //TODO: Kreiraj custom exception i baci ga ovde, hendlaj ga u ControllerAdvice. - WLQ
                 System.out.println("Lozinke se ne poklapaju");
             }
         }

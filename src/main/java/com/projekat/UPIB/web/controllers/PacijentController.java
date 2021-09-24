@@ -1,9 +1,10 @@
 package com.projekat.UPIB.web.controllers;
 
+import com.projekat.UPIB.security.EnkripcijaDekripcijaUtils;
 import com.projekat.UPIB.services.IZdravstveniKarton;
 import com.projekat.UPIB.services.implementation.AuthorityService;
-import com.projekat.UPIB.support.converters.PacijentEditDtoToPacijent;
-import com.projekat.UPIB.support.converters.PacijentToPacijentFrontDto;
+import com.projekat.UPIB.support.converters.pacijent.PacijentEditDtoToPacijent;
+import com.projekat.UPIB.support.converters.pacijent.PacijentToPacijentFrontDto;
 import com.projekat.UPIB.web.dto.pacijent.*;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
@@ -16,7 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,8 @@ public class PacijentController {
     @Autowired
     private AuthorityService authorityService;
 
+    @Autowired
+    private EnkripcijaDekripcijaUtils enkripcijaDekripcijaUtils;
 
     @Autowired
     private PacijentEditDtoToPacijent pacijentEditDtoToPacijent;
@@ -64,7 +67,7 @@ public class PacijentController {
     public ResponseEntity<PacijentFrontDTO> findOne(@PathVariable(name = "id") Long id){
 
         Pacijent pacijent = pacijentService.findOne(id);
-        PacijentFrontDTO frontDTO = new PacijentFrontDTO(pacijent);
+        PacijentFrontDTO frontDTO = pacijentToPacijentFrontDto.convert(pacijent);
         if(pacijent == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -72,7 +75,7 @@ public class PacijentController {
         return new ResponseEntity<>(frontDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasAnyRole('ANONYMOUS')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent){
 
@@ -111,7 +114,7 @@ public class PacijentController {
         pacijentOld.setLozinkaKorisnika(passwordEncoder.encode(pacijent.getLozinka()));
         pacijentOld.setPrezimeKorisnika(pacijent.getPrezime());
 
-        pacijentOld = pacijentService.save(pacijentOld);
+        pacijentOld = pacijentService.update(pacijentOld);
         pacijent = new PacijentAdminEditDTO(pacijentOld);
 
         return new ResponseEntity<>(pacijent, HttpStatus.OK);
@@ -119,15 +122,13 @@ public class PacijentController {
 
     //Ova metoda je moja i koristi se da pacijent menja svoje podatke! - WLQ
     @PreAuthorize("hasRole('PACIJENT')")
-    @PutMapping(consumes = "application/json", value = "/izmeni/{id}")
-    public ResponseEntity<PacijentFrontDTO> izmeniPacijent(@PathVariable(name = "id") Long id,
-                                                        @RequestBody PacijentEditDto pacijentNew){
+    @PutMapping(consumes = "application/json", value = "/izmeni")
+    public ResponseEntity<PacijentFrontDTO> izmeniPacijent(@RequestBody PacijentEditDto pacijentNew, Principal p){
         ResponseEntity responseEntity = null;
-        Pacijent pacijentOld = pacijentService.findOne(id);
+        Pacijent pacijentOld = pacijentService.findPacijentByEmailKorisnika(p.getName());
         Pacijent pacijent = pacijentEditDtoToPacijent.convert(pacijentOld, pacijentNew);
 
-        pacijent = pacijentService.save(pacijentOld);
-
+        pacijent = pacijentService.update(pacijentOld);
         responseEntity = (pacijent == null) ? new ResponseEntity(pacijent, HttpStatus.NOT_FOUND) : new ResponseEntity(pacijent, HttpStatus.OK);
         return responseEntity;
     }
@@ -163,9 +164,6 @@ public class PacijentController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
-
-    
     
 }

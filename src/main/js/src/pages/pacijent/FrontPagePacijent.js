@@ -1,8 +1,40 @@
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom"
+import {MDBIcon} from "mdbreact";
+import {AuthenticationService} from "../../services/AuthenticationService";
 import {PacijentService} from "../../services/PacijentService";
-import {useHistory} from "react-router-dom";
+import {useHistory} from "react-router";
 
-const PatientHomePage = () => {
+const FrontPagePacijent = () => {
+
+    const [pacijent, setPacijent] = useState({});
+    const history = useHistory();
+
+    const style = { width: 150 }
+
+    const id = AuthenticationService.getId();
+
+    useEffect(() => {
+        fetchPacijent(id);
+    }, [id]);
+
+    async function fetchPacijent(id) {
+        try {
+            const response = await PacijentService.getPacijent(id);
+            setPacijent(response.data);
+        } catch (e) {
+            console.log("Greska u FrontPagePacijent " + e);
+        }
+    }
+
+    const update = () => {
+        console.log("Pacijent " + pacijent)
+        history.push(`/pacijenti/profil/izmeni/${id}`)
+    }
+
+    function listClinics() {
+        history.push("");
+    }
 
     return (
         <div className="row">
@@ -83,4 +115,4 @@ const PatientHomePage = () => {
 
 }
 
-export default PatientHomePage;
+export default FrontPagePacijent;
