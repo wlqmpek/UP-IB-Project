@@ -47,7 +47,7 @@ public class ZahteviZaRegistracijuController {
     @Autowired
     private AuthorityService authorityService;
 
-    @PreAuthorize("hasAnyRole('ANONYMOUS')")
+    @PreAuthorize("hasAnyRole('KLINICKI_ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<PacijentZahtevDTO>> getPacijents(){
         List<Pacijent> pacijenti = pacijentService.findAll();
@@ -71,6 +71,7 @@ public class ZahteviZaRegistracijuController {
         return new ResponseEntity<>(new PacijentLinkDTO(pacijentLink), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('KLINICKI_ADMINISTRATOR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<PacijentStatusDTO> getPacijent(@PathVariable("id") long id,
                                                            @RequestBody PacijentStatusDTO pacijent) throws InvalidKeyException, NoSuchAlgorithmException {

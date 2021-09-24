@@ -53,8 +53,23 @@ const Registration = () => {
         }
 
         if (isNaN(jbzo)) {
-            setWarning('Jbzo mora sadrzat samo cifre')
+            setWarning('Jbzo mora sadrzati samo cifre')
             return
+        }
+
+        if (jbzo.length != 10){
+            setWarning("JBZO mora sadrzati 10 karaktera")
+            return;
+        }
+
+        if(lozinka.length < 8){
+            setWarning("Lozinka mora da sadrzi vise od 8 karaktera")
+            return;
+        }
+        var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+        if(!strongRegex.test(lozinka)){
+            setWarning("Lozinka mora sadrzati minimalno jedno slovo, jedan broj i jedan specijalan karakter")
+            return;
         }
 
         if (!validator.isEmail(emailKorisnika)) {

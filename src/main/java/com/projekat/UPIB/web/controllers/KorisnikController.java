@@ -1,5 +1,6 @@
 package com.projekat.UPIB.web.controllers;
 
+import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.RefreshToken;
 import com.projekat.UPIB.payload.request.TokenRefreshRequest;
 import com.projekat.UPIB.payload.response.JwtResponse;
@@ -100,6 +101,16 @@ public class KorisnikController {
     @PostMapping(value =  "/prijava", consumes = "application/json")
     public ResponseEntity<?> loginKorisnik(@RequestBody KorisnikLoginDTO korisnikLoginDTO) {
 
+        try {
+            Pacijent pacijent = pacijentService.findPacijentByEmailKorisnika(korisnikLoginDTO.getEmailKorisnika());
+            if(pacijent != null){
+                if(pacijent.getStatusKorisnika() != StatusKorisnika.PRIHVACEN){
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+        } catch (Exception e){
+
+        }
         System.out.println(korisnikLoginDTO);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -112,6 +123,8 @@ public class KorisnikController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Korisnik userDetails = (Korisnik) authentication.getPrincipal();
+
+
 
         System.out.println("Ulogovan korisnik je " + userDetails);
 

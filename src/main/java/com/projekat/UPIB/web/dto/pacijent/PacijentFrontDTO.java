@@ -40,7 +40,7 @@ public class PacijentFrontDTO {
         this.ime = pacijent.getImeKorisnika();
         this.prezime = pacijent.getPrezimeKorisnika();
         this.email = pacijent.getEmailKorisnika();
-        this.JBZO = enkripcijaDekripcijaUtils.dekriptujJBZO(pacijent.getJBZO(), pacijent.getEmailKorisnika());
+        this.JBZO = pacijent.getJBZO();
         this.statusKorisnika = pacijent.getStatusKorisnika();
         this.idZdravstvenogKartona = pacijent.getZdravstveniKarton().getIdZdravstvenogKartona();
     }

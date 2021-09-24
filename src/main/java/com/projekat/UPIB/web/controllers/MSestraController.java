@@ -42,7 +42,7 @@ public class MSestraController {
     @Autowired
     private IAdministratorService administratorService;
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<List<MedicinskaSestraDTO>> getAll(){
 
@@ -68,7 +68,7 @@ public class MSestraController {
         return new ResponseEntity<>(new MedicinskaSestraDTO(medicinskaSestra), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<MedicinskaSestraDTO> createMSestra(@RequestBody MedicinskaSestraDTO medicinskaSestraDTO){
 
@@ -91,7 +91,7 @@ public class MSestraController {
         return new ResponseEntity<>(medicinskaSestraDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MEDICINSKA_SESTRA')")
+    @PreAuthorize("hasAnyRole('KLINICKI_ADMINISTRATOR','MEDICINSKA_SESTRA')")
     @PutMapping(consumes = "application/json", value = "/{id}")
     public ResponseEntity<MedicinskaSestraDTO> editMSestra(@PathVariable("id") Long id,
                                                            @RequestBody MedicinskaSestraDTO medicinskaSestraDTO){
@@ -113,7 +113,7 @@ public class MSestraController {
 
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteMSestra(@PathVariable("id") Long id){
 

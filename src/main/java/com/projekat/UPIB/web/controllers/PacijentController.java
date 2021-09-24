@@ -6,6 +6,7 @@ import com.projekat.UPIB.services.IZdravstveniKarton;
 import com.projekat.UPIB.services.implementation.AuthorityService;
 import com.projekat.UPIB.support.converters.pacijent.PacijentEditDtoToPacijent;
 import com.projekat.UPIB.support.converters.pacijent.PacijentToPacijentFrontDto;
+import com.projekat.UPIB.support.xml_parser.ZdravstveniKartonRepo;
 import com.projekat.UPIB.web.dto.pacijent.*;
 import com.projekat.UPIB.enums.StatusKorisnika;
 import com.projekat.UPIB.models.Pacijent;
@@ -17,7 +18,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +34,13 @@ public class PacijentController {
     private static final String SECRET = "DQ5vLW9QCh";
 
     @Autowired
-    private IEmailService emailService;
-
-    @Autowired
     private IPacijentService pacijentService;
 
-    @Autowired
-    private IZdravstveniKarton zdravstveniKarton;
+//    @Autowired
+//    private IZdravstveniKarton zdravstveniKarton;
 
+    @Autowired
+    private ZdravstveniKartonRepo kartonRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -53,7 +56,7 @@ public class PacijentController {
     @Autowired
     private PacijentToPacijentFrontDto pacijentToPacijentFrontDto;
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'LEKAR','MEDICINSKA_SESTRA')")
+    @PreAuthorize("hasAnyRole('KLINICKI_ADMINISTRATOR', 'LEKAR','MEDICINSKA_SESTRA')")
     @GetMapping
     public ResponseEntity<List<PacijentFrontDTO>> findAll(){
 
@@ -66,7 +69,7 @@ public class PacijentController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRATOR','PACIJENT','MEDICINSKA_SESTRA')")
+    @PreAuthorize("hasAnyRole('KLINICKI_ADMINISTRATOR','PACIJENT','MEDICINSKA_SESTRA')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<PacijentFrontDTO> findOne(@PathVariable(name = "id") Long id){
 
@@ -81,7 +84,7 @@ public class PacijentController {
 
     @PreAuthorize("hasAnyRole('ANONYMOUS')")
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent){
+    public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent) throws ParserConfigurationException, IOException, SAXException {
 
         String hash = passwordEncoder.encode(pacijent.getLozinka());
 
@@ -93,8 +96,12 @@ public class PacijentController {
         registered.setEmailKorisnika(pacijent.getEmail());
         registered.setLozinkaKorisnika(hash);
         registered.setJBZO(pacijent.getJBZO());
+        ZdravstveniKarton karton = new ZdravstveniKarton();
+        karton.setPacijent(registered);
+//        kartonRepo.saveZK(karton);
         registered.setZdravstveniKarton(new ZdravstveniKarton());
         registered.getZdravstveniKarton().setPacijent(registered);
+
         registered.setAuthorities(authorityService.findByIdAuthority(pacijent.getAuthorities()));
 
         registered = pacijentService.save(registered);
@@ -104,10 +111,10 @@ public class PacijentController {
         return new ResponseEntity<>(pacijent, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
     @PutMapping(consumes = "application/json", value = "/{id}")
-    public ResponseEntity<PacijentAdminEditDTO> updatePacijent(@PathVariable(name = "id") Long id,
-                                                               @RequestBody PacijentAdminEditDTO pacijent){
+    public ResponseEntity<PacijentFrontDTO> updatePacijent(@PathVariable(name = "id") Long id,
+                                                               @RequestBody PacijentFrontDTO pacijent){
 
         Pacijent pacijentOld = pacijentService.findOne(id);
         if(pacijentOld == null){
@@ -115,11 +122,12 @@ public class PacijentController {
         }
 
         pacijentOld.setImeKorisnika(pacijent.getIme());
-        pacijentOld.setLozinkaKorisnika(passwordEncoder.encode(pacijent.getLozinka()));
+        //pacijentOld.setLozinkaKorisnika(pacijent.getLozinka());
         pacijentOld.setPrezimeKorisnika(pacijent.getPrezime());
+        pacijentOld.setStatusKorisnika(pacijent.getStatusKorisnika());
 
         pacijentOld = pacijentService.update(pacijentOld);
-        pacijent = new PacijentAdminEditDTO(pacijentOld);
+        pacijent = new PacijentFrontDTO(pacijentOld);
 
         return new ResponseEntity<>(pacijent, HttpStatus.OK);
     }
@@ -137,7 +145,7 @@ public class PacijentController {
         return responseEntity;
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('KLINICKI_ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePacijent(@PathVariable(name = "id") Long id){
 
