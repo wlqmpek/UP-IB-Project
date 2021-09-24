@@ -108,7 +108,7 @@ function App() {
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/pacijent-pocetna" component={FrontPagePacijent}/>
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/zdravstveni-karton/:id" component={ZdravstveniKartonView}/>
                       <PrivateRoute roles={["ROLE_PACIJENT", "ROLE_MEDICINSKA_SESTRA"]} path="/pacijenti/profil/izmeni/:id" component={EditPatient} />
-                      <PrivateRoute roles={["ROLE_PACIJENT"]} path="/pregledi" component={ViewPreglediPacijenta} />
+                      <PrivateRoute roles={["ROLE_PACIJENT"]} exact path="/pregledi" component={ViewPreglediPacijenta} />
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/zakazivanje-pregleda/:id" component={ViewZakazivanjePregleda} />
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/pretraga-klinika" component={PretragaKlinika} />}/>
                       <PrivateRoute roles={["ROLE_PACIJENT"]} path="/prikaz-lekara" component={ViewSlobodniLekari} />
@@ -138,7 +138,7 @@ function App() {
                   </Switch>
 
                   <Switch>
-                      <PrivateRoute roles={["ROLE_LEKAR"]} path="/pregled/:idPregleda/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent} />
+                      <PrivateRoute roles={["ROLE_LEKAR"]} exact path="/pregled/:idPregleda/zdravstveniKarton/:id/azuriraj" component={UpdateZKComponent} />
                   </Switch>
 
                   <Switch>
