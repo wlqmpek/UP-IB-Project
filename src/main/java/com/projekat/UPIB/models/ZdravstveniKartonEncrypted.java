@@ -1,17 +1,28 @@
 package com.projekat.UPIB.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "zdravstveni_karton_encrypted")
 public class ZdravstveniKartonEncrypted {
 
     @Id
+    private Long id;
+
     @Column(name = "encrypted", nullable = false, unique = true)
+    @Type(type = "text")
     private String encrypted;
+
+    public ZdravstveniKartonEncrypted(){
+
+    }
+
+    public ZdravstveniKartonEncrypted(Long id, String encrypted){
+        this.id = id;
+        this.encrypted = encrypted;
+    }
 
     public ZdravstveniKartonEncrypted(String encrypted) {
         this.encrypted = encrypted;

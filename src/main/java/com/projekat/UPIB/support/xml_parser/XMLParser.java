@@ -6,10 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Component
@@ -18,7 +24,7 @@ public class XMLParser {
     @Autowired
     private EnkripcijaDekripcijaUtils enkripcijaDekripcijaUtils;
 
-    public List<ZdravstveniKarton> xmlToZK(String enc) throws ParserConfigurationException, SAXException, IOException {
+    public List<ZdravstveniKarton> xmlToZK(String enc) throws ParserConfigurationException, SAXException, IOException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
 
         String decrypted = enkripcijaDekripcijaUtils.dekriptujZdravstveniKarton(enc);

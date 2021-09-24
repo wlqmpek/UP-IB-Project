@@ -30,9 +30,10 @@ public class PacijentToPacijentFrontDto implements Converter<Pacijent, PacijentF
             pacijentFrontDTO.setPrezime(pacijent.getPrezimeKorisnika());
             pacijentFrontDTO.setId(pacijent.getIdKorisnika());
             pacijentFrontDTO.setEmail(pacijent.getEmailKorisnika());
-            pacijentFrontDTO.setIdZdravstvenogKartona(pacijent.getZdravstveniKarton().getIdZdravstvenogKartona());
-            //pacijentFrontDTO.setIdZdravstvenogKartona(kartonRepo.findZKForUser(pacijent.getEmailKorisnika()).getIdZdravstvenogKartona());
-            pacijentFrontDTO.setJBZO(pacijent.getJBZO());
+            //pacijentFrontDTO.setIdZdravstvenogKartona(pacijent.getZdravstveniKarton().getIdZdravstvenogKartona());
+            pacijentFrontDTO.setJBZO(enkripcijaDekripcijaUtils.dekriptujJBZO(pacijent.getJBZO(), pacijent.getEmailKorisnika()));
+            pacijentFrontDTO.setIdZdravstvenogKartona(kartonRepo.findZKForUser(pacijent.getEmailKorisnika()).getIdZdravstvenogKartona());
+            //pacijentFrontDTO.setJBZO(pacijent.getJBZO());
             pacijentFrontDTO.setStatusKorisnika(pacijent.getStatusKorisnika());
         }
         return pacijentFrontDTO;

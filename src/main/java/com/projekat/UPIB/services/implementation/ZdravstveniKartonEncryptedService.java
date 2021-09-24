@@ -14,7 +14,13 @@ public class ZdravstveniKartonEncryptedService implements IZdravstveniKartonEncr
 
     @Override
     public ZdravstveniKartonEncrypted findAll() {
-        return repozitorijum.findAll().get(0);
+        ZdravstveniKartonEncrypted encrypted;
+        try {
+            encrypted = repozitorijum.findAll().get(0);
+        }catch (Exception e){
+            return new ZdravstveniKartonEncrypted();
+        }
+        return encrypted;
     }
 
     @Override

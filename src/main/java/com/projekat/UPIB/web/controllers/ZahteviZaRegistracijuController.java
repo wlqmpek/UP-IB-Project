@@ -3,6 +3,7 @@ package com.projekat.UPIB.web.controllers;
 import com.projekat.UPIB.mail.EmailService;
 import com.projekat.UPIB.models.Authority;
 import com.projekat.UPIB.models.PacijentLink;
+import com.projekat.UPIB.security.EnkripcijaDekripcijaUtils;
 import com.projekat.UPIB.services.implementation.AuthorityService;
 import com.projekat.UPIB.services.implementation.PacijentLinkService;
 import com.projekat.UPIB.web.dto.pacijent.*;
@@ -37,6 +38,9 @@ public class ZahteviZaRegistracijuController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private EnkripcijaDekripcijaUtils enkripcijaDekripcijaUtils;
 
     @Autowired
     private PacijentService pacijentService;
@@ -82,7 +86,7 @@ public class ZahteviZaRegistracijuController {
         }
 
         retVal.setStatusKorisnika(pacijent.getStatusKorisnika());
-        retVal = pacijentService.save(retVal);
+        retVal = pacijentService.update(retVal);
 
         PacijentStatusDTO pacijentDTO = new PacijentStatusDTO(retVal);
 

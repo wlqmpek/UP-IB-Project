@@ -20,8 +20,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +90,7 @@ public class PacijentController {
 
     @PreAuthorize("hasAnyRole('ANONYMOUS')")
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent) throws ParserConfigurationException, IOException, SAXException {
+    public ResponseEntity<PacijentRegisterDTO> savePacijent(@RequestBody PacijentRegisterDTO pacijent) throws ParserConfigurationException, IOException, SAXException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 
         String hash = passwordEncoder.encode(pacijent.getLozinka());
 
@@ -98,9 +104,9 @@ public class PacijentController {
         registered.setJBZO(pacijent.getJBZO());
         ZdravstveniKarton karton = new ZdravstveniKarton();
         karton.setPacijent(registered);
-//        kartonRepo.saveZK(karton);
-        registered.setZdravstveniKarton(new ZdravstveniKarton());
-        registered.getZdravstveniKarton().setPacijent(registered);
+        kartonRepo.saveZK(karton);
+//        registered.setZdravstveniKarton(new ZdravstveniKarton());
+//        registered.getZdravstveniKarton().setPacijent(registered);
 
         registered.setAuthorities(authorityService.findByIdAuthority(pacijent.getAuthorities()));
 
