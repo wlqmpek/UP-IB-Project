@@ -95,53 +95,6 @@ public class EnkripcijaDekripcijaUtils {
         SecretKey originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
         return originalKey;
     }
-//    public String dekriptujZdravstveniKarton(String enkriptovaniZK){
-//        byte[] dekriptovaniZK = null;
-//        KeyStore keyStore = keyStoreWriter.loadKeyStore(KEY_STORE_FILE, KEY_STORE_PASS.toCharArray());
-//        PrivateKey privateKey = keyStoreReader.getPrivateKeyFromKeyStore(keyStore, ZK_KEY, KEY_STORE_DEFAULT_PASS_FOR_PRIVATE_KEYS.toCharArray());
-//        try {
-//            Cipher rsaCipherDec = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
-//            rsaCipherDec.init(Cipher.DECRYPT_MODE, privateKey);
-//            dekriptovaniZK = rsaCipherDec.doFinal(Base64.decode(enkriptovaniZK));
-//
-//        } catch (NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e){
-//            e.printStackTrace();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchProviderException e) {
-//            e.printStackTrace();
-//        } catch (InvalidKeyException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return new String(dekriptovaniZK);
-//    }
-//
-//    public String enkriptujZdravstveniKarton(String zdravstveniKartoni){
-//
-//        byte[] enkriptovaniZK = null;
-//        upisiSertifikatUJKS(ZK_KEY, KEY_STORE_DEFAULT_PASS_FOR_PRIVATE_KEYS);
-//        Certificate certificate = ucitajSertifikat(ZK_KEY);
-//        PublicKey publicKey = keyStoreReader.getPublicKeyFromCertificate(certificate);
-//        try {
-//            Cipher rsaCipherEnc = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
-//            rsaCipherEnc.init(Cipher.ENCRYPT_MODE, publicKey);
-//            enkriptovaniZK = rsaCipherEnc.doFinal(zdravstveniKartoni.getBytes());
-//        }  catch (NoSuchPaddingException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchProviderException e) {
-//            e.printStackTrace();
-//        } catch (InvalidKeyException e) {
-//            e.printStackTrace();
-//        } catch (IllegalBlockSizeException e) {
-//            e.printStackTrace();
-//        } catch (BadPaddingException e) {
-//            e.printStackTrace();
-//        }
-//        return Base64.encodeToString(enkriptovaniZK);
-//    }
 
     public String dekriptujJBZO(String enkriptovaniJBZO, String emailAsAlias) {
         byte[] dekriptovanText = null;
